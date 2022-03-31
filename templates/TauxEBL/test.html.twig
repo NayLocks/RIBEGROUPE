@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Taux Egalim / Bio / Local{% endblock %}
+
+{% block page %}
+	Taux Egalim / Bio / Local : <strong>{{ ftgnr }}</strong> du {{ dateS }} au {{ dateE }}
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="main-card mb-3 card">
+				<div class="card-body">
+					<h5 class="card-title">Liste des produits achetés par <strong>{{ ftgnr }}</strong> du {{ dateS }} au {{ dateE }}</h5>
+                    <table class="mb-0 table table-striped">
+						<thead>
+							<tr>
+								<th style="text-align: center;">Taux EGALIM</th>
+								<th style="text-align: center;">Taux BIO</th>
+								<th style="text-align: center;">Taux LOCAL</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+							    <td style="text-align: center;">{{ tx_egalim|round(2, 'floor') }} %</td>
+							    <td style="text-align: center;">{{ tx_bio|round(2, 'floor') }} %</td>
+							    <td style="text-align: center;">{{ tx_local|round(2, 'floor') }} %</td>
+							</tr>
+							<tr>
+							    <td style="text-align: center;">{{ mt_egalim|round(2, 'floor') }} €</td>
+							    <td style="text-align: center;">{{ mt_bio|round(2, 'floor') }} €</td>
+							    <td style="text-align: center;">{{ mt_local|round(2, 'floor') }} €</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="mb-0 table table-striped">
+						<thead>
+							<tr>
+								<th>Libelle Article</th>
+								<th>EGALIM</th>
+								<th>BIO</th>
+								<th>LOCAL</th>
+								<th>Poids</th>
+                                <th>Montant</th>
+							</tr>
+						</thead>
+                        <br>
+						<tbody>
+							{% for article in articles %}
+								<tr>
+									<th>{{ article.Libelle_Article }}</th>
+									<th>{% if article.EGALIM == 1 %}EGALIM{% endif %}</th>
+									<th>{% if article.BIO == 191 %}BIO{% endif %}</th>
+									<th>{% if article.LOCAL == 10 %}LOCAL{% endif %}</th>
+									<th>{{ article.Poids|round(2, 'floor')  }}</th>
+									<th>{{ article.Prix_HT|round(2, 'floor')  }}</th>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
