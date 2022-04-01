@@ -3,7 +3,7 @@
 {% block title %}Taux Egalim / Bio / Local{% endblock %}
 
 {% block page %}
-	Taux Egalim / Bio / Local
+	Taux Egalim / Bio / Local : Clients du {{ dateStart|date('d/m/Y') }} au {{ dateEnd|date('d/m/Y') }}
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,7 @@
 		<div class="col-lg-12">
 			<div class="main-card mb-3 card">
 				<div class="card-body">
-					<h5 class="card-title">Sociétés du Réseau Ribé</h5>
+					<h5 class="card-title">Liste des Clients avec au moins une commande du {{ dateStart|date('d/m/Y') }} au {{ dateEnd|date('d/m/Y') }}</h5>
 					<table class="mb-0 table table-striped">
 						<thead>
 							<tr>
@@ -26,16 +26,17 @@
 						<tbody>
 							{% for client in clients %}
 								<tr>
-									<th>{{ client.ftgnr }}</th>
-									<td>{{ client.ftgnamn }}</td>
-									<td>{{ client.ftgpostadr1 }}</td>
-									<td>{{ client.ftgpostnr }}</td>
-									<td>{{ client.ftgpostadr3 }}</td>
-									<td><a href="{{ path("tauxEBLByClient", {'ftgnr': client.ftgnr, 'dateStart': '03-09-2018', 'dateEnd': '31-12-2021' } ) }}" class="btn mr-2 mb-2 btn-primary">Générer PDF</a></td>
+									<th>{{ client.Code_Client }}</th>
+									<td>{{ client.Libelle_Client }}</td>
+									<td>{{ client.Adresse }}</td>
+									<td>{{ client.Code_Postal }}</td>
+									<td>{{ client.Ville }}</td>
+									<td><a href="{{ path("tauxEBL", {'ftgnr': client.Code_Client, 'dateStart': dateStart, 'dateEnd': dateEnd } ) }}" class="btn mr-2 mb-2 btn-primary">Générer PDF</a></td>
 								</tr>
 							{% endfor %}
 						</tbody>
 					</table>
+					</form>
 				</div>
 			</div>
 		</div>
