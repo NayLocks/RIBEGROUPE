@@ -18,13 +18,23 @@
 	<style>
 		.btn-primary {
 			color: #fff;
-			background-color: #70c057
+			background-color: {{app.user.company.colorCode}}
 			;
-			border-color: #70c057
+			border-color: {{app.user.company.colorCode}}
 			;
 		}
+		.btn-admin-OUI {
+			color: #000;
+			background-color: #00D610;
+			border-color: #204265;
+		}
+		.btn-admin-NON {
+			color: #fff;
+			background-color: #D60000;
+			border-color: #204265;
+		}
 		.app-sidebar__heading {
-			color: white
+			color: {{app.user.company.colorCode}}
 			;
 		}
 	</style>
@@ -92,12 +102,12 @@
 													<h6 tabindex="-1" class="dropdown-header">Header</h6>
 													<button type="button" tabindex="0" class="dropdown-item">Actions</button>
 													<div tabindex="-1" class="dropdown-divider"></div>
-													<a href="" type="button" tabindex="0" class="dropdown-item">Déconnexion</a>
+													<a href="{{ path("app_logout") }}" type="button" tabindex="0" class="dropdown-item">Déconnexion</a>
 												</div>
 											</div>
 										</div>
 										<div class="widget-content-left  ml-3 header-user-info">
-											<div class="widget-heading">
+											<div class="widget-heading">{{ app.user.firstName }} {{ app.user.lastName }}
 											</div>
 											<div class="widget-subheading">
 												Client : X, Article : X, Fournisseur : X
@@ -145,62 +155,81 @@
 							<div class="app-sidebar__inner">
 								<ul class="vertical-nav-menu">
 									<li class="app-sidebar__heading">
-										<a href="">Accueil du Site</a>
+										<a href="{{ path("index") }}">Accueil du Site</a>
 									</li>
-									<li class="app-sidebar__heading">Fiches Clients</li>
-									<li>
-										<a href="forms-controls.html">
-											<i class="metismenu-icon pe-7s-note"></i>Nouvelle Fiche Client
-										</a>
-										<a href="">
-											<i class="metismenu-icon pe-7s-menu"></i>Mes Fiches Client
-										</a>
-										<a href="">
-											<i class="metismenu-icon pe-7s-notebook"></i>Liste des Fiches Client
-										</a>
-									</li>
-									<li class="app-sidebar__heading">Fiches Articles</li>
-									<li>
-										<a href="forms-controls.html">
-											<i class="metismenu-icon pe-7s-note"></i>Nouvelle Fiche Article
-										</a>
-										<a href="forms-controls.html">
-											<i class="metismenu-icon pe-7s-menu"></i>Mes Fiches Article
-										</a>
-										<a href="forms-controls.html">
-											<i class="metismenu-icon pe-7s-notebook"></i>Liste des Fiches Article
-										</a>
-									</li>
-									<li class="app-sidebar__heading">Fiches Fournisseurs</li>
-									<li>
-										<a href="dashboard-boxes.html">
-											<i class="metismenu-icon pe-7s-display2"></i>
-											Dashboard Boxes
-										</a>
-									</li>
-									<li class="app-sidebar__heading">Taux Egalim / Bio / Local</li>
+
+									{% if app.user.accessFC == 1 or app.user.accessADM == 1 %}
+										<li>
+											<a class="app-sidebar__heading">
+												<i class="metismenu-icon pe-7s-notebook"></i>
+												Fiches Clients
+												<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+											</a>
+											<ul>
+												<li><a href="">Nouvelle Fiche Client</a></li>
+												<li><a href="">Mes Fiches Client</a></li>
+												<li><a href="">Liste des Fiches Client</a></li>
+											</ul>
+										</li>
+									{% endif %}
+
+									{% if app.user.accessFA == 1 or app.user.accessADM == 1 %}
+										<li>
+											<a class="app-sidebar__heading">
+												<i class="metismenu-icon pe-7s-notebook"></i>
+												Fiches Article
+												<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+											</a>
+											<ul>
+												<li><a href="">Nouvelle Fiche Article</a></li>
+												<li><a href="{{path("mesFichesArticle")}}">Mes Fiches Article</a></li>
+												<li><a href="{{path("fichesArticle")}}">Liste des Fiches Article</a></li>
+											</ul>
+										</li>
+									{% endif %}
+
+									{% if app.user.accessFF == 1 or app.user.accessADM == 1 %}
+										<li>
+											<a class="app-sidebar__heading">
+												<i class="metismenu-icon pe-7s-notebook"></i>
+												Fiches Fournisseur
+												<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+											</a>
+											<ul>
+												<li><a href="">Nouvelle Fiche Fournisseur</a></li>
+												<li><a href="{{path("mesFichesArticle")}}">Mes Fiches Fournisseur</a></li>
+												<li><a href="{{path("fichesArticle")}}">Liste des Fiches Fournisseur</a></li>
+											</ul>
+										</li>
+									{% endif %}
+
+									<li class="app-sidebar__heading">Statistiques</li>
 									<li>
 										<a href="{{ path("tauxDate") }}">
-											<i class="metismenu-icon pe-7s-graph2"></i>Clients
+											<i class="metismenu-icon pe-7s-graph2"></i>Taux Egalim / Bio / Local
 										</a>
-										<a href="charts-chartjs.html">
-											<i class="metismenu-icon pe-7s-graph2"></i>Sociétés
+										<a href="">
+											<i class="metismenu-icon pe-7s-graph2"></i>CA du Jour
 										</a>
 									</li>
-									{# {% if is_granted('ROLE_ADMIN') %} #}
-										<li class="app-sidebar__heading">Administration</li>
+
+
+									{% if app.user.accessADM == 1 %}
 										<li>
-											<a href="{{ path("companies") }}">
-												<i class="metismenu-icon pe-7s-settings"></i>Sociétés
+											<a class="app-sidebar__heading">
+												<i class="metismenu-icon pe-7s-settings"></i>
+												Administration
+												<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 											</a>
-											<a href="">
-												<i class="metismenu-icon pe-7s-users"></i>Utilisateurs
-											</a>
+											<ul>
+												<li><a href="{{ path("users") }}">Utilisateurs</a></li>
+												<li><a href="{{ path("companies") }}">Sociétés</a></li>
+											</ul>
 										</li>
-									{# {% endif %} #}
+									{% endif %}
 
 									<li class="app-sidebar__heading">
-										<a href="">Se Déconnecter</a>
+										<a href="{{ path("app_logout") }}">Se Déconnecter</a>
 									</li>
 								</ul>
 							</div>
@@ -227,9 +256,10 @@
 						</div>
 					</div>
 				</div>
-			</body>
-		</html>
-	</div>
-	<script type="text/javascript" src="{{ asset('scripts/main.js') }}"></script>
-</body></html>{% block autres %}{% endblock %}
+			</div>
+		</div>
+		<script type="text/javascript" src="{{ asset('scripts/main.js') }}"></script>
+		{% block autres %}{% endblock %}
+	</body>
+</html>
 

@@ -40,6 +40,7 @@ class CompaniesController extends AbstractController
 
             $company->setName($_POST["name"]);
             $company->setColorCode($_POST["colorCode"]);
+            $company->setColorText($_POST["colorText"]);
             $company->setDatabaseName($_POST["databaseName"]);
 
             $em = $this->getDoctrine()->getManager();

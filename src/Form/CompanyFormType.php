@@ -29,6 +29,13 @@ class CompanyFormType extends AbstractType
                 
             )
         ])
+        ->add('colorText', ColorType::class, [
+            'attr' => array(
+                "class" => "form-control",
+                "placeholder" => "#FFFFAA",
+                
+            )
+        ])
         ->add('databaseName', TextType::class, [
             'attr' => array(
                 "class" => "form-control",

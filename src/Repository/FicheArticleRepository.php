@@ -2,29 +2,29 @@
 
 namespace App\Repository;
 
-use App\Entity\Companies;
+use App\Entity\FicheArticle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Companies|null find($id, $lockMode = null, $lockVersion = null)
- * @method Companies|null findOneBy(array $criteria, array $orderBy = null)
- * @method Companies[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method FicheArticle|null find($id, $lockMode = null, $lockVersion = null)
+ * @method FicheArticle|null findOneBy(array $criteria, array $orderBy = null)
+ * @method FicheArticle[]    findBy(array $criteria, array $orderBy, $limit = null, $offset = null)
  */
-class CompaniesRepository extends ServiceEntityRepository
+class FicheArticleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Companies::class);
+        parent::__construct($registry, FicheArticle::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Companies $entity, bool $flush = true): void
+    public function add(FicheArticle $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -36,7 +36,7 @@ class CompaniesRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Companies $entity, bool $flush = true): void
+    public function remove(FicheArticle $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -47,14 +47,15 @@ class CompaniesRepository extends ServiceEntityRepository
     public function findAll()
     {
         return $this->createQueryBuilder('c')
-            ->orderBy('c.name', 'ASC')
+            ->join('c.company', 'r')
+            ->orderBy('r.name, c.date', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
 
     // /**
-    //  * @return Companies[] Returns an array of Companies objects
+    //  * @return FicheArticle[] Returns an array of FicheArticle objects
     //  */
     /*
     public function findByExampleField($value)
@@ -71,7 +72,7 @@ class CompaniesRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Companies
+    public function findOneBySomeField($value): ?FicheArticle
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

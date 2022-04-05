@@ -37,7 +37,7 @@
 						<tbody>
 							{% for company in companies %}
 								<tr>
-									<th style="background-color: {{ company.colorCode }};"></th>
+									<th style="background-color: {{ company.colorCode }};color: {{ company.colorText }}">{{ company.colorText }}</th>
 									<th scope="row">{{ company.name }}</th>
 									<td>{{ company.name }}</td>
 									<td style="color: {{ company.colorCode }};">{{ company.colorCode }}</td>
@@ -73,6 +73,7 @@
 					<label for="nom">Nom de la Société</label> {{ form_widget(form.name) }}
 					<label for="dossierCommun">Dossier Commun</label> 
 					<label for="codeCouleur">Code Couleur</label> {{ form_widget(form.colorCode) }}
+					<label for="codeCouleurText">Code Couleur Texte</label> {{ form_widget(form.colorText) }}
 					<label for="baseDeDonnees">Nom de la Base de Données</label> {{ form_widget(form.databaseName) }}
 
 				</div>

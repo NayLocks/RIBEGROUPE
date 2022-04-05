@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\SQL;
 
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
-class SQLController
+class SQLControllerRibeGroupe
 {
-    private $connexion_sql;
-    
     function __construct()
-    {
-        $this->connexion_bdd = new \PDO('sqlsrv:Server=192.168.1.241;Database=RIBEPRIM', 'sa', '2bsystem99');
-
-        // Fixe les options d'erreur (ici nous utiliserons les exceptions)
+    {        
+        $this->connexion_bdd = new \PDO('sqlsrv:Server=192.168.1.241;Database=RIBEGROUPE', 'sa', '2bsystem99');
         $this->connexion_bdd->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
     

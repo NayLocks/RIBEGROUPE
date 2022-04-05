@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CompaniesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,21 @@ class Companies
      * @ORM\Column(type="string", length=30)
      */
     private $databaseName;
+
+    /**
+     * @ORM\OneToMany(targetEntity=FicheArticle::class, mappedBy="company")
+     */
+    private $ficheArticles;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $colorText;
+
+    public function __construct()
+    {
+        $this->ficheArticles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +86,48 @@ class Companies
     public function setDatabaseName(string $databaseName): self
     {
         $this->databaseName = $databaseName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FicheArticle>
+     */
+    public function getFicheArticles(): Collection
+    {
+        return $this->ficheArticles;
+    }
+
+    public function addFicheArticle(FicheArticle $ficheArticle): self
+    {
+        if (!$this->ficheArticles->contains($ficheArticle)) {
+            $this->ficheArticles[] = $ficheArticle;
+            $ficheArticle->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFicheArticle(FicheArticle $ficheArticle): self
+    {
+        if ($this->ficheArticles->removeElement($ficheArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($ficheArticle->getCompany() === $this) {
+                $ficheArticle->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getColorText(): ?string
+    {
+        return $this->colorText;
+    }
+
+    public function setColorText(?string $colorText): self
+    {
+        $this->colorText = $colorText;
 
         return $this;
     }
