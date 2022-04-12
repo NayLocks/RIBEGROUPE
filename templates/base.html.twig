@@ -203,16 +203,16 @@
 										</li>
 									{% endif %}
 
-									<li class="app-sidebar__heading">Statistiques</li>
 									<li>
-										<a href="{{ path("tauxDate") }}">
-											<i class="metismenu-icon pe-7s-graph2"></i>Taux Egalim / Bio / Local
+										<a class="app-sidebar__heading">
+											<i class="metismenu-icon pe-7s-graph2"></i>
+												Statistiques
+											<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 										</a>
-										<a href="">
-											<i class="metismenu-icon pe-7s-graph2"></i>CA du Jour
-										</a>
+										<ul>
+											<li><a href="{{ path("tauxDate") }}"><i class="metismenu-icon pe-7s-graph2"></i>Taux Egalim / Bio / Local</a></li>
+										</ul>
 									</li>
-
 
 									{% if app.user.accessADM == 1 %}
 										<li>

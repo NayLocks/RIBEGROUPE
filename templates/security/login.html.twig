@@ -2,14 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta http-equiv="Content-Language" content="en">
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<title>Login Boxed - ArchitectUI HTML Bootstrap 4 Dashboard Template</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
-		<meta name="description" content="ArchitectUI HTML Bootstrap 4 Dashboard Template">
-
-		<meta name="msapplication-tap-highlight" content="no">
+		<title>RIBEGROUPE > Connexion</title>
 		<link href="{{ asset("main.css") }}" rel="stylesheet"></head>
 	<body>
 		<div class="app-container app-theme-white body-tabs-shadow">
@@ -23,44 +16,52 @@
 									<div class="modal-body">
 										<div class="h5 modal-title text-center">
 											<h4 class="mt-2">
-												<div>Welcome back,</div>
-												<span>Please sign in to your account below.</span>
+												<div>Outils_RibeGroupe</div>
+												<span>Connexion</span>
 											</h4>
 										</div>
-										<form class="">
+										<form method="post">
+											{% if error %}
+												<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+											{% endif %}
+
+											{% if app.user %}
+												<div class="mb-3">
+													Vous êtes déjà connecté avec : {{ app.user.username }},
+													<a href="{{ path('app_logout') }}">Se Déconnecter</a>
+												</div>
+											{% endif %}
+
 											<div class="form-row">
 												<div class="col-md-12">
+													<label for="inputUsername">Signature 2B</label>
 													<div class="position-relative form-group">
-														<input name="email" id="exampleEmail" placeholder="Email here..." type="email" class="form-control">
+														<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
 													</div>
 												</div>
 												<div class="col-md-12">
+													<label for="inputPassword">Mot de Passe 2B</label>
 													<div class="position-relative form-group">
-														<input name="password" id="examplePassword" placeholder="Password here..." type="password" class="form-control">
+														<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 													</div>
 												</div>
 											</div>
-											<div class="position-relative form-check">
-												<input name="check" id="exampleCheck" type="checkbox" class="form-check-input">
-												<label for="exampleCheck" class="form-check-label">Keep me logged in</label>
+											<div class="checkbox mb-3">
+												<label>
+													<input type="checkbox" name="_remember_me">
+													Se souvenir de moi
+												</label>
 											</div>
+
+											<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+											<button class="mt-2 btn-ribeprim" style="width: 100%" type="submit">Se Connecter</button>
 										</form>
 										<div class="divider"></div>
-										<h6 class="mb-0">No account?
-											<a href="javascript:void(0);" class="text-primary">Sign up now</a>
-										</h6>
-									</div>
-									<div class="modal-footer clearfix">
-										<div class="float-left">
-											<a href="javascript:void(0);" class="btn-lg btn btn-link">Recover Password</a>
-										</div>
-										<div class="float-right">
-											<button class="btn btn-primary btn-lg">Login to Dashboard</button>
-										</div>
 									</div>
 								</div>
 							</div>
-							<div class="text-center text-white opacity-8 mt-3">Copyright © ArchitectUI 2019</div>
+							<div class="text-center text-white opacity-8 mt-3">Copyright © RIBEGROUPE 2022</div>
 						</div>
 					</div>
 				</div>
@@ -69,45 +70,3 @@
 		<script type="text/javascript" src="{{ asset("main.css") }}"></script>
 	</body>
 </html>
-
-{# {% block title %}Log in!
-{% endblock %}
-
-{% block body %}
-	<form method="post">
-		{% if error %}
-			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-		{% endif %}
-
-		{% if app.user %}
-			<div class="mb-3">
-				You are logged in as {{ app.user.username }},
-				<a href="{{ path('app_logout') }}">Logout</a>
-			</div>
-		{% endif %}
-
-		<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-		<label for="inputUsername">Username</label>
-		<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-		<label for="inputPassword">Password</label>
-		<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-		<input
-		type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-		
-		        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-		        See https://symfony.com/doc/current/security/remember_me.html
-		
-		        <div class="checkbox mb-3">
-		            <label>
-		                <input type="checkbox" name="_remember_me"> Remember me
-		            </label>
-		        </div>
-		    
-            		<button class="btn btn-lg btn-primary" type="submit">
-			Sign in
-		</button>
-	</form>
-{% endblock %} #}
-

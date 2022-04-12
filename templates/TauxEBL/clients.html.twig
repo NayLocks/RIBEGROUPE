@@ -31,7 +31,7 @@
 									<td>{{ client.Adresse }}</td>
 									<td>{{ client.Code_Postal }}</td>
 									<td>{{ client.Ville }}</td>
-									<td><a href="{{ path("tauxEBL", {'ftgnr': client.Code_Client, 'dateStart': dateStart, 'dateEnd': dateEnd } ) }}" class="btn mr-2 mb-2 btn-primary">Générer PDF</a></td>
+									<td><a href="{{ path("tauxEBL", {'ftgnr': client.Code_Client, 'dateStart': dateStart, 'dateEnd': dateEnd, 'company': company } ) }}" class="btn mr-2 mb-2 btn-primary">Générer PDF</a></td>
 								</tr>
 							{% endfor %}
 						</tbody>

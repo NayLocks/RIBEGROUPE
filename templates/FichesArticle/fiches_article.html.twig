@@ -25,7 +25,7 @@
 						</thead>
 						<tbody>
 							{% for article in articles %}
-								<tr style="background-color: {{ article.company.colorCode }}">
+								<tr style="background-color: {{ article.company.colorCode }}; color: {{ article.company.colorText }}">
 									<th>{{ article.company.name }}</th>
 									<th>{{ article.codeFiche }}</th>
 									<th>{{ article.etapeFiche }}</th>

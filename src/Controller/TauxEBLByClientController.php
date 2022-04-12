@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\SQL\SQLController;
+use App\Entity\Companies;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -51,23 +52,26 @@ class TauxEBLByClientController extends AbstractController //MANQUE LE REDIRECTI
             $clients = array();
 
             $req = $sql->requete("SELECT FA.FtgNr AS 'Code_Client', FA.FtgNamn AS 'Libelle_Client', FA.FtgPostAdr1 AS 'Adresse', FA.FtgPostnr AS 'Code_Postal', FA.FtgPostAdr3 AS 'Ville' FROM q_2bv_facture AS FA WITH (NOLOCK)
-            WHERE ".$codeClient.$nomAppel.$cp.$ville."(FA.FaktDat BETWEEN '".$dateStart."' AND '".$dateEnd."') GROUP BY FA.FtgNr, FA.FtgNamn, FA.FtgPostAdr1, FA.FtgPostnr, FA.FtgPostAdr3 ORDER BY FA.FtgNamn ASC", $user->getCompany()->getDatabaseName());
+            WHERE ".$codeClient.$nomAppel.$cp.$ville."(FA.FaktDat BETWEEN '".$dateStart."' AND '".$dateEnd."') GROUP BY FA.FtgNr, FA.FtgNamn, FA.FtgPostAdr1, FA.FtgPostnr, FA.FtgPostAdr3 ORDER BY FA.FtgNamn ASC", $_GET["company"]);
             while ($r = $req->fetch())
             {
                 $clients[$i] = $r;
                 $i++;
             }
 
-            return $this->render('TauxEBL/clients.html.twig', ["clients" => $clients, "dateStart" => $dateStart, "dateEnd" => $dateEnd]);
+            return $this->render('TauxEBL/clients.html.twig', ["clients" => $clients, "dateStart" => $dateStart, "dateEnd" => $dateEnd, "company" => $_GET["company"]]);
         }
 
-        return $this->render('TauxEBL/date.html.twig');
+        $allCompanies = $this->getDoctrine()->getRepository(Companies::class);
+        $companies = $allCompanies->findAll();
+
+        return $this->render('TauxEBL/date.html.twig', ["companies" => $companies]);
     }
     
     /**
-     * @Route("/Taux_Egalim_Bio_Local/{ftgnr}/{dateStart}/{dateEnd}", name="tauxEBL")
+     * @Route("/Taux_Egalim_Bio_Local/{ftgnr}/{dateStart}/{dateEnd}/{company}", name="tauxEBL")
      */
-    public function tauxEBL(UserInterface $user, $ftgnr, $dateStart, $dateEnd)
+    public function tauxEBL(UserInterface $user, $ftgnr, $dateStart, $dateEnd, $company)
     {
         $sql = new SQLController();
     
@@ -86,7 +90,7 @@ class TauxEBLByClientController extends AbstractController //MANQUE LE REDIRECTI
         LEFT JOIN ar AS AR ON AR.ArtNr = FA.ArtNr
         WHERE FA.FtgNr = '".$ftgnr."' AND (FA.FaktDat BETWEEN '".str_replace("-", "/", $dateStart)."' AND '".str_replace("-", "/", $dateEnd)."')
         GROUP BY FA.FtgNr, FA.FtgNamn, FA.FtgPostnr, FA.FtgPostAdr3, AR.q_gcar_lib1, FA.q_is_EGALIM, AR.q_gcar_stat4, AR.q_ar_statssurlocal
-        ORDER BY AR.q_gcar_lib1 ASC", $user->getCompany()->getDatabaseName());
+        ORDER BY AR.q_gcar_lib1 ASC", $company);
 
         while ($r = $req->fetch())
         {
