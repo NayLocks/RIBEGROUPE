@@ -110,7 +110,7 @@
 											<div class="widget-heading">{{ app.user.firstName }} {{ app.user.lastName }}
 											</div>
 											<div class="widget-subheading">
-												Client : X, Article : X, Fournisseur : X
+												{{ app.user.email }}
 											</div>
 										</div>
 									</div>
@@ -159,7 +159,7 @@
 									</li>
 
 									{% if app.user.accessFC == 1 or app.user.accessADM == 1 %}
-										<li>
+										<li class="mm-active">
 											<a class="app-sidebar__heading">
 												<i class="metismenu-icon pe-7s-notebook"></i>
 												Fiches Clients
@@ -174,21 +174,21 @@
 									{% endif %}
 
 									{% if app.user.accessFA == 1 or app.user.accessADM == 1 %}
-										<li>
+										<li class="mm-active">
 											<a class="app-sidebar__heading">
 												<i class="metismenu-icon pe-7s-notebook"></i>
 												Fiches Article
 												<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 											</a>
 											<ul>
-												<li><a href="">Nouvelle Fiche Article</a></li>
-												<li><a href="{{path("mesFichesArticle")}}">Mes Fiches Article</a></li>
-												<li><a href="{{path("fichesArticle")}}">Liste des Fiches Article</a></li>
+												<li><a href="{{path("newFicheArticle")}}">Nouvelle Fiche Article</a></li>
+												<li><a href="{{path("myFicheArticle")}}">Mes Fiches Article</a></li>
+												<li><a href="{{path("ficheArticle")}}">Liste des Fiches Article</a></li>
 											</ul>
 										</li>
 									{% endif %}
 
-									{% if app.user.accessFF == 1 or app.user.accessADM == 1 %}
+									{# {% if app.user.accessFF == 1 or app.user.accessADM == 1 %}
 										<li>
 											<a class="app-sidebar__heading">
 												<i class="metismenu-icon pe-7s-notebook"></i>
@@ -201,9 +201,9 @@
 												<li><a href="{{path("fichesArticle")}}">Liste des Fiches Fournisseur</a></li>
 											</ul>
 										</li>
-									{% endif %}
+									{% endif %} #}
 
-									<li>
+									<li class="mm-active">
 										<a class="app-sidebar__heading">
 											<i class="metismenu-icon pe-7s-graph2"></i>
 												Statistiques

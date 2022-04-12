@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Fiche Article{% endblock %}
+
+{% block page %}
+	Nouvelle Fiche Article
+{% endblock %}
+
+{% block actionsPage %}
+    <div class="d-inline-block dropdown">
+		<button type="button" class="btn mr-2 mb-2 btn-danger" data-toggle="modal" data-target=".bd-example-modal-sm">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-eraser fa-w-20"></i>
+			</span>
+			Remettre à zéro la fiche
+		</button>
+	</div>
+
+    <div class="d-inline-block dropdown">
+		<button type="button" class="btn mr-2 mb-2 btn-warning" data-toggle="modal" data-target=".bd-example-modal-sm">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-edit fa-w-20"></i>
+			</span>
+			Enregistrer en brouillon
+		</button>
+	</div>
+
+	<div class="d-inline-block dropdown">
+		<button type="button" class="btn mr-2 mb-2 btn-success" data-toggle="modal" data-target=".bd-example-modal-sm">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-check-square fa-w-20"></i>
+			</span>
+			Envoyer la fiche en validation
+		</button>
+	</div>
+{% endblock %}
+
+{% block body %}
+	<div class="tab-content">
+		<div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+			<div class="main-card mb-3 card">
+				<div class="card-body">
+					<form method="POST">
+						<h5 class="card-title">Information Article</h5>
+
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="generique" class="">Générique</label><input name="generique" type="text" class="form-control" maxlength="50" required></div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="esp_var" class="">Espèce / Variété</label><input name="esp_var" type="text" class="form-control" maxlength="100"></div>
+							</div>
+						</div>
+                        
+                        <div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="marque" class="">Marque</label><input name="marque" type="text" class="form-control" maxlength="100" required></div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="origine" class="">Origine</label><input name="origine" type="text" class="form-control" maxlength="100"></div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="calibre" class="">Calibre</label><input name="calibre" type="text" class="form-control" maxlength="100" required></div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="condtionnement" class="">Conditionnement</label><input name="condtionnement" type="text" class="form-control" maxlength="100"></div>
+							</div>
+						</div>
+                        
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="categorie" class="">Catégorie</label><input name="categorie" type="text" class="form-control" maxlength="100" required></div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="grp_art" class="">Groupe Article</label>
+                                    <select name="grp_art" type="text" class="form-control">
+                                        <option>test</option>
+                                    </select></div>
+							</div>
+						</div>
+						
+
+
+
+						<div class="form-row">
+							<div class="col-md-12">
+								<button type="submit" class="mt-2 btn btn-primary" style="width: 100%;">Rechercher</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
