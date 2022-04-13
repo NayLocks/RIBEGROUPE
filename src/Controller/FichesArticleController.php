@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class FichesArticleController extends AbstractController
 {
     /**
-     * @Route("/fiches_article", name="newFicheArticle")
+     * @Route("/nouvelle_fiches_article", name="newFicheArticle")
      */
     public function NewFicheArticle(Request $request): Response
     {
