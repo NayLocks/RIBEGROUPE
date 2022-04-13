@@ -10,8 +10,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="main-card mb-3 card">
-				<div class="card-body">
-					<h5 class="card-title">Liste des Fiches Article</h5>
+				<div class="card-body" style="overflow-x: auto; width: 100%;">
 					<table class="mb-0 table table-striped">
 						<thead>
 							<tr>
@@ -25,18 +24,18 @@
 						</thead>
 						<tbody>
 							{% for article in articles %}
-								<tr style="background-color: {{ article.company.colorCode }}; color: {{ article.company.colorText }}">
+							<tr></tr>
+								<tr style="background-color: {{ article.company.colorCode }}; color: {{ article.company.colorText }};">
 									<th>{{ article.company.name }}</th>
-									<th>{{ article.codeFiche }}</th>
-									<th>{{ article.etapeFiche }}</th>
-									<th>{{ article.utilisateur }}</th>
-									<th>{{ article.generique }}</th>
-									<th>{{ article.stat1 }}</th>
+									<td>{{ article.codeFiche }}</td>
+									<td>{{ article.etapeFiche }}</td>
+									<td>{{ article.utilisateur }}</td>
+									<td>{{ article.generique }}</td>
+									<td>{{ article.stat1 }}</td>
 								</tr>
 							{% endfor %}
 						</tbody>
 					</table>
-					</form>
 				</div>
 			</div>
 		</div>

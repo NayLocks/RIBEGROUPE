@@ -77,7 +77,7 @@ class HODController extends AbstractController
                 $i++;
             }
 
-            return $this->render('HOD/stats_hod_clients.html.twig', ["clients" => $clients, "dateStart" => $dateStart, "dateEnd" => $dateEnd]);
+            return $this->render('HOD/stats_hod_recap.html.twig', ["clients" => $clients, "dateStart" => $dateStart, "dateEnd" => $dateEnd]);
         }
 
         $allCompanies = $this->getDoctrine()->getRepository(Companies::class);
