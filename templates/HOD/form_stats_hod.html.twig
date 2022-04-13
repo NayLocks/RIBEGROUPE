@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Taux Egalim / Bio / Local
+{% endblock %}
+
+{% block page %}
+	Formulaire HOD
+{% endblock %}
+
+{% block body %}
+	<div class="tab-content">
+		<div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+			<div class="main-card mb-3 card">
+				<div class="card-body">
+					<h5 class="card-title">Grid Rows</h5>
+					<form method="GET">
+						{% if app.user.company.name == "RIBEGROUPE" %}
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group">
+									<label for="dateStart" class="">Société</label>
+									<select class="form-control" name="company">
+										{% for company in companies %}
+											<option value="{{ company.databaseName }}">{{ company.name }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+						</div>
+						{% else %}
+							<input type="hidden" name="company" value="{{ app.user.company.databaseName }}"/>
+						{% endif %}
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="dateStart" class="">Date Début</label><input name="dateStart" type="date" class="form-control" required></div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="dateEnd" class="">Date Fin</label><input name="dateEnd" type="date" class="form-control" required></div>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="codeClient" class="">Code Client</label><input name="codeClient" type="text" class="form-control"></div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="nomAppel" class="">Nom d'Appel</label><input name="nomAppel" type="text" class="form-control"></div>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="cp" class="">Code Postal</label><input name="cp" type="text" class="form-control"></div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="ville" class="">Ville</label><input name="ville" type="text" class="form-control"></div>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="col-md-12">
+									<button type="submit" class="mt-2 btn btn-primary" style="width: 100%;">Rechercher</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+{% endblock %}

@@ -45,6 +45,10 @@ class SQLController
             $sql = new SQLControllerRodaFruits();
             $req = $sql->requete($requete);
         }
+        if($company == "HOD_API"){
+            $sql = new SQLControllerHOD_API();
+            $req = $sql->requete($requete);
+        }
         
         return $req;
     }
