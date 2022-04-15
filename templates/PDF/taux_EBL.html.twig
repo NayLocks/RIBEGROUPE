@@ -7,6 +7,11 @@
     <style>
     </style>
 	<body style="font-size: 12px">
+
+           {# <td rowspan="4"><img src="{{ asset("img/ribegroupe.png") }}" width="15%"/></td>#}
+          <td rowspan="4"><img src="{{ app.request.getSchemeAndHttpHost() ~ asset('images/societes/' ~ company ~ '.png') }}" width="25%" alt="logo"></td> 
+
+
 		<table class="mb-0 table table-striped" style="width: 100%;">
 			<thead>
                 <tr style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}">

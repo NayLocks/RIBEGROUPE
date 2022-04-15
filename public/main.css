@@ -9999,12 +9999,6 @@ a, button, .btn {
     transition: width .2s
 }
 
-.app-header__logo .logo-src {
-    height: 23px;
-    width: 97px;
-    background: url(images/logo-inverse.png)
-}
-
 .app-header__menu, .app-header__mobile-menu {
     display: none;
     padding: 0 1.5rem;

@@ -202,7 +202,7 @@ class TauxEBLByClientController extends AbstractController //MANQUE LE REDIRECTI
         $pdfOptions->set('enable_remote', true);
         $dompdf = new Dompdf($pdfOptions);
         $dompdf->setBasePath($this->getParameter('kernel.project_dir')."/public/");
-        $html = $this->renderView('PDF/taux_EBL.html.twig', ["articles" => $articles, "ftgnr" => $ftgnr, "dateStart" => str_replace("-", "/", $dateStart), "dateEnd" => str_replace("-", "/", $dateEnd), "total" => $total, "mt_egalim" => $mt_egalim, "mt_bio" => $mt_bio, "mt_local" => $mt_local, "tx_egalim" => $tx_egalim, "tx_bio" => $tx_bio, "tx_local" => $tx_local, "tt_articles" => $i, "tt_egalim" => $tt_egalim, "tt_bio" => $tt_bio, "tt_local" => $tt_local, "tt_poids" => $tt_poids, "tt_montant" => $total]);
+        $html = $this->renderView('PDF/taux_EBL.html.twig', ["articles" => $articles, "ftgnr" => $ftgnr, "dateStart" => str_replace("-", "/", $dateStart), "dateEnd" => str_replace("-", "/", $dateEnd), "total" => $total, "mt_egalim" => $mt_egalim, "mt_bio" => $mt_bio, "mt_local" => $mt_local, "tx_egalim" => $tx_egalim, "tx_bio" => $tx_bio, "tx_local" => $tx_local, "tt_articles" => $i, "tt_egalim" => $tt_egalim, "tt_bio" => $tt_bio, "tt_local" => $tt_local, "tt_poids" => $tt_poids, "tt_montant" => $total, "company" => $company]);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
@@ -275,6 +275,6 @@ class TauxEBLByClientController extends AbstractController //MANQUE LE REDIRECTI
             $tx_local = ($mt_local*100)/$total;
         }
         
-        return $this->render('PDF/taux_EBL.html.twig', ["articles" => $articles, "ftgnr" => $ftgnr, "dateStart" => str_replace("-", "/", $dateStart), "dateEnd" => str_replace("-", "/", $dateEnd), "total" => $total, "mt_egalim" => $mt_egalim, "mt_bio" => $mt_bio, "mt_local" => $mt_local, "tx_egalim" => $tx_egalim, "tx_bio" => $tx_bio, "tx_local" => $tx_local, "tt_articles" => $i, "tt_egalim" => $tt_egalim, "tt_bio" => $tt_bio, "tt_local" => $tt_local, "tt_poids" => $tt_poids, "tt_montant" => $total]);
+        return $this->render('PDF/taux_EBL.html.twig', ["articles" => $articles, "ftgnr" => $ftgnr, "dateStart" => str_replace("-", "/", $dateStart), "dateEnd" => str_replace("-", "/", $dateEnd), "total" => $total, "mt_egalim" => $mt_egalim, "mt_bio" => $mt_bio, "mt_local" => $mt_local, "tx_egalim" => $tx_egalim, "tx_bio" => $tx_bio, "tx_local" => $tx_local, "tt_articles" => $i, "tt_egalim" => $tt_egalim, "tt_bio" => $tt_bio, "tt_local" => $tt_local, "tt_poids" => $tt_poids, "tt_montant" => $total, "company" => $company]);
     }
 }
