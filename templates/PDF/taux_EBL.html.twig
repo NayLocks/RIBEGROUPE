@@ -1,0 +1,109 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>TITIRE A TROUVER</title>
+        <link rel="stylesheet" href="main.css"/>
+	</head>
+    <style>
+    </style>
+	<body style="font-size: 12px">
+		<table class="mb-0 table table-striped" style="width: 100%;">
+			<thead>
+                <tr style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}">
+					<th style="text-align: center;">Taux EGALIM</th>
+					<th style="text-align: center;" colspan="2">Taux BIO</th>
+					<th style="text-align: center;" colspan="3">Taux LOCAL</th>
+				</tr>
+                <tr>
+					<th style="text-align: center;">{{ tx_egalim|round(2, 'floor') }} %</th>
+					<th style="text-align: center;" colspan="2">{{ tx_bio|round(2, 'floor') }} %</th>
+					<th style="text-align: center;" colspan="3">{{ tx_local|round(2, 'floor') }} %</th>
+				</tr>
+				<tr>
+					<th style="text-align: center;">{{ mt_egalim|round(2, 'floor') }} €</th>
+					<th style="text-align: center;" colspan="2">{{ mt_bio|round(2, 'floor') }} €</th>
+					<th style="text-align: center;" colspan="3">{{ mt_local|round(2, 'floor') }} €</th>
+				</tr>
+				<tr>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+				<tr style="text-align: center; background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}">
+					<th>Total Articles</th>
+					<th>Total EGALIM</th>
+					<th>Total BIO</th>
+					<th>Total LOCAL</th>
+					<th>Total Poids</th>
+					<th>Total Montant</th>
+				</tr>
+				<tr style="text-align:center;">
+					<th>{{ tt_articles }}</th>
+					<th>{{ tt_egalim }}</th>
+					<th>{{ tt_bio }}</th>
+					<th>{{ tt_local }}</th>
+					<th>{{ tt_poids }}Kg</th>
+					<th>{{ tt_montant }}€</th>
+				</tr>
+				<tr>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+				<tr>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+				<tr style="text-align: center; background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }};">
+					<th>Libelle Article</th>
+					<th>EGALIM</th>
+					<th>BIO</th>
+					<th>LOCAL</th>
+					<th>Poids</th>
+					<th>Montant</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for article in articles %}
+					<tr>
+						<td>{{ article.Libelle_Article }}</td>
+						<td style="text-align:center;">{% if article.EGALIM == 1 %}EGALIM{% endif %}</td>
+						<td style="text-align:center;">{% if article.BIO == 191 %}BIO{% endif %}</td>
+						<td style="text-align:center;">{% if article.LOCAL == 10 %}LOCAL{% endif %}</td>
+						<td style="text-align:center;">{{ article.Poids|round(2, 'floor')  }}</td>
+						<td style="text-align:center;">{{ article.Prix_HT|round(2, 'floor')  }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr style="text-align: center; background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}">
+					<th>Total Articles</th>
+					<th>Total EGALIM</th>
+					<th>Total BIO</th>
+					<th>Total LOCAL</th>
+					<th>Total Poids</th>
+					<th>Total Montant</th>
+				</tr>
+				<tr style="text-align: center">
+					<th>{{ tt_articles }}</th>
+					<th>{{ tt_egalim }}</th>
+					<th>{{ tt_bio }}</th>
+					<th>{{ tt_local }}</th>
+					<th>{{ tt_poids }}Kg</th>
+                    <th>{{ tt_montant }}€</th>
+				</tr>
+			</tfoot>
+		</table>
+	</body>
+</html>
+

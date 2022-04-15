@@ -19,33 +19,33 @@ class HODController extends AbstractController
      */
     public function hodAPI(UserInterface $user)
     {
-        if(isset($_GET["dateStart"]))
+        if(isset($_POST["dateStart"]))
         {
             $sql = new SQLController;
 
-            $dateStart = date('d-m-Y', strtotime($_GET["dateStart"]));
-            $dateEnd = date('d-m-Y', strtotime($_GET["dateEnd"]));
+            $dateStart = date('d-m-Y', strtotime($_POST["dateStart"]));
+            $dateEnd = date('d-m-Y', strtotime($_POST["dateEnd"]));
             
             $codeClient = "";
             $nomAppel = "";
             $cp = "";
             $ville = "";
 
-            if($_GET["codeClient"] != "")
+            if($_POST["codeClient"] != "")
             {
-                $codeClient = "pdp.identifiant_pdp LIKE '%".$_GET["codeClient"]."%' AND ";
+                $codeClient = "pdp.identifiant_pdp LIKE '%".$_POST["codeClient"]."%' AND ";
             }
-            if($_GET["nomAppel"] != "")
+            if($_POST["nomAppel"] != "")
             {
-                $nomAppel = "pdp.nomContact LIKE '%".$_GET["nomAppel"]."%' AND ";
+                $nomAppel = "pdp.nomContact LIKE '%".$_POST["nomAppel"]."%' AND ";
             }
-            if($_GET["cp"] != "")
+            if($_POST["cp"] != "")
             {
-                $ville = "adr.codePostal = '".$_GET["cp"]."' AND ";
+                $ville = "adr.codePostal = '".$_POST["cp"]."' AND ";
             }
-            if($_GET["ville"] != "")
+            if($_POST["ville"] != "")
             {
-                $ville = "adr.ville LIKE '%".$_GET["ville"]."%' AND ";
+                $ville = "adr.ville LIKE '%".$_POST["ville"]."%' AND ";
             }
 
             $i = 0;
