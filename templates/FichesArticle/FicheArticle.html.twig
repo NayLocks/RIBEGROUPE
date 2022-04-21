@@ -16,7 +16,6 @@
 						<thead>
 							<tr>
 								<th>Société</th>
-								<th>Code Fiche</th>
 								<th>Etape Fiche</th>
 								<th>Utilisateur</th>
 								<th>Générique</th>
@@ -28,11 +27,10 @@
 							<tr></tr>
 								<tr style="background-color: {{ article.company.colorCode }}; color: {{ article.company.colorText }};">
 									<th>{{ article.company.name }}</th>
-									<td>{{ article.codeFiche }}</td>
-									<td>{{ article.etapeFiche }}</td>
-									<td>{{ article.utilisateur }}</td>
-									<td>{{ article.generique }}</td>
-									<td>{{ article.stat1 }}</td>
+									<th>{{ article.etapeFiche }}</th>
+									<th>{{ article.username.firstName }} {{ article.username.lastName }}</th>
+									<th>{{ article.generique }}</th>
+									<th>{{ article.stat1 }}</th>
 								</tr>
 							{% endfor %}
 						</tbody>

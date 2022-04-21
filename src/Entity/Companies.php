@@ -35,14 +35,14 @@ class Companies
     private $databaseName;
 
     /**
-     * @ORM\OneToMany(targetEntity=FicheArticle::class, mappedBy="company")
-     */
-    private $ficheArticles;
-
-    /**
      * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $colorText;
+
+    /**
+     * @ORM\OneToMany(targetEntity=FicheArticle::class, mappedBy="company")
+     */
+    private $ficheArticles;
 
     public function __construct()
     {
@@ -90,6 +90,18 @@ class Companies
         return $this;
     }
 
+    public function getColorText(): ?string
+    {
+        return $this->colorText;
+    }
+
+    public function setColorText(?string $colorText): self
+    {
+        $this->colorText = $colorText;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, FicheArticle>
      */
@@ -116,18 +128,6 @@ class Companies
                 $ficheArticle->setCompany(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getColorText(): ?string
-    {
-        return $this->colorText;
-    }
-
-    public function setColorText(?string $colorText): self
-    {
-        $this->colorText = $colorText;
 
         return $this;
     }

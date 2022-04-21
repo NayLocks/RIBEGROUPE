@@ -21,7 +21,7 @@
 			color: #fff;
 			background-color: {{app.user.company.colorCode}}
 			;
-			border-color: {{app.user.company.colorCode}}
+			border-color: {{ app.user.company.colorCode }}
 			;
 		}
 		.btn-admin-OUI {
@@ -49,6 +49,15 @@
     height: 23px;
     width: 97px;
     background: url({{ asset("images/societes/reseau_ribe.png") }})
+}
+
+	.backDIV{
+		background-color: lightgrey;
+	}
+
+	label{
+		font-weight: bold;
+	}
 }
 
 	</style>
@@ -170,6 +179,9 @@
 								<ul class="vertical-nav-menu">
 									<li class="app-sidebar__heading">
 										<a href="{{ path("index") }}">Accueil du Site</a>
+									</li>
+									<li class="app-sidebar__heading">
+										<a href="{{ path("mailTEST") }}">TEST MAIL</a>
 									</li>
 
 									{% if app.user.accessFC == 1 or app.user.accessADM == 1 %}

@@ -8,23 +8,14 @@
 
 {% block actionsPage %}
 	<form method="POST">
-
+	
     <div class="d-inline-block dropdown">
-		<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("newFicheArticle") }}">
+		{# <a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("deleteFicheArticle", {"id" : article.id}) }}">
 			<span class="btn-icon-wrapper pr-2 opacity-7">
 				<i class="fa fa-eraser fa-w-20"></i>
 			</span>
-			Remettre à zéro la fiche
-		</a>
-	</div>
-
-    <div class="d-inline-block dropdown">
-		<button type="submit" class="btn mr-2 mb-2 btn-warning" name="BROUILLON">
-			<span class="btn-icon-wrapper pr-2 opacity-7">
-				<i class="fa fa-edit fa-w-20"></i>
-			</span>
-			Enregistrer en brouillon
-		</button>
+			Supprimer la fiche
+		</a> #}
 	</div>
 
 	<div class="d-inline-block dropdown">
@@ -47,46 +38,46 @@
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="generique" class="">Générique</label><input name="generique" type="text" class="form-control" maxlength="50" required></div>
+									<label for="generique" class="">Générique</label><input name="generique" type="text" class="form-control" maxlength="50" value="{{ article.generique }}" required></div>
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="esp_var" class="">Espèce / Variété</label><input name="esp_var" type="text" class="form-control" maxlength="100"></div>
+									<label for="esp_var" class="">Espèce / Variété</label><input name="esp_var" type="text" class="form-control" maxlength="100" value="{{ article.espVar }}"></div>
 							</div>
 						</div>
                         
                         <div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="marque" class="">Marque</label><input name="marque" type="text" class="form-control" maxlength="100"></div>
+									<label for="marque" class="">Marque</label><input name="marque" type="text" class="form-control" maxlength="100" value="{{ article.marque }}"></div>
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="origine" class="">Origine</label><input name="origine" type="text" class="form-control" maxlength="100" required></div>
+									<label for="origine" class="">Origine</label><input name="origine" type="text" class="form-control" maxlength="100" value="{{ article.origine }}" required></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="calibre" class="">Calibre</label><input name="calibre" type="text" class="form-control" maxlength="100"></div>
+									<label for="calibre" class="">Calibre</label><input name="calibre" type="text" class="form-control" maxlength="100" value="{{ article.calibre }}"></div>
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="conditionnement" class="">Conditionnement</label><input name="conditionnement" type="text" class="form-control" maxlength="100" required></div>
+									<label for="condtionnement" class="">Conditionnement</label><input name="condtionnement" type="text" class="form-control" maxlength="100" value="{{ article.conditionnement }}" required></div>
 							</div>
 						</div>
                         
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="categorie" class="">Catégorie</label><input name="categorie" type="text" class="form-control" maxlength="100"></div>
+									<label for="categorie" class="">Catégorie</label><input name="categorie" type="text" class="form-control" maxlength="100" value="{{ article.categorie }}"></div>
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
 									<label for="grp_art" class="">Groupe Article</label>
                                     <select name="grp_art" type="text" class="form-control" required>
-										<option value=""></option>
+										<option value="{{ article.grpArticle }}">{{ article.grpArticle }}</option>
                                         {% for grp in grp_art %}
 											<option>{{ grp.GROUPE_ARTICLE }}</option>
 										{% endfor %}
@@ -103,14 +94,14 @@
 							<div class="form-row">
 								<div class="col-md-12">
 									<div class="position-relative form-group">
-										<label for="nom_latin" class="">Nom Latin</label><input name="nom_latin" type="text" class="form-control" maxlength="250"></div>
+										<label for="nom_latin" class="">Nom Latin</label><input name="nom_latin" type="text" class="form-control" maxlength="250" value="{{ article.maNomLatin }}"></div>
 								</div>
 							</div>
 
 							<div class="form-row">
 								<div class="col-md-12">
 									<div class="position-relative form-group">
-										<label for="zone_peche" class="">Zone de Pêche</label><input name="zone_peche" type="text" class="form-control" maxlength="250"></div>
+										<label for="zone_peche" class="">Zone de Pêche</label><input name="zone_peche" type="text" class="form-control" maxlength="250" value="{{ article.maZonePeche }}"></div>
 								</div>
 							</div>
 
@@ -126,13 +117,13 @@
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="poids_colis" class="">Poids du Colis</label><input name="poids_colis" type="text" class="form-control" maxlength="100"></div>
+									<label for="poids_colis" class="">Poids du Colis</label><input name="poids_colis" type="text" class="form-control" maxlength="100" value="{{ article.poidsColis }}"></div>
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
 									<label for="stat1" class="">STAT 1</label>
                                     <select name="stat1" type="text" class="form-control" required>
-										<option value=""></option>
+										<option value="{{ article.stat1 }}">{{ article.stat1 }}</option>
                                         {% for stat in stat1 %}
 											<option>{{ stat.STAT1 }}</option>
 										{% endfor %}
@@ -144,14 +135,14 @@
 							<div class="col-md-6">
 								<div class="position-relative form-group">
 									<label for="poids_variable" class="">Variable (Si coché = OUI)</label>
-									<input name="poids_variable" type="checkbox" class="form-control" maxlength="100">
+									<input name="poids_variable" type="checkbox" class="form-control" maxlength="100" {% if article.poidsColisVariable == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
 									<label for="stat2" class="">STAT 2</label>
                                     <select name="stat2" type="text" class="form-control" required>
-										<option value=""></option>
+										<option value="{{ article.stat2 }}">{{ article.stat2 }}</option>
                                         {% for stat in stat2 %}
 											<option>{{ stat.STAT2 }}</option>
 										{% endfor %}
@@ -162,13 +153,13 @@
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="piece_colis" class="">Pièce du Colis</label><input name="piece_colis" type="text" class="form-control" maxlength="100"></div>
+									<label for="piece_colis" class="">Pièce du Colis</label><input name="piece_colis" type="text" class="form-control" maxlength="100" value="{{ article.pieceColis }}"></div>
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
 									<label for="stat3" class="">STAT 3</label>
                                     <select name="stat3" type="text" class="form-control" required>
-										<option value=""></option>
+										<option value="{{ article.stat3 }}">{{ article.stat3 }}</option>
                                         {% for stat in stat3 %}
 											<option>{{ stat.STAT3 }}</option>
 										{% endfor %}
@@ -180,14 +171,14 @@
 							<div class="col-md-6">
 								<div class="position-relative form-group">
 									<label for="piece_variable" class="">Variable (Si coché = OUI)</label>
-									<input name="piece_variable" type="checkbox" class="form-control" maxlength="100">
+									<input name="piece_variable" type="checkbox" class="form-control" maxlength="100" {% if article.pieceColisVariable == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
 									<label for="stat4" class="">STAT 4</label>
+									<option value="{{ article.stat4 }}">{{ article.stat4 }}</option>
                                     <select name="stat4" type="text" class="form-control" required>
-										<option value=""></option>
                                         {% for stat in stat4 %}
 											<option>{{ stat.STAT4 }}</option>
 										{% endfor %}
@@ -203,14 +194,14 @@
 							<div class="col-md-6">
 								<div class="position-relative form-group">
 									<label for="dlc" class="">DLC (Si coché = OUI)</label>
-									<input name="dlc" type="checkbox" class="form-control" maxlength="100">
+									<input name="dlc" type="checkbox" class="form-control" maxlength="100"  {% if article.dlc == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
 									<label for="men_val" class="">Mention Valorisante</label>
                                     <select name="men_val" type="text" class="form-control">
-										<option value=""></option>
+										<option value="{{ article.menVal }}">{{ article.menVal }}</option>
                                         {% for menVal in men_val %}
 											<option>{{ menVal.MENTION }}</option>
 										{% endfor %}
@@ -221,13 +212,13 @@
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="dlc_depart" class="">Si Oui, DLC Départ Usine</label><input name="dlc_depart" type="text" class="form-control" maxlength="100"></div>
+									<label for="dlc_depart" class="">Si Oui, DLC Départ Usine</label><input name="dlc_depart" type="text" class="form-control" maxlength="100" value="{{ article.dlcJour }}"></div>
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
 									<label for="loc" class="">Localisation</label>
                                     <select name="loc" type="text" class="form-control" required>
-										<option value=""></option>
+										<option value="{{ article.localisation }}">{{ article.localisation }}</option>
                                         {% for loc in loc %}
 											<option>{{ loc.LOC }}</option>
 										{% endfor %}
@@ -240,7 +231,7 @@
 								<div class="position-relative form-group">
 									<label for="unite_achat" class="">Unité d'Achat Courante</label>
                                     <select name="unite_achat" type="text" class="form-control">
-										<option value=""></option>
+										<option value="{{ article.uniteAchat }}">{{ article.uniteAchat }}</option>
                                     	<option>COLIS</option>
                                     	<option>KG</option>
                                     	<option>PIECE</option>
@@ -248,9 +239,9 @@
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="unite_vente" class="">Unité de Vente Courante</label>
-                                    <select name="unite_vente" type="text" class="form-control">
-										<option value=""></option>
+									<label for="untie_vente" class="">Unité de Vente Courante</label>
+                                    <select name="untie_vente" type="text" class="form-control">
+										<option value="{{ article.uniteVente }}">{{ article.uniteVente }}</option>
                                     	<option>COLIS</option>
                                     	<option>KG</option>
                                     	<option>PIECE</option>
@@ -260,7 +251,7 @@
 								<div class="position-relative form-group">
 									<label for="rup" class="">RUP</label>
                                     <select name="rup" type="text" class="form-control">
-										<option value=""></option>
+										<option value="{{ article.rup }}">{{ article.rup }}</option>
                                         {% for rup in rup %}
 											<option>{{ rup.RUP }}</option>
 										{% endfor %}
@@ -271,9 +262,9 @@
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="unite_stock" class="">Unité de Stock</label>
-                                    <select name="unite_stock" type="text" class="form-control">
-										<option value=""></option>
+									<label for="untie_stock" class="">Unité de Stock</label>
+                                    <select name="untie_stock" type="text" class="form-control">
+										<option value="{{ article.uniteStock }}">{{ article.uniteStock }}</option>
                                     	<option>COLIS</option>
                                     	<option>KG</option>
                                     	<option>PIECE</option>
@@ -283,7 +274,7 @@
 								<div class="position-relative form-group">
 									<label for="siqo" class="">SIQO</label>
                                     <select name="siqo" type="text" class="form-control">
-										<option value=""></option>
+										<option value="{{ article.siqo }}">{{ article.siqo }}</option>
                                         {% for siqo in siqo %}
 											<option>{{ siqo.SIQO }}</option>
 										{% endfor %}

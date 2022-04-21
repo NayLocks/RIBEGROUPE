@@ -11,7 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @method FicheArticle|null find($id, $lockMode = null, $lockVersion = null)
  * @method FicheArticle|null findOneBy(array $criteria, array $orderBy = null)
- * @method FicheArticle[]    findBy(array $criteria, array $orderBy, $limit = null, $offset = null)
+ * @method FicheArticle[]    findAll()
+ * @method FicheArticle[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class FicheArticleRepository extends ServiceEntityRepository
 {
@@ -44,26 +45,16 @@ class FicheArticleRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAll()
-    {
-        return $this->createQueryBuilder('c')
-            ->join('c.company', 'r')
-            ->orderBy('r.name, c.date', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
     // /**
     //  * @return FicheArticle[] Returns an array of FicheArticle objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
+            ->orderBy('f.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -74,8 +65,8 @@ class FicheArticleRepository extends ServiceEntityRepository
     /*
     public function findOneBySomeField($value): ?FicheArticle
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

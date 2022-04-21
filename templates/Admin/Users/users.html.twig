@@ -18,6 +18,12 @@
 {% endblock %}
 
 {% block body %}
+<style>
+	td, th{
+		text-align: center;
+	}
+</style>
+
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="main-card mb-3 card">
@@ -46,12 +52,14 @@
 									<td>{{ user.lastName }}</td>
 									<td>{{ user.username }}</td>
 									<td>{{ user.email }}</td>
-									<td>{% if user.accessFC == 0 %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FC", "on" : "1"}) }}" class="btn mr-2 mb-2 btn-admin-NON">Ajouter l'Accès</a>{% else %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FC", "on" : "0"}) }}" class="btn mr-2 mb-2 btn-admin-OUI">Enlever l'Accès</a>{% endif %}</td>
-									<td>{% if user.accessFA == 0 %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FA", "on" : "1"}) }}" class="btn mr-2 mb-2 btn-admin-NON">Ajouter l'Accès</a>{% else %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FA", "on" : "0"}) }}" class="btn mr-2 mb-2 btn-admin-OUI">Enlever l'Accès</a>{% endif %}</td>
-									<td>{% if user.accessFF == 0 %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FF", "on" : "1"}) }}" class="btn mr-2 mb-2 btn-admin-NON">Ajouter l'Accès</a>{% else %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FF", "on" : "0"}) }}" class="btn mr-2 mb-2 btn-admin-OUI">Enlever l'Accès</a>{% endif %}</td>
+									<td>{% if user.accessFC == 0 %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FC", "on" : "1"}) }}" class="btn mr-2 mb-2 btn-admin-NON">Ajouter l'Accès</a>{% else %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FC", "on" : "0"}) }}" class="btn mr-2 mb-2 btn-admin-OUI">Enlever l'Accès</a>{% endif %}
+									<br>{{ user.titleFC }}</td>
+									<td>{% if user.accessFA == 0 %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FA", "on" : "1"}) }}" class="btn mr-2 mb-2 btn-admin-NON">Ajouter l'Accès</a>{% else %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FA", "on" : "0"}) }}" class="btn mr-2 mb-2 btn-admin-OUI">Enlever l'Accès</a>{% endif %}
+									<br>{{ user.titleFA }}</td>
+									<td>{% if user.accessFF == 0 %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FF", "on" : "1"}) }}" class="btn mr-2 mb-2 btn-admin-NON">Ajouter l'Accès</a>{% else %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FF", "on" : "0"}) }}" class="btn mr-2 mb-2 btn-admin-OUI">Enlever l'Accès</a>{% endif %}
+									<br>{{ user.titleFC }}</td>
 									<td>{% if user.accessADM == 0 %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "ADM", "on" : "1"}) }}" class="btn mr-2 mb-2 btn-admin-NON">Ajouter l'Accès</a>{% else %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "ADM", "on" : "0"}) }}" class="btn mr-2 mb-2 btn-admin-OUI">Enlever l'Accès</a>{% endif %}</td>
 									<td>
-									TEST
 {# 										<button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal" data-target=".modal_{{ company.id }}">MODIFER</button>
  #}									</td>
 								</tr>

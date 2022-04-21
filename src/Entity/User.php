@@ -43,24 +43,19 @@ class User implements UserInterface
     private $company;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $email;
-
-    /**
-     * @ORM\OneToMany(targetEntity=FicheArticle::class, mappedBy="username")
-     */
-    private $ficheArticles;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -81,6 +76,26 @@ class User implements UserInterface
      * @ORM\Column(type="integer", nullable=true)
      */
     private $accessADM;
+
+    /**
+     * @ORM\OneToMany(targetEntity=FicheArticle::class, mappedBy="username")
+     */
+    private $ficheArticles;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $titleFC;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $titleFA;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $titleFF;
 
     public function __construct()
     {
@@ -211,36 +226,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, FicheArticle>
-     */
-    public function getFicheArticles(): Collection
-    {
-        return $this->ficheArticles;
-    }
-
-    public function addFicheArticle(FicheArticle $ficheArticle): self
-    {
-        if (!$this->ficheArticles->contains($ficheArticle)) {
-            $this->ficheArticles[] = $ficheArticle;
-            $ficheArticle->setUsername($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFicheArticle(FicheArticle $ficheArticle): self
-    {
-        if ($this->ficheArticles->removeElement($ficheArticle)) {
-            // set the owning side to null (unless already changed)
-            if ($ficheArticle->getUsername() === $this) {
-                $ficheArticle->setUsername(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getAccessFC(): ?int
     {
         return $this->accessFC;
@@ -285,6 +270,72 @@ class User implements UserInterface
     public function setAccessADM(?int $accessADM): self
     {
         $this->accessADM = $accessADM;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FicheArticle>
+     */
+    public function getFicheArticles(): Collection
+    {
+        return $this->ficheArticles;
+    }
+
+    public function addFicheArticle(FicheArticle $ficheArticle): self
+    {
+        if (!$this->ficheArticles->contains($ficheArticle)) {
+            $this->ficheArticles[] = $ficheArticle;
+            $ficheArticle->setUsername($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFicheArticle(FicheArticle $ficheArticle): self
+    {
+        if ($this->ficheArticles->removeElement($ficheArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($ficheArticle->getUsername() === $this) {
+                $ficheArticle->setUsername(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTitleFC(): ?string
+    {
+        return $this->titleFC;
+    }
+
+    public function setTitleFC(string $titleFC): self
+    {
+        $this->titleFC = $titleFC;
+
+        return $this;
+    }
+
+    public function getTitleFA(): ?string
+    {
+        return $this->titleFA;
+    }
+
+    public function setTitleFA(string $titleFA): self
+    {
+        $this->titleFA = $titleFA;
+
+        return $this;
+    }
+
+    public function getTitleFF(): ?string
+    {
+        return $this->titleFF;
+    }
+
+    public function setTitleFF(string $titleFF): self
+    {
+        $this->titleFF = $titleFF;
 
         return $this;
     }
