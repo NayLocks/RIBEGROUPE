@@ -207,9 +207,14 @@
 												<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 											</a>
 											<ul>
-												<li><a href="{{path("newFicheArticle")}}">Nouvelle Fiche Article</a></li>
-												<li><a href="{{path("myFicheArticle")}}">Mes Fiches Article</a></li>
-												<li><a href="{{path("ficheArticle")}}">Liste des Fiches Article</a></li>
+												{% if app.user.titleFA == "COMPTA" or app.user.accessADM == 1 %}
+													<li><a href="{{path("listValidFicheArticle")}}">Fiche Article à Valider</a></li>
+												{% endif %}
+												{% if app.user.titleFA == "ACHETEUR" or app.user.accessADM == 1 and app.user.company.name != "RIBEGROUPE" %}
+													<li><a href="{{path("newFicheArticle")}}">Nouvelle Fiche Article</a></li>
+													<li><a href="{{path("myFicheArticle")}}">Mes Fiches Article</a></li>
+												{% endif %}
+													<li><a href="{{path("ficheArticle")}}">Liste des Fiches Article</a></li>
 											</ul>
 										</li>
 									{% endif %}

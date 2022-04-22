@@ -10,12 +10,12 @@
 	<form method="POST">
 	
     <div class="d-inline-block dropdown">
-		{# <a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("deleteFicheArticle", {"id" : article.id}) }}">
+		<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("deleteFicheArticle", {"id" : article.id}) }}">
 			<span class="btn-icon-wrapper pr-2 opacity-7">
 				<i class="fa fa-eraser fa-w-20"></i>
 			</span>
 			Supprimer la fiche
-		</a> #}
+		</a>
 	</div>
 
 	<div class="d-inline-block dropdown">
@@ -64,7 +64,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="condtionnement" class="">Conditionnement</label><input name="condtionnement" type="text" class="form-control" maxlength="100" value="{{ article.conditionnement }}" required></div>
+									<label for="conditionnement" class="">Conditionnement</label><input name="conditionnement" type="text" class="form-control" maxlength="100" value="{{ article.conditionnement }}" required></div>
 							</div>
 						</div>
                         
@@ -239,8 +239,8 @@
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="untie_vente" class="">Unité de Vente Courante</label>
-                                    <select name="untie_vente" type="text" class="form-control">
+									<label for="unite_vente" class="">Unité de Vente Courante</label>
+                                    <select name="unite_vente" type="text" class="form-control">
 										<option value="{{ article.uniteVente }}">{{ article.uniteVente }}</option>
                                     	<option>COLIS</option>
                                     	<option>KG</option>
@@ -262,8 +262,8 @@
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="untie_stock" class="">Unité de Stock</label>
-                                    <select name="untie_stock" type="text" class="form-control">
+									<label for="unite_stock" class="">Unité de Stock</label>
+                                    <select name="unite_stock" type="text" class="form-control">
 										<option value="{{ article.uniteStock }}">{{ article.uniteStock }}</option>
                                     	<option>COLIS</option>
                                     	<option>KG</option>

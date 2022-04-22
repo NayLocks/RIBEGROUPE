@@ -192,6 +192,11 @@ class FicheArticle
      */
     private $dateCreated;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $textRefus;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -613,6 +618,18 @@ class FicheArticle
     public function setDateCreated(\DateTimeInterface $dateCreated): self
     {
         $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    public function getTextRefus(): ?string
+    {
+        return $this->textRefus;
+    }
+
+    public function setTextRefus(?string $textRefus): self
+    {
+        $this->textRefus = $textRefus;
 
         return $this;
     }

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fiches Article{% endblock %}
+
+{% block page %}
+	Liste des Fiches Article
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="main-card mb-3 card">
+				<div class="card-body">
+					<h5 class="card-title">Liste des Fiches Article</h5>
+					<table class="mb-0 table table-striped">
+						<thead>
+							<tr>
+								<th>Société</th>
+								<th>Etape Fiche</th>
+								<th>Utilisateur</th>
+								<th>Générique</th>
+								<th>Stat 1</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for article in articles %}
+							<tr></tr>
+								<tr style="background-color: {{ article.company.colorCode }}; color: {{ article.company.colorText }};">
+									<th>{{ article.company.name }}</th>
+									<th>{{ article.etapeFiche }}</th>
+									<th>{{ article.username.firstName }} {{ article.username.lastName }}</th>
+									<th>{{ article.generique }}</th>
+									<th>{{ article.stat1 }}</th>
+									<th><a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("validFicheArticle", {'id' : article.id }) }}"><span class="btn-icon-wrapper pr-2 opacity-7"><i class="fa fa-eraser fa-w-20"></i></span>Voir la fiche</a></th>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

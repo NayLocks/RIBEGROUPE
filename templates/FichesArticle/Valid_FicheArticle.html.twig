@@ -10,16 +10,16 @@
 	<form method="POST">
 	
     <div class="d-inline-block dropdown">
-		<a type="button" class="btn mr-2 mb-2 btn-danger" href="#">
+		<button type="button" class="btn mr-2 mb-2 btn-danger" data-toggle="modal" data-target="#exampleModal">
 			<span class="btn-icon-wrapper pr-2 opacity-7">
 				<i class="fa fa-eraser fa-w-20"></i>
 			</span>
 			Refuser la fiche
-		</a>
+		</button>
 	</div>
 
 	<div class="d-inline-block dropdown">
-		<button type="submit" class="btn mr-2 mb-2 btn-success" name="VALID">
+		<button type="button" class="btn mr-2 mb-2 btn-success" data-toggle="modal" data-target="#modalValid">
 			<span class="btn-icon-wrapper pr-2 opacity-7">
 				<i class="fa fa-check-square fa-w-20"></i>
 			</span>
@@ -64,7 +64,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="condtionnement" class="">Conditionnement</label><input name="condtionnement" type="text" class="form-control" maxlength="100" value="{{ article.conditionnement }}" required></div>
+									<label for="conditionnement" class="">Conditionnement</label><input name="conditionnement" type="text" class="form-control" maxlength="100" value="{{ article.conditionnement }}" required></div>
 							</div>
 						</div>
                         
@@ -239,8 +239,8 @@
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="untie_vente" class="">Unité de Vente Courante</label>
-                                    <select name="untie_vente" type="text" class="form-control">
+									<label for="unite_vente" class="">Unité de Vente Courante</label>
+                                    <select name="unite_vente" type="text" class="form-control">
 										<option value="{{ article.uniteVente }}">{{ article.uniteVente }}</option>
                                     	<option>COLIS</option>
                                     	<option>KG</option>
@@ -262,8 +262,8 @@
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="untie_stock" class="">Unité de Stock</label>
-                                    <select name="untie_stock" type="text" class="form-control">
+									<label for="unite_stock" class="">Unité de Stock</label>
+                                    <select name="unite_stock" type="text" class="form-control">
 										<option value="{{ article.uniteStock }}">{{ article.uniteStock }}</option>
                                     	<option>COLIS</option>
                                     	<option>KG</option>
@@ -281,11 +281,58 @@
                                     </select></div>
 							</div>
 						</div>
-
-					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 {% endblock %}
+
+{% block autres %}
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Raison du Refus</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" rows="5" name="textRefus" placeholder="Le Groupe Article est manquant / il manque l'unité de stock,achat,vente"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler le Refus</button>
+                <button type="submit" class="btn btn-success" name="REFUS">Envoyer le Refus</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalValid" tabindex="-1" role="dialog" aria-labelledby="modalValidLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalValidLabel">Compléter la Fiche</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+				<label for="codeArticle">Code Article</label>
+                <input class="form-control" name="codeArticle" placeholder="AIL5" />
+				<label for="codeSodexo">Code Sodexo</label>
+                <input class="form-control" name="codeSodexo" placeholder="0000000" />
+				<label for="codeSXO">Code SXO</label>
+                <input class="form-control" name="codeSXO" placeholder="0000000" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler la Validation</button>
+                <button type="submit" class="btn btn-success" name="VALID">Valider la Fiche</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+{% endblock %}
+
 
