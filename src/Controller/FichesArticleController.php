@@ -277,7 +277,7 @@ class FichesArticleController extends AbstractController
                                                                      <table width="134" align="center" style="margin:0 auto;" cellpadding="0" cellspacing="0">
                                                                          <tr>
                                                                              <td data-bgcolor="bg-button" data-size="size button" data-min="10" data-max="16" class="btn" align="center" style="font:12px/14px Arial, Helvetica, sans-serif; color:#f8f9fb; text-transform:uppercase; mso-padding-alt:12px 10px 10px; border-radius:2px;" bgcolor="#7bb84f">
-                                                                                 <a target="_blank" style="text-decoration:none; color:#f8f9fb; display:block; padding:12px 10px 10px;" href="http://127.0.0.1:8000/validation_fiches_article/'.$article->getId().'">Accéder à la Fiche</a>
+                                                                                 <a target="_blank" style="text-decoration:none; color:#f8f9fb; display:block; padding:12px 10px 10px;" href="http://outils.ribegroupe.com/validation_fiches_article/'.$article->getId().'">Accéder à la Fiche</a>
                                                                              </td>
                                                                          </tr>
                                                                      </table>
@@ -551,7 +551,7 @@ class FichesArticleController extends AbstractController
                                                                      <table width="134" align="center" style="margin:0 auto;" cellpadding="0" cellspacing="0">
                                                                          <tr>
                                                                              <td data-bgcolor="bg-button" data-size="size button" data-min="10" data-max="16" class="btn" align="center" style="font:12px/14px Arial, Helvetica, sans-serif; color:#f8f9fb; text-transform:uppercase; mso-padding-alt:12px 10px 10px; border-radius:2px;" bgcolor="#7bb84f">
-                                                                                 <a target="_blank" style="text-decoration:none; color:#f8f9fb; display:block; padding:12px 10px 10px;" href="http://127.0.0.1:8000/validation_fiches_article/'.$article->getId().'">Accéder à la Fiche</a>
+                                                                                 <a target="_blank" style="text-decoration:none; color:#f8f9fb; display:block; padding:12px 10px 10px;" href="http://outils.ribegroupe.com/validation_fiches_article/'.$article->getId().'">Accéder à la Fiche</a>
                                                                              </td>
                                                                          </tr>
                                                                      </table>
@@ -889,7 +889,7 @@ class FichesArticleController extends AbstractController
                                                                      <table width="134" align="center" style="margin:0 auto;" cellpadding="0" cellspacing="0">
                                                                          <tr>
                                                                              <td data-bgcolor="bg-button" data-size="size button" data-min="10" data-max="16" class="btn" align="center" style="font:12px/14px Arial, Helvetica, sans-serif; color:#f8f9fb; text-transform:uppercase; mso-padding-alt:12px 10px 10px; border-radius:2px;" bgcolor="#7bb84f">
-                                                                                 <a target="_blank" style="text-decoration:none; color:#f8f9fb; display:block; padding:12px 10px 10px;" href="http://127.0.0.1:8000/modification_fiches_article/'.$article->getId().'">Accéder à la Fiche</a>
+                                                                                 <a target="_blank" style="text-decoration:none; color:#f8f9fb; display:block; padding:12px 10px 10px;" href="http://outils.ribegroupe.com/modification_fiches_article/'.$article->getId().'">Accéder à la Fiche</a>
                                                                              </td>
                                                                          </tr>
                                                                      </table>
@@ -1066,7 +1066,7 @@ class FichesArticleController extends AbstractController
                                                                      <table width="134" align="center" style="margin:0 auto;" cellpadding="0" cellspacing="0">
                                                                          <tr>
                                                                              <td data-bgcolor="bg-button" data-size="size button" data-min="10" data-max="16" class="btn" align="center" style="font:12px/14px Arial, Helvetica, sans-serif; color:#f8f9fb; text-transform:uppercase; mso-padding-alt:12px 10px 10px; border-radius:2px;" bgcolor="#7bb84f">
-                                                                                 <a target="_blank" style="text-decoration:none; color:#f8f9fb; display:block; padding:12px 10px 10px;" href="http://127.0.0.1:8000/modification_fiches_article/'.$article->getId().'">Accéder à la Fiche</a>
+                                                                                 <a target="_blank" style="text-decoration:none; color:#f8f9fb; display:block; padding:12px 10px 10px;" href="http://outils.ribegroupe.com/modification_fiches_article/'.$article->getId().'">Accéder à la Fiche</a>
                                                                              </td>
                                                                          </tr>
                                                                      </table>
