@@ -2,71 +2,184 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
+  		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>RIBEGROUPE > Connexion</title>
-		<link href="{{ asset("main.css") }}" rel="stylesheet"></head>
+  
+  		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+	</head>
+
+	<style>
+		body {
+			background: #222D32;
+			font-family: 'Roboto', sans-serif;
+		}
+
+		.login-box {
+			margin-top: 75px;
+			height: auto;
+			background: #1A2226;
+			text-align: center;
+			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+		}
+
+		.login-key {
+			height: 100px;
+			font-size: 80px;
+			line-height: 100px;
+			background: -webkit-linear-gradient(#27EF9F, #0DB8DE);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+
+		.login-title {
+			margin-top: 15px;
+			text-align: center;
+			font-size: 30px;
+			letter-spacing: 2px;
+			margin-top: 15px;
+			font-weight: bold;
+			color: #ECF0F5;
+		}
+
+		.login-form {
+			margin-top: 25px;
+			text-align: left;
+		}
+
+		input[type=text] {
+			background-color: #1A2226;
+			border: none;
+			border-bottom: 2px solid #0DB8DE;
+			border-top: 0;
+			border-radius: 0;
+			font-weight: bold;
+			outline: 0;
+			margin-bottom: 20px;
+			padding-left: 0;
+			color: #ECF0F5;
+		}
+
+		input[type=password] {
+			background-color: #1A2226;
+			border: none;
+			border-bottom: 2px solid #0DB8DE;
+			border-top: 0;
+			border-radius: 0;
+			font-weight: bold;
+			outline: 0;
+			padding-left: 0;
+			margin-bottom: 20px;
+			color: #ECF0F5;
+		}
+
+		.form-group {
+			margin-bottom: 40px;
+			outline: 0;
+		}
+
+		.form-control:focus {
+			border-color: inherit;
+			-webkit-box-shadow: none;
+			box-shadow: none;
+			border-bottom: 2px solid #0DB8DE;
+			outline: 0;
+			background-color: #1A2226;
+			color: #ECF0F5;
+		}
+
+		input:focus {
+			outline: none;
+			box-shadow: 0 0 0;
+		}
+
+		label {
+			margin-bottom: 0;
+		}
+
+		.form-control-label {
+			font-size: 10px;
+			color: #6C6C6C;
+			font-weight: bold;
+			letter-spacing: 1px;
+		}
+
+		.btn-outline-primary {
+			border-color: #0DB8DE;
+			color: #0DB8DE;
+			border-radius: 0;
+			font-weight: bold;
+			letter-spacing: 1px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+		}
+
+		.btn-outline-primary:hover {
+			background-color: #0DB8DE;
+			right: 0;
+		}
+
+		.login-btm {
+			float: left;
+		}
+
+		.login-button {
+			padding-right: 0;
+			text-align: right;
+			margin-bottom: 25px;
+		}
+
+		.login-text {
+			text-align: left;
+			padding-left: 0;
+			color: #A2A4A4;
+		}
+
+		.loginbttm {
+			padding: 0;
+		}
+	</style>
+	
 	<body>
-		<div class="app-container app-theme-white body-tabs-shadow">
-			<div class="app-container">
-				<div class="h-100 bg-plum-plate bg-animation">
-					<div class="d-flex h-100 justify-content-center align-items-center">
-						<div class="mx-auto app-login-box col-md-8">
-							<div class="app-logo-inverse mx-auto mb-3"></div>
-							<div class="modal-dialog w-100 mx-auto">
-								<div class="modal-content">
-									<div class="modal-body">
-										<div class="h5 modal-title text-center">
-											<h4 class="mt-2">
-												<div>Outils_RibeGroupe</div>
-												<span>Connexion</span>
-											</h4>
-										</div>
-										<form method="post">
-											{% if error %}
-												<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-											{% endif %}
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3 col-md-2"></div>
+			<div class="col-lg-6 col-md-8 login-box">
+				<div class="col-lg-12 login-key">
+					<i class="fa fa-key" aria-hidden="true"></i>
+				</div>
+				<div class="col-lg-12 login-title">
+					Outils RibéGroupe
+				</div>
 
-											{% if app.user %}
-												<div class="mb-3">
-													Vous êtes déjà connecté avec : {{ app.user.username }},
-													<a href="{{ path('app_logout') }}">Se Déconnecter</a>
-												</div>
-											{% endif %}
+				<div class="col-lg-12 login-form">
+					<div class="col-lg-12 login-form">
+						<form method="post">
+							<div class="form-group">
+								<label class="form-control-label">Identifiant 2B</label>
+								<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+							</div>
+							<div class="form-group">
+								<label class="form-control-label">Mot de Passe 2B</label>
+								<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+							</div>
 
-											<div class="form-row">
-												<div class="col-md-12">
-													<label for="inputUsername">Signature 2B</label>
-													<div class="position-relative form-group">
-														<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<label for="inputPassword">Mot de Passe 2B</label>
-													<div class="position-relative form-group">
-														<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-													</div>
-												</div>
-											</div>
-											<div class="checkbox mb-3">
-												<label>
-													<input type="checkbox" name="_remember_me">
-													Se souvenir de moi
-												</label>
-											</div>
+							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-											<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-											<button class="mt-2 btn-ribeprim" style="width: 100%" type="submit">Se Connecter</button>
-										</form>
-										<div class="divider"></div>
-									</div>
+							<div class="col-lg-12 loginbttm">
+								<div class="col-lg-6 login-btm login-text">{% if error %}{{ error.messageKey|trans(error.messageData, 'security') }}{% endif %}</div>
+								<div class="col-lg-6 login-btm login-button">
+									<button type="submit" class="btn btn-outline-primary">CONNEXION</button>
 								</div>
 							</div>
-							<div class="text-center text-white opacity-8 mt-3">Copyright © RIBEGROUPE 2022</div>
-						</div>
+						</form>
 					</div>
 				</div>
-			</div>
+			<div class="col-lg-3 col-md-2"></div>
 		</div>
-		<script type="text/javascript" src="{{ asset("main.css") }}"></script>
+	</div>
 	</body>
 </html>
