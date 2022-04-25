@@ -214,6 +214,7 @@ class SelectSQLController
         $stat2 = array();
         $stat3 = array();
         $stat4 = array();
+        $stat5 = array();
 
         $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT1', q_gcstat_code AS 'Code_STAT1' FROM q_gcvue_kusstat1 ORDER BY q_gcstat_lib1 ASC", $company);
         while ($r = $req->fetch())
@@ -243,8 +244,38 @@ class SelectSQLController
             $i++;
         }
 
+        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT5', q_gcstat_code AS 'Code_STAT5' FROM q_gcvue_kusstat5 ORDER BY q_gcstat_lib1 ASC", $company);
+        while ($r = $req->fetch())
+        {
+            $stat5[$i] = $r;
+            $i++;
+        }
+
         
-        $tab = array($stat1, $stat2, $stat3, $stat4);
+        $tab = array($stat1, $stat2, $stat3, $stat4, $stat5);
+
+        return $tab;
+    }
+    public function selectSQLTournees($user, $company)
+    {
+        $sql = new SQL\SQLController();
+        $i = 0;
+
+        $tournees = array();
+
+        if($company == "RIBEGROUPE" || $company == "PROMER" || $company == "RIBEXPE" || $company == "BIOEMOI")
+        {        
+            $req = $sql->requete("SELECT q_2b_libtournee AS 'Libelle_TOURNEE', q_gctournee_tournee AS 'Code_TOURNEE' FROM q_2bt_tournee ORDER BY q_2b_libtournee ASC", "HOLDING");
+        }else{
+            $req = $sql->requete("SELECT q_2b_libtournee AS 'Libelle_TOURNEE', q_gctournee_tournee AS 'Code_TOURNEE' FROM q_2bt_tournee ORDER BY q_2b_libtournee ASC", $company);
+        }
+        while ($r = $req->fetch())
+        {
+            $tournees[$i] = $r;
+            $i++;
+        }
+        
+        $tab = array($tournees);
 
         return $tab;
     }

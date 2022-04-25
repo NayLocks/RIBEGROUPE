@@ -13,6 +13,10 @@ class SQLController
 {
     public function requete($requete, $company)
     {
+        if($company == "HOLDING"){
+            $sql = new SQLControllerHolding();
+            $req = $sql->requete($requete);
+        }
         if($company == "RIBEGROUPE"){
             $sql = new SQLControllerRibeGroupe();
             $req = $sql->requete($requete);
