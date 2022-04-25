@@ -63,6 +63,30 @@ function clickEvent() {
     }
     }
 }
+
+function clickEventLiv() {
+    let requestURL = 'https://geo.api.gouv.fr/communes?codePostal=' + document.getElementById("codePostalLiv").value +'&fields=nom,code,codesPostaux,codeDepartement,codeRegion,population&format=json&geometry=centre';
+    let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+
+    var select = document.getElementById("villeLiv");
+    var opts = select.getElementsByTagName('option');
+    for (var i = 0; i < opts.length; i++) {
+        select.removeChild(opts[i]);
+    }
+
+    var options = '';
+    for (let i = 0; i < ville.length; i++) {
+        console.log(ville[i].nom);
+        options += '<option value="'+ville[i].nom+'" />';
+        document.getElementById('villeLiv').innerHTML = options;
+    }
+    }
+}
 </script>
 
 	<div class="tab-content">
@@ -170,14 +194,14 @@ function clickEvent() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="horaireLundi" class="">Horaire Lundi</label><input name="horaireLundi" type="text" class="form-control" maxlength="100"></div>
+									<label for="horaireLundi" class="">Horaire Lundi</label><input name="horaireLundi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="siret" class="">N° SIRET</label><input name="siret" type="text" class="form-control" minlength="14" maxlength="14"></div>
+									<label for="siret" class="">N° SIRET</label><input name="siret" type="text" class="form-control" ></div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
@@ -187,14 +211,14 @@ function clickEvent() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="horaireMardi" class="">Horaire Mardi</label><input name="horaireMardi" type="text" class="form-control" maxlength="100"></div>
+									<label for="horaireMardi" class="">Horaire Mardi</label><input name="horaireMardi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="tvaIntra" class="">N° TVA Intracommunautaire</label><input name="tvaIntra" type="text" class="form-control" minlength="14" maxlength="14"></div>
+									<label for="tvaIntra" class="">N° TVA Intracommunautaire</label><input name="tvaIntra" type="text" class="form-control" ></div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
@@ -204,7 +228,7 @@ function clickEvent() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="horaireMercredi" class="">Horaire Mercredi</label><input name="horaireMercredi" type="text" class="form-control" maxlength="100"></div>
+									<label for="horaireMercredi" class="">Horaire Mercredi</label><input name="horaireMercredi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
@@ -234,27 +258,169 @@ function clickEvent() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="horaireJeudi" class="">Horaire Jeudi</label><input name="horaireJeudi" type="text" class="form-control" maxlength="100"></div>
+									<label for="horaireJeudi" class="">Horaire Jeudi</label><input name="horaireJeudi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="engagement" class="">N° Engagement</label><input name="engagement" type="text" class="form-control" minlength="14" maxlength="14"></div>
+									<label for="engagement" class="">N° Engagement</label><input name="engagement" type="text" class="form-control" ></div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
-									<label for="appelMVendredi" class="">Vendredi</label>
-									<input name="appelMVendredi" type="checkbox" class="form-control">
+									<label for="appelVendredi" class="">Vendredi</label>
+									<input name="appelVendredi" type="checkbox" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="horaireVendredi" class="">Horaire Vendredi</label><input name="horaireVendredi" type="text" class="form-control" maxlength="100"></div>
+									<label for="horaireVendredi" class="">Horaire Vendredi</label><input name="horaireVendredi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="codeService" class="">Code Service</label><input name="codeService" type="text" class="form-control"></div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label for="appelSamedi" class="">Samedi</label>
+									<input name="appelSamedi" type="checkbox" class="form-control">
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="horaireSamedi" class="">Horaire Samedi</label><input name="horaireSamedi" type="text" class="form-control" ></div>
+							</div>
+						</div>						
+
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="adrLiv" class="">Adresse pour Envoi Factures (si différente d'Adresse Livraison)</label><input name="adrLiv" type="text" class="form-control"></div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="emailFacture" class="">Email Envoi Facture</label><input name="emailFacture" type="text" class="form-control" ></div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="codePostalLiv" class="">Code Postal</label><input id="codePostalLiv" name="codePostalLiv" type="text" class="form-control" maxlength="10" onkeyup="clickEventLiv()"></div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label for="villeLiv" class="">Ville</label><input name="villeLiv" list="villeLiv" type="text" class="form-control" maxlength="250">
+									<datalist id="villeLiv"></datalist>
+									</div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="tarifClient" class="">Tarif Client</label><input name="tarifClient" type="text" class="form-control" ></div>
+							</div>
+						</div>
+						
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="stat1" class="">AFFTYPO CHAMPS STAT 1</label>
+									<select class="form-control" name="stat1">
+										<option value=""></option>
+										{% for stat in stats1 %}
+											<option value="{{ stat.Code_STAT1 }}">{{ stat.Libelle_STAT1 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label for="typeClient" class="">Envoi Tarif Automatique</label>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="oui">Oui</label>
+									<input class="form-control" type="radio" id="oui" name="envoiTarifAuto" value="oui">
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="non">Non</label>
+									<input class="form-control" type="radio" id="non" name="envoiTarifAuto" value="non" checked>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="stat1" class="">AFFCAT 2 CHAMPS STAT 2</label>
+									<select class="form-control" name="stat2">
+										<option value=""></option>
+										{% for stat in stats2 %}
+											<option value="{{ stat.Code_STAT2 }}">{{ stat.Libelle_STAT2 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="date1Livraison" class="">Date 1ère Livraison</label><input name="date1Livraison" type="date" class="form-control" ></div>
+							</div>
+						</div>
+						
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="stat1" class="">AFFCAT 3 CHAMPS STAT 3</label>
+									<select class="form-control" name="stat3">
+										<option value=""></option>
+										{% for stat in stats3 %}
+											<option value="{{ stat.Code_STAT3 }}">{{ stat.Libelle_STAT3 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label for="typeClient" class="">PVC</label>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="oui">Oui</label>
+									<input class="form-control" type="radio" id="oui" name="pvc" value="oui">
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="non">Non</label>
+									<input class="form-control" type="radio" id="non" name="pvc" value="non" checked>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="stat1" class="">AFFCAT 1 CHAMPS STAT 4</label>
+									<select class="form-control" name="stat4">
+										<option value=""></option>
+										{% for stat in stats4 %}
+											<option value="{{ stat.Code_STAT4 }}">{{ stat.Libelle_STAT4 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="coefPVC" class="">Coef PVC</label><input name="coefPVC" type="text" class="form-control" ></div>
+							</div>
+						</div>
 
 
 

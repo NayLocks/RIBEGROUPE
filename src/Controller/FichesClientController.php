@@ -16,6 +16,9 @@ class FichesClientController extends AbstractController
      */
     public function index(UserInterface $user)
     {
-        return $this->render('FichesClient/New_FicheClient.html.twig');
+        $tab = new SelectSQLController();
+        $tab = $tab->selectSQLClient($user, $user->getCompany()->getDatabaseName());
+
+        return $this->render('FichesClient/New_FicheClient.html.twig', ["stats1" => $tab[0], "stats2" => $tab[1], "stats3" => $tab[2], "stats4" => $tab[3]]);
     }
 }

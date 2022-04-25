@@ -36,8 +36,8 @@ class FichesArticleController extends AbstractController
      */
     public function Newarticle(Request $request, UserInterface $user, MailerInterface $mailer): Response
     {
-        $tab = new SelectSQLController();
-        $tab = $tab->selectSQL($user, $user->getCompany()->getDatabaseName());
+        $tab = new selectSQLController();
+        $tab = $tab->selectSQLArticle($user, $user->getCompany()->getDatabaseName());
 
         if(isset($_POST['generique'])){
             $article = new FicheArticle();
@@ -583,10 +583,14 @@ class FichesArticleController extends AbstractController
 
 
         if($article->getUsername()->getUsername() == $user->getUsername() && $article->getEtapeFiche() == "BROUILLON"){
-            $tab = new SelectSQLController();
-            $tab = $tab->selectSQL($user, $article->getCompany()->getDatabaseName());
+            $tab = new selectSQLController();
+            $tab = $tab->selectSQLArticle($user, $article->getCompany()->getDatabaseName());
 
-            return $this->render('FichesArticle/Edit_FicheArticle.html.twig', ["grp_art" => $tab[0], "stat1" => $tab[1], "stat2" => $tab[2], "stat3" => $tab[3], "stat4" => $tab[4], "men_val" => $tab[5], "loc" => $tab[6], "rup" => $tab[7], "siqo" => $tab[8], "article" => $article]);
+            $tabCode = new selectSQLController();
+            $tabCode = $tabCode->selectSQLArticleCode($user, $article->getCompany()->getDatabaseName(), $article);
+
+            return $this->render('FichesArticle/Edit_FicheArticle.html.twig', ["grp_art" => $tab[0], "stat1" => $tab[1], "stat2" => $tab[2], "stat3" => $tab[3], "stat4" => $tab[4], "men_val" => $tab[5], "loc" => $tab[6], "rup" => $tab[7], "siqo" => $tab[8], "article" => $article,
+            "grp_artCode" => $tabCode[0], "stat1Code" => $tabCode[1], "stat2Code" => $tabCode[2], "stat3Code" => $tabCode[3], "stat4Code" => $tabCode[4], "men_valCode" => $tabCode[5], "locCode" => $tabCode[6], "rupCode" => $tabCode[7], "siqoCode" => $tabCode[8]]);
         }else{
             return  $this->render('message.html.twig', ["message" => "La fiche n'est pas en BROUILLON ou alors est n'est pas de cette utilisateur", "titleMessage" => "Fiche Indisponible"]);
         }
@@ -602,8 +606,8 @@ class FichesArticleController extends AbstractController
         $article = $allFichesArticle->findOneBy(array("id" => $id));
 
         if($article->getUsername() == $user && $article->getEtapeFiche() == "BROUILLON"){
-            $tab = new SelectSQLController();
-            $tab = $tab->selectSQL($user, $article->getCompany()->getDatabaseName());
+            $tab = new selectSQLController();
+            $tab = $tab->selectSQLArticle($user, $article->getCompany()->getDatabaseName());
 
             $em = $this->getDoctrine()->getManager();
             $em->remove($article);
@@ -1100,8 +1104,8 @@ class FichesArticleController extends AbstractController
         }
          
         if($user->getTitleFA() == "COMPTA" && $article->getEtapeFiche() == "COMPTA"){
-            $tab = new SelectSQLController();
-            $tab = $tab->selectSQL($user, $article->getCompany()->getDatabaseName());
+            $tab = new selectSQLController();
+            $tab = $tab->selectSQLArticle($user, $article->getCompany()->getDatabaseName());
 
             return $this->render('FichesArticle/Valid_FicheArticle.html.twig', ["grp_art" => $tab[0], "stat1" => $tab[1], "stat2" => $tab[2], "stat3" => $tab[3], "stat4" => $tab[4], "men_val" => $tab[5], "loc" => $tab[6], "rup" => $tab[7], "siqo" => $tab[8], "article" => $article]);
         }

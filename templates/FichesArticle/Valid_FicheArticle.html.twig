@@ -77,9 +77,9 @@
 								<div class="position-relative form-group">
 									<label for="grp_art" class="">Groupe Article</label>
                                     <select name="grp_art" type="text" class="form-control" required>
-										<option value="{{ article.grpArticle }}">{{ article.grpArticle }}</option>
+										<option value="{{ article.grpArticle }}">METTRE LIBELLE</option>
                                         {% for grp in grp_art %}
-											<option>{{ grp.GROUPE_ARTICLE }}</option>
+											<option value="{{ grp.Code_GROUPE_ARTICLE }}">{{ grp.Libelle_GROUPE_ARTICLE }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -123,9 +123,9 @@
 								<div class="position-relative form-group">
 									<label for="stat1" class="">STAT 1</label>
                                     <select name="stat1" type="text" class="form-control" required>
-										<option value="{{ article.stat1 }}">{{ article.stat1 }}</option>
+										<option value="{{ article.stat1 }}">METTRE LIBELLE</option>
                                         {% for stat in stat1 %}
-											<option>{{ stat.STAT1 }}</option>
+											<option value="{{ stat.Code_STAT1 }}">{{ stat.Libelle_STAT1 }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -142,9 +142,9 @@
 								<div class="position-relative form-group">
 									<label for="stat2" class="">STAT 2</label>
                                     <select name="stat2" type="text" class="form-control" required>
-										<option value="{{ article.stat2 }}">{{ article.stat2 }}</option>
+										<option value="{{ article.stat2 }}">METTRE LIBELLE</option>
                                         {% for stat in stat2 %}
-											<option>{{ stat.STAT2 }}</option>
+											<option value="{{ stat.Code_STAT2 }}">{{ stat.Libelle_STAT2 }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -159,9 +159,9 @@
 								<div class="position-relative form-group">
 									<label for="stat3" class="">STAT 3</label>
                                     <select name="stat3" type="text" class="form-control" required>
-										<option value="{{ article.stat3 }}">{{ article.stat3 }}</option>
+										<option value="{{ article.stat3 }}">LIBELLE</option>
                                         {% for stat in stat3 %}
-											<option>{{ stat.STAT3 }}</option>
+											<option value="{{ stat.Code_STAT3 }}">{{ stat.Libelle_STAT3 }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -177,10 +177,10 @@
 							<div class="col-md-6">
 								<div class="position-relative form-group">
 									<label for="stat4" class="">STAT 4</label>
-									<option value="{{ article.stat4 }}">{{ article.stat4 }}</option>
+									<option value="{{ article.stat4 }}">METTRE LIBELLE</option>
                                     <select name="stat4" type="text" class="form-control" required>
                                         {% for stat in stat4 %}
-											<option>{{ stat.STAT4 }}</option>
+											<option value="{{ stat.Code_STAT4 }}">{{ stat.Libelle_STAT4 }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -201,9 +201,9 @@
 								<div class="position-relative form-group">
 									<label for="men_val" class="">Mention Valorisante</label>
                                     <select name="men_val" type="text" class="form-control">
-										<option value="{{ article.menVal }}">{{ article.menVal }}</option>
+										<option value="{{ article.menVal }}">METTRE LIBELLE</option>
                                         {% for menVal in men_val %}
-											<option>{{ menVal.MENTION }}</option>
+											<option value="{{ menVal.Code_MENTION}}">{{ menVal.Libelle_MENTION }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -218,9 +218,9 @@
 								<div class="position-relative form-group">
 									<label for="loc" class="">Localisation</label>
                                     <select name="loc" type="text" class="form-control" required>
-										<option value="{{ article.localisation }}">{{ article.localisation }}</option>
+										<option value="{{ article.localisation }}">METTRE LIBELLE</option>
                                         {% for loc in loc %}
-											<option>{{ loc.LOC }}</option>
+											<option value="{{ loc.Code_LOCALISATION }}">{{ loc.Libelle_LOCALISATION }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -251,9 +251,9 @@
 								<div class="position-relative form-group">
 									<label for="rup" class="">RUP</label>
                                     <select name="rup" type="text" class="form-control">
-										<option value="{{ article.rup }}">{{ article.rup }}</option>
+										<option value="{{ article.rup }}">METTRE LE LIBELLE</option>
                                         {% for rup in rup %}
-											<option>{{ rup.RUP }}</option>
+											<option value="{{ rup.Code_RUP }}">{{ rup.Libelle_RUP }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -276,7 +276,7 @@
                                     <select name="siqo" type="text" class="form-control">
 										<option value="{{ article.siqo }}">{{ article.siqo }}</option>
                                         {% for siqo in siqo %}
-											<option>{{ siqo.SIQO }}</option>
+											<option value="{{ siqo.Code_SIQO }}">{{ siqo.Libelle_SIQO }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>

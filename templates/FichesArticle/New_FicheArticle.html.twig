@@ -88,7 +88,7 @@
                                     <select name="grp_art" type="text" class="form-control" required>
 										<option value=""></option>
                                         {% for grp in grp_art %}
-											<option>{{ grp.GROUPE_ARTICLE }}</option>
+											<option value="{{ grp.Code_GROUPE_ARTICLE }}">{{ grp.Libelle_GROUPE_ARTICLE }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -134,7 +134,7 @@
                                     <select name="stat1" type="text" class="form-control" required>
 										<option value=""></option>
                                         {% for stat in stat1 %}
-											<option>{{ stat.STAT1 }}</option>
+											<option value="{{ stat.Code_STAT1 }}">{{ stat.Libelle_STAT1 }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -153,7 +153,7 @@
                                     <select name="stat2" type="text" class="form-control" required>
 										<option value=""></option>
                                         {% for stat in stat2 %}
-											<option>{{ stat.STAT2 }}</option>
+											<option value="{{ stat.Code_STAT2 }}">{{ stat.Libelle_STAT2 }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -170,7 +170,7 @@
                                     <select name="stat3" type="text" class="form-control" required>
 										<option value=""></option>
                                         {% for stat in stat3 %}
-											<option>{{ stat.STAT3 }}</option>
+											<option value="{{ stat.Code_STAT3 }}">{{ stat.Libelle_STAT3 }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -189,7 +189,7 @@
                                     <select name="stat4" type="text" class="form-control" required>
 										<option value=""></option>
                                         {% for stat in stat4 %}
-											<option>{{ stat.STAT4 }}</option>
+											<option value="{{ stat.Code_STAT4 }}">{{ stat.Libelle_STAT4 }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -212,7 +212,7 @@
                                     <select name="men_val" type="text" class="form-control">
 										<option value=""></option>
                                         {% for menVal in men_val %}
-											<option>{{ menVal.MENTION }}</option>
+											<option value="{{ menVal.Code_MENTION }}">{{ menVal.Libelle_MENTION }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -229,7 +229,7 @@
                                     <select name="loc" type="text" class="form-control" required>
 										<option value=""></option>
                                         {% for loc in loc %}
-											<option>{{ loc.LOC }}</option>
+											<option value="{{ loc.Code_LOCALISATION }}">{{ loc.Libelle_LOCALISATION }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -262,7 +262,7 @@
                                     <select name="rup" type="text" class="form-control">
 										<option value=""></option>
                                         {% for rup in rup %}
-											<option>{{ rup.RUP }}</option>
+											<option value="{{ rup.Code_RUP }}">{{ rup.Libelle_RUP }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
@@ -285,7 +285,7 @@
                                     <select name="siqo" type="text" class="form-control">
 										<option value=""></option>
                                         {% for siqo in siqo %}
-											<option>{{ siqo.SIQO }}</option>
+											<option value="{{ siqo.Code_SIQO }}">{{ siqo.Libelle_SIQO }}</option>
 										{% endfor %}
                                     </select></div>
 							</div>
