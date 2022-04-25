@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Controller\SQL\SQLController;
-use App\Entity\article;
 use App\Entity\FicheArticle;
 use App\Entity\User;
 use DateTime;
@@ -36,7 +35,7 @@ class FichesArticleController extends AbstractController
      */
     public function Newarticle(Request $request, UserInterface $user, MailerInterface $mailer): Response
     {
-        $tab = new selectSQLController();
+        $tab = new SelectSQLController();
         $tab = $tab->selectSQLArticle($user, $user->getCompany()->getDatabaseName());
 
         if(isset($_POST['generique'])){
