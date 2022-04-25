@@ -96,11 +96,14 @@ function clickEventLiv() {
 						<h5 class="card-title">Information Client</h5>
 
 						<div class="form-row">
-							<div class="col-md-6">
+							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="nomAppel" class="">Nom d'Appel</label><input name="nomAppel" type="text" class="form-control" maxlength="250"></div>
 							</div>
-							<div class="col-md-5">
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-4">
 								<div class="position-relative form-group">
 									<label for="phoneStandard" class="">Téléphone Standard</label><input name="phoneStandard" type="text" class="form-control" maxlength="20"></div>
 							</div>
@@ -113,11 +116,14 @@ function clickEventLiv() {
 						</div>
 						
 						<div class="form-row">
-							<div class="col-md-6">
+							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="codeGestion" class="">Code Gestion</label><input name="codeGestion" type="text" class="form-control" maxlength="250"></div>
 							</div>
-							<div class="col-md-5">
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-4">
 								<div class="position-relative form-group">
 									<label for="phonePortable" class="">Téléphone Portable</label><input name="phonePortable" type="text" class="form-control" maxlength="20"></div>
 							</div>
@@ -130,44 +136,53 @@ function clickEventLiv() {
 						</div>
 
 						<div class="form-row">
-							<div class="col-md-6">
+							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="raisonSociale" class="">Raison Sociale</label><input name="raisonSociale" type="text" class="form-control" maxlength="250"></div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="faxStandard" class="">Téléphone Portable</label><input name="faxStandard" type="text" class="form-control" maxlength="20"></div>
 							</div>
 						</div>
 
 						<div class="form-row">
-							<div class="col-md-6">
+							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="nomGrandCompte" class="">Nom Grand Compte</label><input name="nomGrandCompte" type="text" class="form-control" maxlength="250"></div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="emailStandard" class="">Email Standard</label><input name="emailStandard" type="mail" class="form-control" maxlength="250"></div>
 							</div>
 						</div>
 						
 						<div class="form-row">
-							<div class="col-md-6">
+							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="adrLivraison" class="">Adresse Livraison</label><input name="adrLivraison" type="text" class="form-control" maxlength="250"></div>
 							</div>
 							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-3">
 								<div class="position-relative form-group">
 									<label for="appelClient" class="">Client à Appeler</label>
 								</div>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="oui">Oui</label>
 									<input class="form-control" type="radio" id="oui" name="appelClient" value="oui" checked>
 								</div>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="non">Non</label>
 									<input class="form-control" type="radio" id="non" name="appelClient" value="non">
@@ -180,11 +195,14 @@ function clickEventLiv() {
 								<div class="position-relative form-group">
 									<label for="codePostal" class="">Code Postal</label><input id="codePostal" name="codePostal" type="text" class="form-control" maxlength="10" onkeyup="clickEvent()"></div>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-3">
 								<div class="position-relative form-group">
 									<label for="ville" class="">Ville</label><input name="ville" list="ville" type="text" class="form-control" maxlength="250">
 									<datalist id="ville"></datalist>
 									</div>
+							</div>
+							<div class="col-md-2">
+								
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
@@ -192,16 +210,19 @@ function clickEventLiv() {
 									<input name="appelLundi" type="checkbox" class="form-control">
 								</div>
 							</div>
-							<div class="col-md-5">
+							<div class="col-md-4">
 								<div class="position-relative form-group">
 									<label for="horaireLundi" class="">Horaire Lundi</label><input name="horaireLundi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
-							<div class="col-md-6">
+							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="siret" class="">N° SIRET</label><input name="siret" type="text" class="form-control" ></div>
+							</div>
+							<div class="col-md-2">
+								
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
@@ -209,16 +230,19 @@ function clickEventLiv() {
 									<input name="appelMardi" type="checkbox" class="form-control">
 								</div>
 							</div>
-							<div class="col-md-5">
+							<div class="col-md-4">
 								<div class="position-relative form-group">
 									<label for="horaireMardi" class="">Horaire Mardi</label><input name="horaireMardi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
-							<div class="col-md-6">
+							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="tvaIntra" class="">N° TVA Intracommunautaire</label><input name="tvaIntra" type="text" class="form-control" ></div>
+							</div>
+							<div class="col-md-2">
+								
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
@@ -226,14 +250,14 @@ function clickEventLiv() {
 									<input name="appelMercredi" type="checkbox" class="form-control">
 								</div>
 							</div>
-							<div class="col-md-5">
+							<div class="col-md-4">
 								<div class="position-relative form-group">
 									<label for="horaireMercredi" class="">Horaire Mercredi</label><input name="horaireMercredi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
-							<div class="col-md-4">
+							<div class="col-md-3">
 								<div class="position-relative form-group">
 									<label for="typeClient" class="">Type Client <i style="font-weight : normal;">(Si client public = chorus, compléter impérativement les champs suivants: N° Siret, N° Engagement et Code Service)</i></label>
 								</div>
@@ -250,13 +274,16 @@ function clickEventLiv() {
 									<input class="form-control" type="radio" id="prive" name="typeClient" value="prive" checked>
 								</div>
 							</div>
+							<div class="col-md-2">
+								
+							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
 									<label for="appelJeudi" class="">Jeudi</label>
 									<input name="appelJeudi" type="checkbox" class="form-control">
 								</div>
 							</div>
-							<div class="col-md-5">
+							<div class="col-md-4">
 								<div class="position-relative form-group">
 									<label for="horaireJeudi" class="">Horaire Jeudi</label><input name="horaireJeudi" type="text" class="form-control" ></div>
 							</div>
