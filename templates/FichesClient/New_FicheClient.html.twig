@@ -38,6 +38,8 @@
 {% endblock %}
 
 {% block body %}
+<script type="text/javascript" 
+           src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
 <script>
 function clickEvent() {
@@ -87,6 +89,30 @@ function clickEventLiv() {
     }
     }
 }
+	function validCoorGPS(){
+
+    let requestURL = 'https://api-adresse.data.gouv.fr/reverse/?lon=' + document.getElementById("long").value + '&lat=' + document.getElementById("lat").value + '&type=housenumber';
+    //let requestURL = 'https://api-adresse.data.gouv.fr/reverse/?lon=2.875667&lat=49.474364&type=housenumber';
+	let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+		var select = document.getElementById("textGPS");
+ 		var options = '';
+        options += '<table class="mb-0 table table-striped"><thead><tr><th>Adresse</th><th>Code Postal</th><th>Ville</th><tr></thead><tbody><tr><td>' + ville.features[0].properties.housenumber + ' ' + ville.features[0].properties.street + '</td><td>' + ville.features[0].properties.postcode + '</td><td>' + ville.features[0].properties.city + '</td></tr></tbody></table>';
+        document.getElementById('textGPS').innerHTML = options;
+    
+}
+
+
+		var select = document.getElementById("GPS_Display");
+ 		var options = '';
+        options += '<iframe width="100%" height="500" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=' + document.getElementById("lat").value + ',' + document.getElementById("long").value + '&amp;key=AIzaSyAVnZiratT6_nsfEO_RYBNnsrgd-onQfMY"></iframe>';
+        document.getElementById('GPS_Display').innerHTML = options;
+
+	}
 </script>
 
 	<div class="tab-content">
@@ -94,6 +120,32 @@ function clickEventLiv() {
 			<div class="main-card mb-3 card">
 				<div class="card-body">
 						<h5 class="card-title">Information Client</h5>
+
+						<div class="form-row">
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label>Compte à Créer</label>
+								</div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="fl" class="">Fruits et Légumes</label><input name="fl" type="checkbox" class="form-control" >
+									</div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="45g" class="">4 / 5 Gamme</label><input name="45g" type="checkbox" class="form-control" ></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="maree" class="">Marée</label><input name="maree" type="checkbox" class="form-control" ></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="sidelis" class="">BOF / Charcuterie / Volaille</label><input name="sidelis" type="checkbox" class="form-control" ></div>
+								</div>
+						</div>
+
 
 						<div class="form-row">
 							<div class="col-md-5">
@@ -179,13 +231,13 @@ function clickEventLiv() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="oui">Oui</label>
-									<input class="form-control" type="radio" id="oui" name="appelClient" value="oui" checked>
+									<input class="form-control" type="radio" id="oui" name="appelClient" value="1" checked>
 								</div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="non">Non</label>
-									<input class="form-control" type="radio" id="non" name="appelClient" value="non">
+									<input class="form-control" type="radio" id="non" name="appelClient" value="0">
 								</div>
 							</div>
 						</div>
@@ -386,13 +438,13 @@ function clickEventLiv() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="oui">Oui</label>
-									<input class="form-control" type="radio" id="oui" name="envoiTarifAuto" value="oui">
+									<input class="form-control" type="radio" id="oui" name="envoiTarifAuto" value="1">
 								</div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="non">Non</label>
-									<input class="form-control" type="radio" id="non" name="envoiTarifAuto" value="non" checked>
+									<input class="form-control" type="radio" id="non" name="envoiTarifAuto" value="0" checked>
 								</div>
 							</div>
 						</div>
@@ -441,13 +493,13 @@ function clickEventLiv() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="oui">Oui</label>
-									<input class="form-control" type="radio" id="oui" name="pvc" value="oui">
+									<input class="form-control" type="radio" id="oui" name="pvc" value="1">
 								</div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="non">Non</label>
-									<input class="form-control" type="radio" id="non" name="pvc" value="non" checked>
+									<input class="form-control" type="radio" id="non" name="pvc" value="0" checked>
 								</div>
 							</div>
 						</div>
@@ -485,12 +537,191 @@ function clickEventLiv() {
 									</select>
 								</div>
 							</div>
-							<div class="col-md-2">
-								
-							</div>
-							<div class="col-md-5">
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="coefPVC" class="">Coef PVC</label><input name="coefPVC" type="text" class="form-control" ></div>
+									<label>Mode de Règlemence / * Joindre Courrier Acceptation</label>
+								</div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="regAvance" class="">Avance</label><input name="regAvance" type="checkbox" class="form-control" >
+									</div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="regChequeBancaire" class="">Chèque Bancaire</label><input name="regChequeBancaire" type="checkbox" class="form-control" ></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="regVirement" class="">Virement</label><input name="regVirement" type="checkbox" class="form-control" ></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="regPrelevement" class="">* Prélèvement</label><input name="regPrelevement" type="checkbox" class="form-control" ></div>
+								</div>
+						</div>
+
+						<div class="form-row" style="text-align: center">
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>Choix Documents</label>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>KBIS</label>
+									<input class="form-control-file" type="file"/>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>CGV</label>
+									<input class="form-control-file" type="file"/>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>Authorisation Prélèvement</label>
+									<input class="form-control-file" type="file"/>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>RIB</label>
+									<input class="form-control-file" type="file"/>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>Autres Documents</label>
+									<input class="form-control-file" type="file"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}">
+									<h5 style="text-align: center">Contacts</h5>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label>Dirigeant</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctDirNom" class="">Nom</label><input name="ctDirNom" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctDirTel" class="">Téléphone</label><input name="ctDirTel" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctDirMail" class="">Adresse Mail</label><input name="ctDirMail" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label>Compta Règlement</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctComptaNom" class="">Nom</label><input name="ctComptaNom" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctComptaTel" class="">Téléphone</label><input name="ctComptaTel" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctComptaMail" class="">Adresse Mail</label><input name="ctComptaMail" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label>Responsable Commandes</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctComNom" class="">Nom</label><input name="ctComNom" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctComTel" class="">Téléphone</label><input name="ctComTel" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctComMail" class="">Adresse Mail</label><input name="ctComMail" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label>Responsable Qualité</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctQuaNom" class="">Nom</label><input name="ctQuaNom" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctQuaTel" class="">Téléphone</label><input name="ctQuaTel" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctQuaMail" class="">Adresse Mail</label><input name="ctQuaMail" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label>Chef de Secteur</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctSecNom" class="">Nom</label><input name="ctSecNom" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctSecTel" class="">Téléphone</label><input name="ctSecTel" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctSecMail" class="">Adresse Mail</label><input name="ctSecMail" type="text" class="form-control" >
+								</div>
 							</div>
 						</div>
 
@@ -504,42 +735,10 @@ function clickEventLiv() {
 							</div>
 						</div>
 
-						<div class="form-row">
-							<div class="col-md-2">
-								<div class="position-relative form-group"style="text-align: center">
-									<label for="trLundi">Tournée LUNDI</label>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="position-relative form-group"style="text-align: center">
-									<label for="trMardi">Tournée MARDI</label>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="position-relative form-group"style="text-align: center">
-									<label for="trMercredi">Tournée MERCREDI</label>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="position-relative form-group"style="text-align: center">
-									<label for="trJeudi">Tournée JEUDI</label>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="position-relative form-group"style="text-align: center">
-									<label for="trVendredi">Tournée VENDREDI</label>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="position-relative form-group"style="text-align: center">
-									<label for="trSamedi">Tournée SAMEDI</label>
-								</div>
-							</div>
-						</div>
-
-						<div class="form-row">
+						<div class="form-row" style="text-align: center">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
+									<label for="trLundi">Tournée LUNDI</label>
 									<select class="form-control" name="trLundi">
 										<option value=""></option>
 										{% for tr in tournees %}
@@ -550,6 +749,7 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
+									<label for="trMardi">Tournée MARDI</label>
 									<select class="form-control" name="trMardi">
 										<option value=""></option>
 										{% for tr in tournees %}
@@ -560,6 +760,7 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
+									<label for="trMercredi">Tournée MERCREDI</label>
 									<select class="form-control" name="trMercredi">
 										<option value=""></option>
 										{% for tr in tournees %}
@@ -570,6 +771,7 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
+									<label for="trJeudi">Tournée JEUDI</label>
 									<select class="form-control" name="trJeudi">
 										<option value=""></option>
 										{% for tr in tournees %}
@@ -580,6 +782,7 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
+									<label for="trVendredi">Tournée VENDREDI</label>
 									<select class="form-control" name="trVendredi">
 										<option value=""></option>
 										{% for tr in tournees %}
@@ -590,6 +793,7 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
+									<label for="trSamedi">Tournée SAMEDI</label>
 									<select class="form-control" name="trSamedi">
 										<option value=""></option>
 										{% for tr in tournees %}
@@ -600,64 +804,63 @@ function clickEventLiv() {
 							</div>
 						</div>
 
-						<div class="form-row">
-							<div class="col-md-2">
-								<div class="position-relative form-group"style="text-align: center">
-									<label for="trLundi">Rang LUNDI</label>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="position-relative form-group"style="text-align: center">
-									<label for="trMardi">Rang MARDI</label>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="position-relative form-group"style="text-align: center">
-									<label for="trMercredi">Rang MERCREDI</label>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="position-relative form-group"style="text-align: center">
-									<label for="trJeudi">Rang JEUDI</label>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="position-relative form-group"style="text-align: center">
-									<label for="trVendredi">Rang VENDREDI</label>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="position-relative form-group"style="text-align: center">
-									<label for="trSamedi">Rang SAMEDI</label>
-								</div>
-							</div>
-						</div>
-						
-						<div class="form-row">
+						<div class="form-row" style="text-align: center">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
+									<label for="rgLundi">Rang LUNDI</label>
 									<input name="rgLundi" type="text" class="form-control" ></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
+									<label for="rgMardi">Rang MARDI</label>
 									<input name="rgMardi" type="text" class="form-control" ></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
+									<label for="rgMercredi">Rang MERCREDI</label>
 									<input name="rgMercredi" type="text" class="form-control" ></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
+									<label for="rgJeudi">Rang JEUDI</label>
 									<input name="rgJeudi" type="text" class="form-control" ></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
+									<label for="rgVendredi">Rang VENDREDI</label>
 									<input name="rgVendredi" type="text" class="form-control" ></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
+									<label for="rgSamedi">Rang SAMEDI</label>
 									<input name="rgSamedi" type="text" class="form-control" ></div>
 								</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>Coordonnées GPS Livraison</label>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="latitude" class="">Latitude</label><input id="lat" name="latitude" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="longitude" class="">Longitude</label><input id="long" name="longitude" type="text" class="form-control" >
+								</div>
+							</div><div class="col-md-1">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="validGPS" class=""></label><button type="button" class="btn mr-2 mb-2 btn-success form-control"  data-toggle="modal" data-target=".bd-example-modal-lg" name="validGPS"  onclick="validCoorGPS()">Visualiser Coordonnées GPS</button>
+								</div>
+							</div>
 						</div>
 					</form>
 				</div>
@@ -666,3 +869,28 @@ function clickEventLiv() {
 	</div>
 {% endblock %}
 
+
+{% block autres %}
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="validGPS" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="validGPS">Visualisation Coordonnées GPS</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+			<div class="modal-body" id="textGPS">
+            </div>
+            <div class="modal-body">
+				<h6>Attention ne pas ce fier à l'adresse affiché sur la carte mais l'adresse dans le tableau ci-dessus.</h6>
+		    </div>
+            <div class="modal-body" id="GPS_Display">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

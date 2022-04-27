@@ -37,11 +37,11 @@ class TauxEBLByClientController extends AbstractController //MANQUE LE REDIRECTI
 
             if($_POST["codeClient"] != "")
             {
-                $codeClient = "FA.FtgNr LIKE '".$_POST["codeClient"]."' AND ";
+                $codeClient = "orp.FtgNr = '".$_POST["codeClient"]."' AND ";
             }
             if($_POST["nomAppel"] != "")
             {
-                $nomAppel = "FA.FtgNamn LIKE '%".$_POST["nomAppel"]."%' AND ";
+                $nomAppel = "fr.FtgNamn LIKE '%".$_POST["nomAppel"]."%' AND ";
             }
             if($_POST["cp"] != "")
             {
@@ -55,8 +55,12 @@ class TauxEBLByClientController extends AbstractController //MANQUE LE REDIRECTI
             $i = 0;
             $clients = array();
 
-            $req = $sql->requete("SELECT FA.FtgNr AS 'Code_Client', FA.FtgNamn AS 'Libelle_Client', FA.FtgPostAdr1 AS 'Adresse', FA.FtgPostnr AS 'Code_Postal', FA.FtgPostAdr3 AS 'Ville' FROM q_2bv_facture AS FA WITH (NOLOCK)
-            WHERE ".$codeClient.$nomAppel.$cp.$ville."(FA.FaktDat BETWEEN '".$dateStart."' AND '".$dateEnd."') GROUP BY FA.FtgNr, FA.FtgNamn, FA.FtgPostAdr1, FA.FtgPostnr, FA.FtgPostAdr3 ORDER BY FA.FtgNamn ASC", $_POST["company"]);
+            $req = $sql->requete("SELECT orp.FtgNr AS 'Code_Client', fr.FtgNamn AS 'Libelle_Client', FA.FtgPostAdr1 AS 'Adresse', FA.FtgPostnr AS 'Code_Postal', FA.FtgPostAdr3 AS 'Ville' FROM oh WITH (NOLOCK)
+            RIGHT JOIN orp ON orp.orderNr = oh.orderNr
+            RIGHT JOIN q_2bv_facture AS FA ON FA.OrderNr = oh.orderNr
+            RIGHT JOIN fr ON fr.FtgNr = orp.FtgNr
+            WHERE ".$codeClient.$nomAppel.$cp.$ville."(orp.FaktDat BETWEEN '".$dateStart."' AND '".$dateEnd."') GROUP BY orp.FtgNr, fr.FtgNamn, FA.FtgPostAdr1, FA.FtgPostnr, FA.FtgPostAdr3 ORDER BY fr.FtgNamn ASC", $_POST["company"]);
+            
             while ($r = $req->fetch())
             {
                 $clients[$i] = $r;
@@ -97,10 +101,13 @@ class TauxEBLByClientController extends AbstractController //MANQUE LE REDIRECTI
 
         
 
-        $req = $sql->requete("SELECT FA.FtgNr, FA.FtgNamn AS 'Libelle_Client', FA.FtgPostnr AS 'Code_Postal', FA.FtgPostAdr3 AS 'VILLE', AR.q_gcar_lib1 AS 'Libelle_Article', FA.q_is_EGALIM AS 'EGALIM', AR.q_gcar_stat4 AS 'BIO', AR.q_ar_statssurlocal AS 'LOCAL', ROUND(SUM(FA.q_gcbp_ua9), 2) AS 'Poids', ROUND(SUM((FA.vb_FaktRadSumma_Brutto-FA.FaktRadRabSumma)), 2) AS 'Prix_HT' FROM q_2bv_facture AS FA WITH (NOLOCK)
-        LEFT JOIN ar AS AR ON AR.ArtNr = FA.ArtNr
-        WHERE FA.FtgNr = '".$ftgnr."' AND (FA.FaktDat BETWEEN '".str_replace("-", "/", $dateStart)."' AND '".str_replace("-", "/", $dateEnd)."')
-        GROUP BY FA.FtgNr, FA.FtgNamn, FA.FtgPostnr, FA.FtgPostAdr3, AR.q_gcar_lib1, FA.q_is_EGALIM, AR.q_gcar_stat4, AR.q_ar_statssurlocal
+        $req = $sql->requete("SELECT orp.FtgNr, fr.FtgNamn AS 'Libelle_Client', FA.FtgPostnr AS 'Code_Postal', FA.FtgPostAdr3 AS 'VILLE', AR.q_gcar_lib1 AS 'Libelle_Article', FA.q_is_EGALIM AS 'EGALIM', AR.q_gcar_stat4 AS 'BIO', AR.q_ar_statssurlocal AS 'LOCAL', ROUND(SUM(FA.q_gcbp_ua9), 2) AS 'Poids', ROUND(SUM((FA.vb_FaktRadSumma_Brutto-FA.FaktRadRabSumma)), 2) AS 'Prix_HT' FROM oh WITH (NOLOCK)
+        RIGHT JOIN orp ON orp.orderNr = oh.orderNr
+        RIGHT JOIN q_2bv_facture AS FA ON FA.OrderNr = oh.orderNr
+        RIGHT JOIN fr ON fr.FtgNr = orp.FtgNr
+        RIGHT JOIN ar AS AR ON AR.ArtNr = FA.ArtNr
+        WHERE orp.FtgNr = '".$ftgnr."' AND (FA.FaktDat BETWEEN '".str_replace("-", "/", $dateStart)."' AND '".str_replace("-", "/", $dateEnd)."')
+        GROUP BY orp.FtgNr, fr.FtgNamn, FA.FtgPostnr, FA.FtgPostAdr3, AR.q_gcar_lib1, FA.q_is_EGALIM, AR.q_gcar_stat4, AR.q_ar_statssurlocal
         ORDER BY AR.q_gcar_lib1 ASC", $company);
 
         while ($r = $req->fetch())
@@ -161,10 +168,13 @@ class TauxEBLByClientController extends AbstractController //MANQUE LE REDIRECTI
 
         
 
-        $req = $sql->requete("SELECT FA.FtgNr, FA.FtgNamn AS 'Libelle_Client', FA.FtgPostnr AS 'Code_Postal', FA.FtgPostAdr3 AS 'VILLE', AR.q_gcar_lib1 AS 'Libelle_Article', FA.q_is_EGALIM AS 'EGALIM', AR.q_gcar_stat4 AS 'BIO', AR.q_ar_statssurlocal AS 'LOCAL', ROUND(SUM(FA.q_gcbp_ua9), 2) AS 'Poids', ROUND(SUM((FA.vb_FaktRadSumma_Brutto-FA.FaktRadRabSumma)), 2) AS 'Prix_HT' FROM q_2bv_facture AS FA WITH (NOLOCK)
-        LEFT JOIN ar AS AR ON AR.ArtNr = FA.ArtNr
-        WHERE FA.FtgNr = '".$ftgnr."' AND (FA.FaktDat BETWEEN '".str_replace("-", "/", $dateStart)."' AND '".str_replace("-", "/", $dateEnd)."')
-        GROUP BY FA.FtgNr, FA.FtgNamn, FA.FtgPostnr, FA.FtgPostAdr3, AR.q_gcar_lib1, FA.q_is_EGALIM, AR.q_gcar_stat4, AR.q_ar_statssurlocal
+        $req = $sql->requete("SELECT orp.FtgNr, fr.FtgNamn AS 'Libelle_Client', FA.FtgPostnr AS 'Code_Postal', FA.FtgPostAdr3 AS 'VILLE', AR.q_gcar_lib1 AS 'Libelle_Article', FA.q_is_EGALIM AS 'EGALIM', AR.q_gcar_stat4 AS 'BIO', AR.q_ar_statssurlocal AS 'LOCAL', ROUND(SUM(FA.q_gcbp_ua9), 2) AS 'Poids', ROUND(SUM((FA.vb_FaktRadSumma_Brutto-FA.FaktRadRabSumma)), 2) AS 'Prix_HT' FROM oh WITH (NOLOCK)
+        RIGHT JOIN orp ON orp.orderNr = oh.orderNr
+        RIGHT JOIN q_2bv_facture AS FA ON FA.OrderNr = oh.orderNr
+        RIGHT JOIN fr ON fr.FtgNr = orp.FtgNr
+        RIGHT JOIN ar AS AR ON AR.ArtNr = FA.ArtNr
+        WHERE orp.FtgNr = '".$ftgnr."' AND (FA.FaktDat BETWEEN '".str_replace("-", "/", $dateStart)."' AND '".str_replace("-", "/", $dateEnd)."')
+        GROUP BY orp.FtgNr, fr.FtgNamn, FA.FtgPostnr, FA.FtgPostAdr3, AR.q_gcar_lib1, FA.q_is_EGALIM, AR.q_gcar_stat4, AR.q_ar_statssurlocal
         ORDER BY AR.q_gcar_lib1 ASC", $company);
 
         while ($r = $req->fetch())
@@ -207,7 +217,7 @@ class TauxEBLByClientController extends AbstractController //MANQUE LE REDIRECTI
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         $output = $dompdf->output();
-        $pdfFilepath =  'PDF/Taux_Egalim_Bio_Local/'.$ftgnr.'_'.$dateStart.'_'.$dateEnd.'.pdf';
+        $pdfFilepath =  'Documents/Taux_Egalim_Bio_Local/'.$ftgnr.'_'.$dateStart.'_'.$dateEnd.'.pdf';
         $path = $ftgnr.'_'.$dateStart.'_'.$dateEnd.'.pdf';
         file_put_contents($pdfFilepath, $output);
         
@@ -239,10 +249,13 @@ class TauxEBLByClientController extends AbstractController //MANQUE LE REDIRECTI
 
         
 
-        $req = $sql->requete("SELECT FA.FtgNr, FA.FtgNamn AS 'Libelle_Client', FA.FtgPostnr AS 'Code_Postal', FA.FtgPostAdr3 AS 'VILLE', AR.q_gcar_lib1 AS 'Libelle_Article', FA.q_is_EGALIM AS 'EGALIM', AR.q_gcar_stat4 AS 'BIO', AR.q_ar_statssurlocal AS 'LOCAL', ROUND(SUM(FA.q_gcbp_ua9), 2) AS 'Poids', ROUND(SUM((FA.vb_FaktRadSumma_Brutto-FA.FaktRadRabSumma)), 2) AS 'Prix_HT' FROM q_2bv_facture AS FA WITH (NOLOCK)
-        LEFT JOIN ar AS AR ON AR.ArtNr = FA.ArtNr
-        WHERE FA.FtgNr = '".$ftgnr."' AND (FA.FaktDat BETWEEN '".str_replace("-", "/", $dateStart)."' AND '".str_replace("-", "/", $dateEnd)."')
-        GROUP BY FA.FtgNr, FA.FtgNamn, FA.FtgPostnr, FA.FtgPostAdr3, AR.q_gcar_lib1, FA.q_is_EGALIM, AR.q_gcar_stat4, AR.q_ar_statssurlocal
+        $req = $sql->requete("SELECT orp.FtgNr, fr.FtgNamn AS 'Libelle_Client', FA.FtgPostnr AS 'Code_Postal', FA.FtgPostAdr3 AS 'VILLE', AR.q_gcar_lib1 AS 'Libelle_Article', FA.q_is_EGALIM AS 'EGALIM', AR.q_gcar_stat4 AS 'BIO', AR.q_ar_statssurlocal AS 'LOCAL', ROUND(SUM(FA.q_gcbp_ua9), 2) AS 'Poids', ROUND(SUM((FA.vb_FaktRadSumma_Brutto-FA.FaktRadRabSumma)), 2) AS 'Prix_HT' FROM oh WITH (NOLOCK)
+        RIGHT JOIN orp ON orp.orderNr = oh.orderNr
+        RIGHT JOIN q_2bv_facture AS FA ON FA.OrderNr = oh.orderNr
+        RIGHT JOIN fr ON fr.FtgNr = orp.FtgNr
+        RIGHT JOIN ar AS AR ON AR.ArtNr = FA.ArtNr
+        WHERE orp.FtgNr = '".$ftgnr."' AND (FA.FaktDat BETWEEN '".str_replace("-", "/", $dateStart)."' AND '".str_replace("-", "/", $dateEnd)."')
+        GROUP BY orp.FtgNr, fr.FtgNamn, FA.FtgPostnr, FA.FtgPostAdr3, AR.q_gcar_lib1, FA.q_is_EGALIM, AR.q_gcar_stat4, AR.q_ar_statssurlocal
         ORDER BY AR.q_gcar_lib1 ASC", $company);
 
         while ($r = $req->fetch())

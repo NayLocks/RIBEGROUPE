@@ -10,10 +10,10 @@
 			{% block title %}{% endblock %}
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
-		<meta name="description" content="Outils / Logiciels > RibéGroupe">
+		<meta name="description" content="Outils / Logiciels > Réseau Ribé">
 		<meta name="msapplication-tap-highlight" content="no">
 		<link href="{{ asset('css/main.css') }}" rel="stylesheet">
-		<link rel="icon" type="image/ico" href="{{ asset("images/societes/logo.ico") }}" />
+		<link rel="icon" type="image/ico" href="{{ asset("images/logo.ico") }}" />
 	</head>
 
 	<style>
@@ -109,7 +109,7 @@
 										<div class="widget-content-left">
 											<div class="btn-group">
 												<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-													<img width="42" class="rounded-circle" src="{{ asset("images/avatars/3.jpg") }}" alt="">
+													<img width="42" class="rounded-circle" src="{{ asset("images/societes/"~ app.user.company.databaseName ~".png") }}" alt="">
 													<i class="fa fa-angle-down ml-2 opacity-8"></i>
 												</a>
 												<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">

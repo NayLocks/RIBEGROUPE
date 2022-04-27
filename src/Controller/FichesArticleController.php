@@ -51,27 +51,6 @@ class FichesArticleController extends AbstractController
                 $article->setEtapefiche("BROUILLON");
             }
 
-            if(isset($_POST["poids_variable"])){
-                $poidsVariable = 1;
-            }
-            else{
-                $poidsVariable = 0;
-            }
-
-            if(isset($_POST["piece_variable"])){
-                $pieceVariable = 1;
-            }
-            else{
-                $pieceVariable = 0;
-            }
-
-            if(isset($_POST["dlc"])){
-                $dlc = 1;
-            }
-            else{
-                $dlc = 0;
-            }
-
             $date = new DateTime("now");
             $article->setDate($date);
 
@@ -89,16 +68,16 @@ class FichesArticleController extends AbstractController
             $article->setZonePeche($_POST["zone_peche"]);
 
             $article->setPoidsColis($_POST["poids_colis"]);
-            $article->setPoidsColisVariable($poidsVariable);
+            $article->setPoidsColisVariable($_POST["poids_variable"]);
             $article->setPieceColis($_POST["piece_colis"]);
-            $article->setPieceColisVariable($pieceVariable);
+            $article->setPieceColisVariable($_POST["piece_variable"]);
 
             $article->setStat1($_POST["stat1"]);
             $article->setStat2($_POST["stat2"]);
             $article->setStat3($_POST["stat3"]);
             $article->setStat4($_POST["stat4"]);
 
-            $article->setDlc($dlc);
+            $article->setDlc($_POST["dlc"]);
             $article->setDlcJour($_POST["dlc_depart"]);
             
             $article->setUniteAchat($_POST["unite_achat"]);
@@ -301,9 +280,11 @@ class FichesArticleController extends AbstractController
                 }
 
                 $mailer->send($email);
+                return  $this->render('message.html.twig', ["message" => "Le pôle fournisseur en est informé", "titleMessage" => "Fiche Enregistrée"]);
+            }else{
+                return  $this->render('message.html.twig', ["message" => "La fiche est enregistrée", "titleMessage" => "Fiche Enregistrée"]);
             }
 
-            return  $this->render('message.html.twig', ["message" => "Le pôle fournisseur en est informé", "titleMessage" => "Fiche Enregistrée"]);
         }
         
         return $this->render('FichesArticle/New_FicheArticle.html.twig', ["grp_art" => $tab[0], "stat1" => $tab[1], "stat2" => $tab[2], "stat3" => $tab[3], "stat4" => $tab[4], "men_val" => $tab[5], "loc" => $tab[6], "rup" => $tab[7], "siqo" => $tab[8]]);
@@ -323,33 +304,12 @@ class FichesArticleController extends AbstractController
     /**
      * @Route("/modification_fiches_article/{id}", name="editFicheArticle")
      */
-    public function editarticle(Request $request, UserInterface $user, MailerInterface $mailer, $id): Response
+    public function editArticle(Request $request, UserInterface $user, MailerInterface $mailer, $id): Response
     {
         $allFichesArticle = $this->getDoctrine()->getRepository(FicheArticle::class);
         $article = $allFichesArticle->findOneBy(array("id" => $id));
 
         if(isset($_POST['generique'])){
-
-            if(isset($_POST["poids_variable"])){
-                $poidsVariable = 1;
-            }
-            else{
-                $poidsVariable = 0;
-            }
-
-            if(isset($_POST["piece_variable"])){
-                $pieceVariable = 1;
-            }
-            else{
-                $pieceVariable = 0;
-            }
-
-            if(isset($_POST["dlc"])){
-                $dlc = 1;
-            }
-            else{
-                $dlc = 0;
-            }
 
             $date = new DateTime("now");
             $article->setDate($date);
@@ -368,16 +328,16 @@ class FichesArticleController extends AbstractController
             $article->setZonePeche($_POST["zone_peche"]);
 
             $article->setPoidsColis($_POST["poids_colis"]);
-            $article->setPoidsColisVariable($poidsVariable);
+            $article->setPoidsColisVariable($_POST["poids_variable"]);
             $article->setPieceColis($_POST["piece_colis"]);
-            $article->setPieceColisVariable($pieceVariable);
+            $article->setPieceColisVariable($_POST["piece_variable"]);
 
             $article->setStat1($_POST["stat1"]);
             $article->setStat2($_POST["stat2"]);
             $article->setStat3($_POST["stat3"]);
             $article->setStat4($_POST["stat4"]);
 
-            $article->setDlc($dlc);
+            $article->setDlc($_POST["dlc"]);
             $article->setDlcJour($_POST["dlc_depart"]);
             
             $article->setUniteAchat($_POST["unite_achat"]);
@@ -394,7 +354,11 @@ class FichesArticleController extends AbstractController
             $article->setCodeSXO("");
             $article->setDateCreated($date);
 
-            $article->setEtapefiche("COMPTA");
+            if(isset($_POST['VALID'])){
+                $article->setEtapefiche("COMPTA");
+            }else{
+                $article->setEtapefiche("BROUILLON");
+            }
             
 
             $em = $this->getDoctrine()->getManager();
@@ -575,18 +539,31 @@ class FichesArticleController extends AbstractController
                 }
 
                 $mailer->send($email);
+                return  $this->render('message.html.twig', ["message" => "Le pôle fournisseur en est informé", "titleMessage" => "Fiche Enregistrée"]);
+            }else{
+
+                return  $this->render('message.html.twig', ["message" => "La fiche est enregistrée", "titleMessage" => "Fiche Enregistrée"]);
             }
 
-            return  $this->render('message.html.twig', ["message" => "Le pôle fournisseur en est informé", "titleMessage" => "Fiche Enregistrée"]);
         }
 
 
         if($article->getUsername()->getUsername() == $user->getUsername() && $article->getEtapeFiche() == "BROUILLON"){
-            $tab = new selectSQLController();
+            $tab = new SelectSQLController();
             $tab = $tab->selectSQLArticle($user, $article->getCompany()->getDatabaseName());
 
-            $tabCode = new selectSQLController();
+            $tabCode = new SelectSQLController();
             $tabCode = $tabCode->selectSQLArticleCode($user, $article->getCompany()->getDatabaseName(), $article);
+
+            if(!isset($tabCode[5]['Libelle_MENTION'])){
+                $tabCode[5] = array("", "");
+            }
+            if(!isset($tabCode[7]['Libelle_RUP'])){
+                $tabCode[7] = array("", "");
+            }
+            if(!isset($tabCode[8]['Libelle_SIQO'])){
+                $tabCode[8] = array("", "");
+            }
 
             return $this->render('FichesArticle/Edit_FicheArticle.html.twig', ["grp_art" => $tab[0], "stat1" => $tab[1], "stat2" => $tab[2], "stat3" => $tab[3], "stat4" => $tab[4], "men_val" => $tab[5], "loc" => $tab[6], "rup" => $tab[7], "siqo" => $tab[8], "article" => $article,
             "grp_artCode" => $tabCode[0], "stat1Code" => $tabCode[1], "stat2Code" => $tabCode[2], "stat3Code" => $tabCode[3], "stat4Code" => $tabCode[4], "men_valCode" => $tabCode[5], "locCode" => $tabCode[6], "rupCode" => $tabCode[7], "siqoCode" => $tabCode[8]]);
@@ -599,13 +576,13 @@ class FichesArticleController extends AbstractController
     /**
      * @Route("/suppresion_fiches_article/{id}", name="deleteFicheArticle")
      */
-    public function deleteValidarticle(Request $request, UserInterface $user, $id): Response
+    public function deleteValidArticle(Request $request, UserInterface $user, $id): Response
     {
         $allFichesArticle = $this->getDoctrine()->getRepository(FicheArticle::class);
         $article = $allFichesArticle->findOneBy(array("id" => $id));
 
         if($article->getUsername() == $user && $article->getEtapeFiche() == "BROUILLON"){
-            $tab = new selectSQLController();
+            $tab = new SelectSQLController();
             $tab = $tab->selectSQLArticle($user, $article->getCompany()->getDatabaseName());
 
             $em = $this->getDoctrine()->getManager();
@@ -622,7 +599,7 @@ class FichesArticleController extends AbstractController
     /**
      * @Route("/liste_des_fiches_article_en_validation", name="listValidFicheArticle")
      */
-    public function listValidarticle(Request $request): Response
+    public function listValidArticle(Request $request): Response
     {
         $allFichesArticle = $this->getDoctrine()->getRepository(FicheArticle::class);
         $articles = $allFichesArticle->findBy(array("etapeFiche" => "COMPTA"));
@@ -654,20 +631,6 @@ class FichesArticleController extends AbstractController
                 $poidsVariable = 0;
             }
 
-            if(isset($_POST["piece_variable"])){
-                $pieceVariable = 1;
-            }
-            else{
-                $pieceVariable = 0;
-            }
-
-            if(isset($_POST["dlc"])){
-                $dlc = 1;
-            }
-            else{
-                $dlc = 0;
-            }
-
             $date = new DateTime("now");
 
             $article->setGenerique($_POST["generique"]);
@@ -684,16 +647,16 @@ class FichesArticleController extends AbstractController
             $article->setZonePeche($_POST["zone_peche"]);
 
             $article->setPoidsColis($_POST["poids_colis"]);
-            $article->setPoidsColisVariable($poidsVariable);
+            $article->setPoidsColisVariable($_POST["piece_variable"]);
             $article->setPieceColis($_POST["piece_colis"]);
-            $article->setPieceColisVariable($pieceVariable);
+            $article->setPieceColisVariable($_POST["piece_variable"]);
 
             $article->setStat1($_POST["stat1"]);
             $article->setStat2($_POST["stat2"]);
             $article->setStat3($_POST["stat3"]);
             $article->setStat4($_POST["stat4"]);
 
-            $article->setDlc($dlc);
+            $article->setDlc($_POST["dlc"]);
             $article->setDlcJour($_POST["dlc_depart"]);
             
             $article->setUniteAchat($_POST["unite_achat"]);
@@ -1103,11 +1066,25 @@ class FichesArticleController extends AbstractController
         }
          
         if($user->getTitleFA() == "COMPTA" && $article->getEtapeFiche() == "COMPTA"){
-            $tab = new selectSQLController();
+            $tab = new SelectSQLController();
             $tab = $tab->selectSQLArticle($user, $article->getCompany()->getDatabaseName());
 
-            return $this->render('FichesArticle/Valid_FicheArticle.html.twig', ["grp_art" => $tab[0], "stat1" => $tab[1], "stat2" => $tab[2], "stat3" => $tab[3], "stat4" => $tab[4], "men_val" => $tab[5], "loc" => $tab[6], "rup" => $tab[7], "siqo" => $tab[8], "article" => $article]);
-        }
+            $tabCode = new SelectSQLController();
+            $tabCode = $tabCode->selectSQLArticleCode($user, $article->getCompany()->getDatabaseName(), $article);
+            
+            if(!isset($tabCode[5]['Libelle_MENTION'])){
+                $tabCode[5] = array("", "");
+            }
+            if(!isset($tabCode[7]['Libelle_RUP'])){
+                $tabCode[7] = array("", "");
+            }
+            if(!isset($tabCode[8]['Libelle_SIQO'])){
+                $tabCode[8] = array("", "");
+            }
+
+            return $this->render('FichesArticle/Valid_FicheArticle.html.twig', ["grp_art" => $tab[0], "stat1" => $tab[1], "stat2" => $tab[2], "stat3" => $tab[3], "stat4" => $tab[4], "men_val" => $tab[5], "loc" => $tab[6], "rup" => $tab[7], "siqo" => $tab[8], "article" => $article,
+            "grp_artCode" => $tabCode[0], "stat1Code" => $tabCode[1], "stat2Code" => $tabCode[2], "stat3Code" => $tabCode[3], "stat4Code" => $tabCode[4], "men_valCode" => $tabCode[5], "locCode" => $tabCode[6], "rupCode" => $tabCode[7], "siqoCode" => $tabCode[8]]);
+  }
         else{
             return  $this->render('message.html.twig', ["message" => "La fiche n'est pas en COMPTA ou alors vous n'avez pas les droits", "titleMessage" => "Fiche Indisponible"]);
         }

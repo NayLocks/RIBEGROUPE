@@ -18,6 +18,15 @@
 		</a>
 	</div>
 
+    <div class="d-inline-block dropdown">
+		<button type="submit" class="btn mr-2 mb-2 btn-warning" name="BROUILLON">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-edit fa-w-20"></i>
+			</span>
+			Enregistrer en brouillon
+		</button>
+	</div>
+
 	<div class="d-inline-block dropdown">
 		<button type="submit" class="btn mr-2 mb-2 btn-success" name="VALID">
 			<span class="btn-icon-wrapper pr-2 opacity-7">
@@ -132,10 +141,21 @@
 						</div>
 
 						<div class="form-row">
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="poids_variable" class="">Variable (Si coché = OUI)</label>
-									<input name="poids_variable" type="checkbox" class="form-control" maxlength="100" {% if article.poidsColisVariable == 1 %}checked{% endif %}>
+									<label for="dlc" class="">Variable</label>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="poids_variable">Oui</label>
+									<input class="form-control" type="radio" id="oui" name="poids_variable" value="1" {% if article.poidsColisVariable == 1 %}checked{% endif %}>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="non">Non</label>
+									<input class="form-control" type="radio" id="non" name="poids_variable" value="0" {% if article.poidsColisVariable == 0 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -168,10 +188,21 @@
 						</div>
 
 						<div class="form-row">
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="piece_variable" class="">Variable (Si coché = OUI)</label>
-									<input name="piece_variable" type="checkbox" class="form-control" maxlength="100" {% if article.pieceColisVariable == 1 %}checked{% endif %}>
+									<label for="dlc" class="">Variable</label>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="piece_variable">Oui</label>
+									<input class="form-control" type="radio" id="oui" name="piece_variable" value="1" {% if article.pieceColisVariable == 1 %}checked{% endif %}>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="non">Non</label>
+									<input class="form-control" type="radio" id="non" name="piece_variable" value="0" {% if article.pieceColisVariable == 0 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -191,17 +222,28 @@
 						<br>
 
 						<div class="form-row">
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="dlc" class="">DLC (Si coché = OUI)</label>
-									<input name="dlc" type="checkbox" class="form-control" maxlength="100"  {% if article.dlc == 1 %}checked{% endif %}>
+									<label for="dlc" class="">DLC</label>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="oui">Oui</label>
+									<input class="form-control" type="radio" id="oui" name="dlc" value="1" {% if article.dlc == 1 %}checked{% endif %}>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="non">Non</label>
+									<input class="form-control" type="radio" id="non" name="dlc" value="0" {% if article.dlc == 0 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
 									<label for="men_val" class="">Mention Valorisante</label>
                                     <select name="men_val" type="text" class="form-control">
-										<option value="{{ article.menVal }}">{{ men_valCode.Libelle_MENTION }}</option>
+										<option value="{{ article.menVal }}">{{ men_valCode.1 }}</option>
                                         {% for menVal in men_val %}
 											<option value="{{ menVal.Code_MENTION }}">{{ menVal.Libelle_MENTION }}</option>
 										{% endfor %}
@@ -251,7 +293,7 @@
 								<div class="position-relative form-group">
 									<label for="rup" class="">RUP</label>
                                     <select name="rup" type="text" class="form-control">
-										<option value="{{ article.rup }}">{{ rupCode.Libelle_RUP }}</option>
+										<option value="{{ article.rup }}">{{ rupCode.1 }}</option>
                                         {% for rup in rup %}
 											<option value="{{ rup.Code_RUP }}">{{ rup.Libelle_RUP }}</option>
 										{% endfor %}
@@ -274,7 +316,7 @@
 								<div class="position-relative form-group">
 									<label for="siqo" class="">SIQO</label>
                                     <select name="siqo" type="text" class="form-control">
-										<option value="{{ article.siqo }}">{{ siqoCode.Libelle_SIQO }}</option>
+										<option value="{{ article.siqo }}">{{ siqoCode.1 }}</option>
                                         {% for siqo in siqo %}
 											<option value="{{ siqo.Code_SIQO }}">{{ siqo.Libelle_SIQO }}</option>
 										{% endfor %}

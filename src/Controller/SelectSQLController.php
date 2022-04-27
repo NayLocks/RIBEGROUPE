@@ -124,7 +124,7 @@ class SelectSQLController
         $rup = "";
         $siqo = "";
 
-        $req = $sql->requete("SELECT varugruppbeskr AS 'Libelle_GROUPE_ARTICLE', varugruppkod AS 'Code_GROUPE_ARTICLE' FROM vg WHERE varugruppkod = ".$article->getGrpArticle()." ", $company);
+        $req = $sql->requete("SELECT varugruppbeskr AS 'Libelle_GROUPE_ARTICLE', varugruppkod AS 'Code_GROUPE_ARTICLE' FROM vg WHERE varugruppkod = '".$article->getGrpArticle()."' ", $company);
         while ($r = $req->fetch())
         {
             $grp_art = $r;
@@ -134,7 +134,7 @@ class SelectSQLController
         // CHAMPS STATISTIQUE
 
         $i = 0;
-        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT1', q_gcstat_code AS 'Code_STAT1' FROM q_gcvue_arstat1 WHERE q_gcstat_code = ".$article->getStat1()." ", $company);
+        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT1', q_gcstat_code AS 'Code_STAT1' FROM q_gcvue_arstat1 WHERE q_gcstat_code = '".$article->getStat1()."' ", $company);
         while ($r = $req->fetch())
         {
             $stat1 = $r;
@@ -142,7 +142,7 @@ class SelectSQLController
         }
 
         $i = 0;
-        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT2', q_gcstat_code AS 'Code_STAT2' FROM q_gcvue_arstat2 WHERE q_gcstat_code = ".$article->getStat2()." ", $company);
+        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT2', q_gcstat_code AS 'Code_STAT2' FROM q_gcvue_arstat2 WHERE q_gcstat_code = '".$article->getStat2()."' ", $company);
         while ($r = $req->fetch())
         {
             $stat2 = $r;
@@ -150,7 +150,7 @@ class SelectSQLController
         }
 
         $i = 0;
-        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT3', q_gcstat_code AS 'Code_STAT3' FROM q_gcvue_arstat3 WHERE q_gcstat_code = ".$article->getStat3()." ", $company);
+        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT3', q_gcstat_code AS 'Code_STAT3' FROM q_gcvue_arstat3 WHERE q_gcstat_code = '".$article->getStat3()."' ", $company);
         while ($r = $req->fetch())
         {
             $stat3 = $r;
@@ -158,7 +158,7 @@ class SelectSQLController
         }
 
         $i = 0;
-        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT4', q_gcstat_code AS 'Code_STAT4' FROM q_gcvue_arstat4 WHERE q_gcstat_code = ".$article->getStat4()." ", $company);
+        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT4', q_gcstat_code AS 'Code_STAT4' FROM q_gcvue_arstat4 WHERE q_gcstat_code = '".$article->getStat4()."' ", $company);
         while ($r = $req->fetch())
         {
             $stat4 = $r;
@@ -168,7 +168,7 @@ class SelectSQLController
         // CHAMPS EGALIM ET LOCAL
 
         $i = 0;
-        $req = $sql->requete("SELECT q_ar_mentionsvalorisantes_lib AS 'Libelle_MENTION', q_ar_mentionsvalorisantes AS 'Code_MENTION' FROM q_2bt_ar_mentionsvalorisantes WHERE q_ar_mentionsvalorisantes = ".$article->getMenVal()." ", $company);
+        $req = $sql->requete("SELECT q_ar_mentionsvalorisantes_lib AS 'Libelle_MENTION', q_ar_mentionsvalorisantes AS 'Code_MENTION' FROM q_2bt_ar_mentionsvalorisantes WHERE q_ar_mentionsvalorisantes = '".$article->getMenVal()."' ", $company);
         while ($r = $req->fetch())
         {
             $men_val = $r;
@@ -176,7 +176,7 @@ class SelectSQLController
         }
 
         $i = 0;
-        $req = $sql->requete("SELECT q_2b_ar_liblocal AS 'Libelle_LOCALISATION', q_2b_ar_idlocal AS 'Code_LOCALISATION' FROM q_2bt_ar_local WHERE q_2b_ar_idlocal = ".$article->getLocalisation()." ", $company);
+        $req = $sql->requete("SELECT q_2b_ar_liblocal AS 'Libelle_LOCALISATION', q_2b_ar_idlocal AS 'Code_LOCALISATION' FROM q_2bt_ar_local WHERE q_2b_ar_idlocal = '".$article->getLocalisation()."' ", $company);
         while ($r = $req->fetch())
         {
             $loc = $r;
@@ -184,7 +184,7 @@ class SelectSQLController
         }
 
         $i = 0;
-        $req = $sql->requete("SELECT q_ar_rup_lib AS 'Libelle_RUP', q_ar_rup AS 'Code_RUP' FROM q_2bt_ar_rup WHERE q_ar_rup = ".$article->getRup()." ", $company);
+        $req = $sql->requete("SELECT q_ar_rup_lib AS 'Libelle_RUP', q_ar_rup AS 'Code_RUP' FROM q_2bt_ar_rup WHERE q_ar_rup = '".$article->getRup()."' ", $company);
         while ($r = $req->fetch())
         {
             $rup = $r;
@@ -192,7 +192,7 @@ class SelectSQLController
         }
 
         $i = 0;
-        $req = $sql->requete("SELECT q_ar_siqo_lib AS 'Libelle_SIQO', q_ar_siqo AS 'Code_SIQO' FROM q_2bt_ar_siqo WHERE q_ar_siqo = ".$article->getSiqo()." ", $company);
+        $req = $sql->requete("SELECT q_ar_siqo_lib AS 'Libelle_SIQO', q_ar_siqo AS 'Code_SIQO' FROM q_2bt_ar_siqo WHERE q_ar_siqo = '".$article->getSiqo()."' ", $company);
         while ($r = $req->fetch())
         {
             $siqo = $r;
