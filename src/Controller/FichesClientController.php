@@ -21,6 +21,6 @@ class FichesClientController extends AbstractController
         $tabTournees = new SelectSQLController();
         $tabTournees = $tabTournees->selectSQLTournees($user, $user->getCompany()->getDatabaseName());
 
-        return $this->render('FichesClient/New_FicheClient.html.twig', ["stats1" => $tab[0], "stats2" => $tab[1], "stats3" => $tab[2], "stats4" => $tab[3], "stats5" => $tab[4], "tournees" => $tabTournees[0]]);
+        return $this->render('FichesClient/New_FicheClient.html.twig', ["stats1" => $tab[0], "stats2" => $tab[1], "stats3" => $tab[2], "stats4" => $tab[3], "stats5" => $tab[4], "commercials" => $tab[5], "televendeurs" => $tab[6], "tournees" => $tabTournees[0]]);
     }
 }

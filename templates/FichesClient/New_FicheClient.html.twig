@@ -121,6 +121,16 @@ function clickEventLiv() {
 				<div class="card-body">
 						<h5 class="card-title">Information Client</h5>
 
+						<hr>
+						
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}; padding: 5px;">
+									<h5 style="text-align: center">PARTIE A RENSEIGNER PAR LE COMMERCIAL</h5>
+								</div>
+							</div>
+						</div>
+
 						<div class="form-row">
 							<div class="col-md-4">
 								<div class="position-relative form-group">
@@ -129,20 +139,20 @@ function clickEventLiv() {
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="fl" class="">Fruits et Légumes</label><input name="fl" type="checkbox" class="form-control" >
+									<label for="fl">Fruits et Légumes</label><input name="fl" type="checkbox" class="form-control" >
 									</div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="45g" class="">4 / 5 Gamme</label><input name="45g" type="checkbox" class="form-control" ></div>
+									<label for="45g">4 / 5 Gamme</label><input name="45g" type="checkbox" class="form-control" ></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="maree" class="">Marée</label><input name="maree" type="checkbox" class="form-control" ></div>
+									<label for="maree">Marée</label><input name="maree" type="checkbox" class="form-control" ></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="sidelis" class="">BOF / Charcuterie / Volaille</label><input name="sidelis" type="checkbox" class="form-control" ></div>
+									<label for="sidelis">BOF / Charcuterie / Volaille</label><input name="sidelis" type="checkbox" class="form-control" ></div>
 								</div>
 						</div>
 
@@ -150,18 +160,18 @@ function clickEventLiv() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="nomAppel" class="">Nom d'Appel</label><input name="nomAppel" type="text" class="form-control" maxlength="250"></div>
+									<label for="nomAppel">Nom d'Appel</label><input name="nomAppel" type="text" class="form-control" maxlength="250"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="phoneStandard" class="">Téléphone Standard</label><input name="phoneStandard" type="text" class="form-control" maxlength="20"></div>
+									<label for="phoneStandard">Téléphone Standard</label><input name="phoneStandard" type="tel" class="form-control" maxlength="20"></div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
-									<label for="phoneStandardTel" class="">Type Télévente</label>
+									<label for="phoneStandardTel">Type Télévente</label>
 									<input name="phoneStandardTel" type="checkbox" class="form-control">
 								</div>
 							</div>
@@ -170,18 +180,18 @@ function clickEventLiv() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="codeGestion" class="">Code Gestion</label><input name="codeGestion" type="text" class="form-control" maxlength="250"></div>
+									<label for="codeGestion">Code Gestion</label><input name="codeGestion" type="text" class="form-control" maxlength="250"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="phonePortable" class="">Téléphone Portable</label><input name="phonePortable" type="text" class="form-control" maxlength="20"></div>
+									<label for="phonePortable">Téléphone Portable</label><input name="phonePortable" type="tel" class="form-control" maxlength="20"></div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
-									<label for="phonePortableTel" class="">Type Télévente</label>
+									<label for="phonePortableTel">Type Télévente</label>
 									<input name="phonePortableTel" type="checkbox" class="form-control">
 								</div>
 							</div>
@@ -190,42 +200,42 @@ function clickEventLiv() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="raisonSociale" class="">Raison Sociale</label><input name="raisonSociale" type="text" class="form-control" maxlength="250"></div>
+									<label for="raisonSociale">Raison Sociale</label><input name="raisonSociale" type="text" class="form-control" maxlength="250"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="faxStandard" class="">Téléphone Portable</label><input name="faxStandard" type="text" class="form-control" maxlength="20"></div>
+									<label for="faxStandard">Fax Standard</label><input name="faxStandard" type="tel" class="form-control" maxlength="20"></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="nomGrandCompte" class="">Nom Grand Compte</label><input name="nomGrandCompte" type="text" class="form-control" maxlength="250"></div>
+									<label for="nomGrandCompte">Nom Grand Compte</label><input name="nomGrandCompte" type="text" class="form-control" maxlength="250"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="emailStandard" class="">Email Standard</label><input name="emailStandard" type="mail" class="form-control" maxlength="250"></div>
+									<label for="emailStandard">Email Standard</label><input name="emailStandard" type="mail" class="form-control" maxlength="250"></div>
 							</div>
 						</div>
 						
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="adrLivraison" class="">Adresse Livraison</label><input name="adrLivraison" type="text" class="form-control" maxlength="250"></div>
+									<label for="adrLivraison">Adresse Livraison</label><input name="adrLivraison" type="text" class="form-control" maxlength="250"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="appelClient" class="">Client à Appeler</label>
+									<label for="appelClient">Client à Appeler</label>
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -245,11 +255,11 @@ function clickEventLiv() {
 						<div class="form-row">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="codePostal" class="">Code Postal</label><input id="codePostal" name="codePostal" type="text" class="form-control" maxlength="10" onkeyup="clickEvent()"></div>
+									<label for="codePostal">Code Postal</label><input id="codePostal" name="codePostal" type="text" class="form-control" maxlength="10" onkeyup="clickEvent()"></div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="ville" class="">Ville</label><input name="ville" list="ville" type="text" class="form-control" maxlength="250">
+									<label for="ville">Ville</label><input name="ville" list="ville" type="text" class="form-control" maxlength="250">
 									<datalist id="ville"></datalist>
 									</div>
 							</div>
@@ -258,60 +268,60 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
-									<label for="appelLundi" class="">Lundi</label>
+									<label for="appelLundi">Lundi</label>
 									<input name="appelLundi" type="checkbox" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="horaireLundi" class="">Horaire Lundi</label><input name="horaireLundi" type="text" class="form-control" ></div>
+									<label for="horaireLundi">Horaire Lundi</label><input name="horaireLundi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="siret" class="">N° SIRET</label><input name="siret" type="text" class="form-control" ></div>
+									<label for="siret">N° SIRET</label><input name="siret" type="text" class="form-control" ></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
-									<label for="appelMardi" class="">Mardi</label>
+									<label for="appelMardi">Mardi</label>
 									<input name="appelMardi" type="checkbox" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="horaireMardi" class="">Horaire Mardi</label><input name="horaireMardi" type="text" class="form-control" ></div>
+									<label for="horaireMardi">Horaire Mardi</label><input name="horaireMardi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="tvaIntra" class="">N° TVA Intracommunautaire</label><input name="tvaIntra" type="text" class="form-control" ></div>
+									<label for="tvaIntra">N° TVA Intracommunautaire</label><input name="tvaIntra" type="text" class="form-control" ></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
-									<label for="appelMercredi" class="">Mercredi</label>
+									<label for="appelMercredi">Mercredi</label>
 									<input name="appelMercredi" type="checkbox" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="horaireMercredi" class="">Horaire Mercredi</label><input name="horaireMercredi" type="text" class="form-control" ></div>
+									<label for="horaireMercredi">Horaire Mercredi</label><input name="horaireMercredi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="typeClient" class="">Type Client <i style="font-weight : normal;">(Si client public = chorus, compléter impérativement les champs suivants: N° Siret, N° Engagement et Code Service)</i></label>
+									<label for="typeClient">Type Client <i style="font-weight : normal;">(Si client public = chorus, compléter impérativement les champs suivants: N° Siret, N° Engagement et Code Service)</i></label>
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -331,78 +341,78 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
-									<label for="appelJeudi" class="">Jeudi</label>
+									<label for="appelJeudi">Jeudi</label>
 									<input name="appelJeudi" type="checkbox" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="horaireJeudi" class="">Horaire Jeudi</label><input name="horaireJeudi" type="text" class="form-control" ></div>
+									<label for="horaireJeudi">Horaire Jeudi</label><input name="horaireJeudi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="engagement" class="">N° Engagement</label><input name="engagement" type="text" class="form-control" ></div>
+									<label for="engagement">N° Engagement</label><input name="engagement" type="text" class="form-control" ></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
-									<label for="appelVendredi" class="">Vendredi</label>
+									<label for="appelVendredi">Vendredi</label>
 									<input name="appelVendredi" type="checkbox" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="horaireVendredi" class="">Horaire Vendredi</label><input name="horaireVendredi" type="text" class="form-control" ></div>
+									<label for="horaireVendredi">Horaire Vendredi</label><input name="horaireVendredi" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="codeService" class="">Code Service</label><input name="codeService" type="text" class="form-control"></div>
+									<label for="codeService">Code Service</label><input name="codeService" type="text" class="form-control"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
-									<label for="appelSamedi" class="">Samedi</label>
+									<label for="appelSamedi">Samedi</label>
 									<input name="appelSamedi" type="checkbox" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="horaireSamedi" class="">Horaire Samedi</label><input name="horaireSamedi" type="text" class="form-control" ></div>
+									<label for="horaireSamedi">Horaire Samedi</label><input name="horaireSamedi" type="text" class="form-control" ></div>
 							</div>
 						</div>						
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="adrLiv" class="">Adresse pour Envoi Factures (si différente d'Adresse Livraison)</label><input name="adrLiv" type="text" class="form-control"></div>
+									<label for="adrLiv">Adresse pour Envoi Factures (si différente d'Adresse Livraison)</label><input name="adrLiv" type="text" class="form-control"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="emailFacture" class="">Email Envoi Facture</label><input name="emailFacture" type="text" class="form-control" ></div>
+									<label for="emailFacture">Email Envoi Facture</label><input name="emailFacture" type="mail" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="codePostalLiv" class="">Code Postal</label><input id="codePostalLiv" name="codePostalLiv" type="text" class="form-control" maxlength="10" onkeyup="clickEventLiv()"></div>
+									<label for="codePostalLiv">Code Postal</label><input id="codePostalLiv" name="codePostalLiv" type="text" class="form-control" maxlength="10" onkeyup="clickEventLiv()"></div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="villeLiv" class="">Ville</label><input name="villeLiv" list="villeLiv" type="text" class="form-control" maxlength="250">
+									<label for="villeLiv">Ville</label><input name="villeLiv" list="villeLiv" type="text" class="form-control" maxlength="250">
 									<datalist id="villeLiv"></datalist>
 									</div>
 							</div>
@@ -411,14 +421,14 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="tarifClient" class="">Tarif Client</label><input name="tarifClient" type="text" class="form-control" ></div>
+									<label for="tarifClient">Tarif Client</label><input name="tarifClient" type="text" class="form-control" ></div>
 							</div>
 						</div>
 						
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="stat1" class="">AFFTYPO CHAMPS STAT 1</label>
+									<label for="stat1">AFFTYPO CHAMPS STAT 1</label>
 									<select class="form-control" name="stat1">
 										<option value=""></option>
 										{% for stat in stats1 %}
@@ -432,7 +442,7 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="typeClient" class="">Envoi Tarif Automatique</label>
+									<label for="typeClient">Envoi Tarif Automatique</label>
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -452,7 +462,7 @@ function clickEventLiv() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="stat1" class="">AFFCAT 2 CHAMPS STAT 2</label>
+									<label for="stat1">AFFCAT 2 CHAMPS STAT 2</label>
 									<select class="form-control" name="stat2">
 										<option value=""></option>
 										{% for stat in stats2 %}
@@ -466,14 +476,14 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="date1Livraison" class="">Date 1ère Livraison</label><input name="date1Livraison" type="date" class="form-control" ></div>
+									<label for="date1Livraison">Date 1ère Livraison</label><input name="date1Livraison" type="date" class="form-control" ></div>
 							</div>
 						</div>
 						
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="stat1" class="">AFFCAT 3 CHAMPS STAT 3</label>
+									<label for="stat1">AFFCAT 3 CHAMPS STAT 3</label>
 									<select class="form-control" name="stat3">
 										<option value=""></option>
 										{% for stat in stats3 %}
@@ -487,7 +497,7 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="typeClient" class="">PVC</label>
+									<label for="typeClient">PVC</label>
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -507,7 +517,7 @@ function clickEventLiv() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="stat1" class="">AFFCAT 1 CHAMPS STAT 4</label>
+									<label for="stat1">AFFCAT 1 CHAMPS STAT 4</label>
 									<select class="form-control" name="stat4">
 										<option value=""></option>
 										{% for stat in stats4 %}
@@ -521,14 +531,14 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="coefPVC" class="">Coef PVC</label><input name="coefPVC" type="text" class="form-control" ></div>
+									<label for="coefPVC">Coef PVC</label><input name="coefPVC" type="text" class="form-control" ></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="stat1" class="">AFFCAT 4 CHAMPS STAT 5</label>
+									<label for="stat1">AFFCAT 4 CHAMPS STAT 5</label>
 									<select class="form-control" name="stat5">
 										<option value=""></option>
 										{% for stat in stats5 %}
@@ -547,20 +557,20 @@ function clickEventLiv() {
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="regAvance" class="">Avance</label><input name="regAvance" type="checkbox" class="form-control" >
+									<label for="regAvance">Avance</label><input name="regAvance" type="checkbox" class="form-control" >
 									</div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="regChequeBancaire" class="">Chèque Bancaire</label><input name="regChequeBancaire" type="checkbox" class="form-control" ></div>
+									<label for="regChequeBancaire">Chèque Bancaire</label><input name="regChequeBancaire" type="checkbox" class="form-control" ></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="regVirement" class="">Virement</label><input name="regVirement" type="checkbox" class="form-control" ></div>
+									<label for="regVirement">Virement</label><input name="regVirement" type="checkbox" class="form-control" ></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="regPrelevement" class="">* Prélèvement</label><input name="regPrelevement" type="checkbox" class="form-control" ></div>
+									<label for="regPrelevement">* Prélèvement</label><input name="regPrelevement" type="checkbox" class="form-control" ></div>
 								</div>
 						</div>
 
@@ -604,7 +614,7 @@ function clickEventLiv() {
 
 						<div class="form-row">
 							<div class="col-md-12">
-								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}">
+								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}; padding: 5px;">
 									<h5 style="text-align: center">Contacts</h5>
 								</div>
 							</div>
@@ -618,17 +628,17 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctDirNom" class="">Nom</label><input name="ctDirNom" type="text" class="form-control" >
+									<label for="ctDirNom">Nom</label><input name="ctDirNom" type="text" class="form-control" >
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctDirTel" class="">Téléphone</label><input name="ctDirTel" type="text" class="form-control" >
+									<label for="ctDirTel">Téléphone</label><input name="ctDirTel" type="tel" class="form-control" >
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctDirMail" class="">Adresse Mail</label><input name="ctDirMail" type="text" class="form-control" >
+									<label for="ctDirMail">Adresse Mail</label><input name="ctDirMail" type="mail" class="form-control" >
 								</div>
 							</div>
 						</div>
@@ -641,17 +651,17 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctComptaNom" class="">Nom</label><input name="ctComptaNom" type="text" class="form-control" >
+									<label for="ctComptaNom">Nom</label><input name="ctComptaNom" type="text" class="form-control" >
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctComptaTel" class="">Téléphone</label><input name="ctComptaTel" type="text" class="form-control" >
+									<label for="ctComptaTel">Téléphone</label><input name="ctComptaTel" type="tel" class="form-control" >
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctComptaMail" class="">Adresse Mail</label><input name="ctComptaMail" type="text" class="form-control" >
+									<label for="ctComptaMail">Adresse Mail</label><input name="ctComptaMail" type="mail" class="form-control" >
 								</div>
 							</div>
 						</div>
@@ -664,17 +674,17 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctComNom" class="">Nom</label><input name="ctComNom" type="text" class="form-control" >
+									<label for="ctComNom">Nom</label><input name="ctComNom" type="text" class="form-control" >
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctComTel" class="">Téléphone</label><input name="ctComTel" type="text" class="form-control" >
+									<label for="ctComTel">Téléphone</label><input name="ctComTel" type="tel" class="form-control" >
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctComMail" class="">Adresse Mail</label><input name="ctComMail" type="text" class="form-control" >
+									<label for="ctComMail">Adresse Mail</label><input name="ctComMail" type="mail" class="form-control" >
 								</div>
 							</div>
 						</div>
@@ -687,17 +697,17 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctQuaNom" class="">Nom</label><input name="ctQuaNom" type="text" class="form-control" >
+									<label for="ctQuaNom">Nom</label><input name="ctQuaNom" type="text" class="form-control" >
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctQuaTel" class="">Téléphone</label><input name="ctQuaTel" type="text" class="form-control" >
+									<label for="ctQuaTel">Téléphone</label><input name="ctQuaTel" type="tel" class="form-control" >
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctQuaMail" class="">Adresse Mail</label><input name="ctQuaMail" type="text" class="form-control" >
+									<label for="ctQuaMail">Adresse Mail</label><input name="ctQuaMail" type="mail" class="form-control" >
 								</div>
 							</div>
 						</div>
@@ -710,17 +720,17 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctSecNom" class="">Nom</label><input name="ctSecNom" type="text" class="form-control" >
+									<label for="ctSecNom">Nom</label><input name="ctSecNom" type="text" class="form-control" >
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctSecTel" class="">Téléphone</label><input name="ctSecTel" type="text" class="form-control" >
+									<label for="ctSecTel">Téléphone</label><input name="ctSecTel" type="tel" class="form-control" >
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctSecMail" class="">Adresse Mail</label><input name="ctSecMail" type="text" class="form-control" >
+									<label for="ctSecMail">Adresse Mail</label><input name="ctSecMail" type="mail" class="form-control" >
 								</div>
 							</div>
 						</div>
@@ -729,8 +739,8 @@ function clickEventLiv() {
 						
 						<div class="form-row">
 							<div class="col-md-12">
-								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}">
-									<h5 style="text-align: center">PARTIE A VALIDER PAR LA LOGISTIQUE</h5>
+								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}; padding: 5px;">
+									<h5 style="text-align: center">PARTIE A VALIDER ET COMPLETER PAR LA LOGISTIQUE</h5>
 								</div>
 							</div>
 						</div>
@@ -838,6 +848,14 @@ function clickEventLiv() {
 						</div>
 
 						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group">
+									<label for="plageHoraire">Plage Horaire qu'Accepte le Client</label><input name="plageHoraire" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
 									<label>Coordonnées GPS Livraison</label>
@@ -845,20 +863,223 @@ function clickEventLiv() {
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="latitude" class="">Latitude</label><input id="lat" name="latitude" type="text" class="form-control" >
+									<label for="latitude">Latitude</label><input id="lat" name="latitude" type="text" class="form-control" >
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="longitude" class="">Longitude</label><input id="long" name="longitude" type="text" class="form-control" >
+									<label for="longitude">Longitude</label><input id="long" name="longitude" type="text" class="form-control" >
 								</div>
-							</div><div class="col-md-1">
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="validGPS">Coordonées sur Google Maps</label>
+									<button type="button" class="btn mr-2 mb-2 btn-success form-control"  data-toggle="modal" data-target=".bd-example-modal-lg" name="validGPS"  onclick="validCoorGPS()">Visualiser les Coordonnées GPS</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group">
+									<label for="bp">Texte sur Bon de Préparation</label><input name="bp" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group">
+									<label for="bl">Texte sur Bon de Livraison</label><input name="bl" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<hr>
+						
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}; padding: 5px;">
+									<h5 style="text-align: center">PARTIE A VALIDER ET COMPLETER PAR LA DIRECTION DU SITE</h5>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="dirCom">Attribution DIRECTION COMMERCIAL</label><input name="dirCom" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-6" style="text-align: center">
+								<div class="position-relative form-group">
+									<label>Service Associés</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="comMaitre">Attribution COMMERCIAL MAITRE</label>
+									<select class="form-control" name="comMaitre">
+										<option value=""></option>
+										{% for dirCom in commercials %}
+											<option value="{{ dirCom.saljteamkod }}">{{ dirCom.COMMERCIAL }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-1">
 								<div class="position-relative form-group">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="validGPS" class=""></label><button type="button" class="btn mr-2 mb-2 btn-success form-control"  data-toggle="modal" data-target=".bd-example-modal-lg" name="validGPS"  onclick="validCoorGPS()">Visualiser Coordonnées GPS</button>
+									<label for="taux1">Taux 1</label><input name="taux1" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="nature1">Nature 1</label><input name="nature1" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="com">Attribution COMMERCIAL</label>
+									<select class="form-control" name="com">
+										<option value=""></option>
+										{% for dirCom in commercials %}
+											<option value="{{ dirCom.saljteamkod }}">{{ dirCom.COMMERCIAL }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="taux2">Taux 2</label><input name="taux2" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="nature2">Nature 2</label><input name="nature2" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="tel">Attribution TELEVENTE</label>
+									<select class="form-control" name="tel">
+										<option value=""></option>
+										{% for tel in televendeurs %}
+											<option value="{{ tel.perssign1 }}">{{ tel.TELEVENDEUR }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="taux3">Taux 3</label><input name="taux3" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="nature3">Nature 3</label><input name="nature3" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<hr>
+						
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}; padding: 5px;">
+									<h5 style="text-align: center">PARTIE A VALIDER ET COMPLETER PAR LA COMPTABILITE</h5>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label>Minimum de Livraison</label>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="limiteFrais">Limite Frais</label><input name="limiteFrais" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="montantFrais">Montant Frais</label><input name="montantFrais" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="delaisReg">Délais de Règlement</label><input name="delaisReg" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label for="fraisDev">Frais de Développement Durable</label>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+  									<label for="090">0,90 €</label>
+									<input class="form-control" type="radio" id="090" name="fraisDev" value="1">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+  									<label for="150">1,50 €</label>
+									<input class="form-control" type="radio" id="150" name="fraisDev" value="0" checked>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="blocCompte">Blocage Compte</label>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+  									<label for="oui">Oui</label>
+									<input class="form-control" type="radio" id="oui" name="blocCompte" value="1">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+  									<label for="non">Non</label>
+									<input class="form-control" type="radio" id="non" name="blocCompte" value="0" checked>
 								</div>
 							</div>
 						</div>
@@ -868,7 +1089,6 @@ function clickEventLiv() {
 		</div>
 	</div>
 {% endblock %}
-
 
 {% block autres %}
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="validGPS" aria-hidden="true">
@@ -888,7 +1108,7 @@ function clickEventLiv() {
             <div class="modal-body" id="GPS_Display">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer la Fenêtre</button>
             </div>
         </div>
     </div>
