@@ -44,9 +44,20 @@ class Companies
      */
     private $ficheArticles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FicheClient::class, mappedBy="company")
+     */
+    private $ficheClients;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $codeClient;
+
     public function __construct()
     {
         $this->ficheArticles = new ArrayCollection();
+        $this->ficheClients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,6 +139,48 @@ class Companies
                 $ficheArticle->setCompany(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FicheClient>
+     */
+    public function getFicheClients(): Collection
+    {
+        return $this->ficheClients;
+    }
+
+    public function addFicheClient(FicheClient $ficheClient): self
+    {
+        if (!$this->ficheClients->contains($ficheClient)) {
+            $this->ficheClients[] = $ficheClient;
+            $ficheClient->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFicheClient(FicheClient $ficheClient): self
+    {
+        if ($this->ficheClients->removeElement($ficheClient)) {
+            // set the owning side to null (unless already changed)
+            if ($ficheClient->getCompany() === $this) {
+                $ficheClient->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCodeClient(): ?string
+    {
+        return $this->codeClient;
+    }
+
+    public function setCodeClient(?string $codeClient): self
+    {
+        $this->codeClient = $codeClient;
 
         return $this;
     }

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Fiches Client{% endblock %}
+
+{% block page %}
+	Liste de Mes Fiches Client
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="main-card mb-3 card">
+				<div class="card-body">
+					<h5 class="card-title">Liste de Mes Fiches Client</h5>
+					<table class="mb-0 table table-striped">
+						<thead>
+							<tr>
+								<th>Société</th>
+								<th>Etape Fiche</th>
+								{% if app.user.company.name == "SIDELIS" or app.user.company.name == "BIO E'MOI" or app.user.company.name == "PROMER OCEAN" %}
+									<th>Société de Transport</th>
+								{% endif %}
+								<th>Utilisateur</th>
+								<th>Nom d'Appel</th>
+								<th>Raison Sociale</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for client in clients %}
+								<tr style="background-color: {{ client.company.colorCode }}">
+									<th>{{ client.company.name }}</th>
+									<th>{{ client.etapeFiche }}</th>
+									{% if app.user.company.name == "SIDELIS" or app.user.company.name == "BIO E'MOI" or app.user.company.name == "PROMER OCEAN" %}
+										<th>{{ client.companyTransport }}</th>
+									{% endif %}
+									<th>{{ client.username.firstName }}  {{ client.username.lastName }}</th>
+									<th>{{ client.nomAppel }}</th>
+									<th>{{ client.raisonSocial }}</th>
+
+									{% if client.etapeFiche == "BROUILLON" %}
+										<th>
+											<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("editFicheClient", {'id' : client.id }) }}"><span class="btn-icon-wrapper pr-2 opacity-7"><i class="fa fa-eraser fa-w-20"></i></span>Modifier la fiche</a>
+										</th>
+									{% elseif client.etapeFiche == "DIRECTEUR" and app.user.titleFC == "DIRECTEUR" %}
+										<th>
+											<a type="button" class="btn mr-2 mb-2 btn-success" href="{{ path("editFicheClient", {'id' : client.id }) }}"><span class="btn-icon-wrapper pr-2 opacity-7"><i class="fa fa-eraser fa-w-20"></i></span>Valider la fiche la fiche</a>
+										</th>
+									{% else %}
+										<th></th>
+									{% endif %}
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -97,9 +97,15 @@ class User implements UserInterface
      */
     private $titleFF;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FicheClient::class, mappedBy="username")
+     */
+    private $ficheClients;
+
     public function __construct()
     {
         $this->ficheArticles = new ArrayCollection();
+        $this->ficheClients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -336,6 +342,36 @@ class User implements UserInterface
     public function setTitleFF(string $titleFF): self
     {
         $this->titleFF = $titleFF;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FicheClient>
+     */
+    public function getFicheClients(): Collection
+    {
+        return $this->ficheClients;
+    }
+
+    public function addFicheClient(FicheClient $ficheClient): self
+    {
+        if (!$this->ficheClients->contains($ficheClient)) {
+            $this->ficheClients[] = $ficheClient;
+            $ficheClient->setUsername($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFicheClient(FicheClient $ficheClient): self
+    {
+        if ($this->ficheClients->removeElement($ficheClient)) {
+            // set the owning side to null (unless already changed)
+            if ($ficheClient->getUsername() === $this) {
+                $ficheClient->setUsername(null);
+            }
+        }
 
         return $this;
     }

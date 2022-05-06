@@ -130,7 +130,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label>Date de la Demande</label><input class='form-control' type="date" name="date" value="{{ "now"|date('Y-m-d') }}" disabled="disabled" />
+									<label>Date de la Demande</label><input class='form-control' type="date" name="date" value="{{ client.date|date('Y-m-d') }}" disabled="disabled" />
 								</div>
 							</div>
 							<div class="col-md-2">
@@ -139,7 +139,7 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label>Code Client</label><input class='form-control' type="text" name="codeClient" />
+									<label>Code Client</label><input class='form-control' type="text" name="codeClient" value="{{ client.codeClient }}"/>
 								</div>
 							</div>
 						</div>
@@ -147,7 +147,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label>Ouverture Demandée Par</label><input class='form-control' type="text" name="ouvertureDemandee" value="{{ app.user.firstName }} {{ app.user.lastName }} / {{ app.user.username }}" disabled="disabled" />
+									<label>Ouverture Demandée Par</label><input class='form-control' type="text" name="ouvertureDemandee" value="{{ client.username.firstName }} {{ client.username.lastName }} / {{ app.user.username }}" disabled="disabled" />
 								</div>
 							</div>
 							<div class="col-md-2">
@@ -156,7 +156,7 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label>Ancien Code Client</label><input class='form-control' type="text" name="ancienCodeClient" />
+									<label>Ancien Code Client</label><input class='form-control' type="text" name="ancienCodeClient" value="{{ client.ancienCodeClient }}"/>
 								</div>
 							</div>
 						</div>
@@ -164,7 +164,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-12">
 								<div class="position-relative form-group">
-									<label>Compte Frère (Indiquer si besoin de rattacher ce client à un autre compte, ex : 4G / Maree / BOF)</label><textarea class='form-control' row="3" type="text" name="compteFrere"></textarea>
+									<label>Compte Frère (Indiquer si besoin de rattacher ce client à un autre compte, ex : 4G / Maree / BOF)</label><textarea class='form-control' row="3" type="text" name="compteFrere">{{ client.compteFrere }}</textarea>
 								</div>
 							</div>
 						</div>
@@ -185,6 +185,7 @@ function geoApiCpVilleFacture() {
 									<div class="position-relative form-group">
 										<label>Société</label>
 										<select name="company" class="form-control">
+											<option value="{{ client.company.name }}">{{ client.company.name }}</option>
 											<option value="ARDENNES PRIMEURS">ARDENNES PRIMEURS</option>
 											<option value="RIVOALLON">RIVOALLON</option>
 										</select>
@@ -192,7 +193,7 @@ function geoApiCpVilleFacture() {
 								</div>
 							</div>
 						{% else %}
-							<input type="hidden" name="company" value="{{ app.user.company.name }}"/>
+							<input type="hidden" name="company" value="{{ client.company.name }}"/>
 						{% endif %}
 
 						{% if app.user.company.name == "SIDELIS" or app.user.company.name == "BIO E'MOI" or app.user.company.name == "PROMER OCEAN" %}
@@ -201,7 +202,7 @@ function geoApiCpVilleFacture() {
 									<div class="position-relative form-group">
 										<label>Choix de la Société qui va livrer</label>
 										<select name="companyTransport" class="form-control">
-											<option value="{{ app.user.company.name }}">{{ app.user.company.name }}</option>
+											<option value="{{ client.companyTransport }}">{{ client.companyTransport }}</option>
 											{% for company in companies %}
 												<option value="{{ company.name }}">{{ company.name }}</option>
 											{% endfor %}
@@ -221,20 +222,20 @@ function geoApiCpVilleFacture() {
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="fl">Fruits et Légumes</label><input name="fl" type="checkbox" class="form-control" >
+									<label for="fl">Fruits et Légumes</label><input name="fl" type="checkbox" class="form-control" {% if client.cpFl == 1 %}checked{% endif %}>
 									</div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="gamme">4 / 5 Gamme</label><input name="gamme" type="checkbox" class="form-control" ></div>
+									<label for="gamme">4 / 5 Gamme</label><input name="gamme" type="checkbox" class="form-control" {% if client.cp45g == 1 %}checked{% endif %}></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="maree">Marée</label><input name="maree" type="checkbox" class="form-control" ></div>
+									<label for="maree">Marée</label><input name="maree" type="checkbox" class="form-control" {% if client.cpMaree == 1 %}checked{% endif %}></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="bof">BOF / Charcuterie / Volaille</label><input name="bof" type="checkbox" class="form-control" ></div>
+									<label for="bof">BOF / Charcuterie / Volaille</label><input name="bof" type="checkbox" class="form-control" {% if client.cpBof == 1 %}checked{% endif %}></div>
 								</div>
 						</div>
 
@@ -242,19 +243,19 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="nomAppel">Nom d'Appel</label><input name="nomAppel" type="text" class="form-control" maxlength="250"></div>
+									<label for="nomAppel">Nom d'Appel</label><input name="nomAppel" type="text" class="form-control" maxlength="250" value="{{ client.nomAppel }}"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="phoneStandard">Téléphone Standard</label><input name="phoneStandard" type="tel" class="form-control" maxlength="20"></div>
+									<label for="phoneStandard">Téléphone Standard</label><input name="phoneStandard" type="tel" class="form-control" maxlength="20" value="{{ client.phoneStandard }}"></div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
 									<label for="phoneStandardTel">Type Télévente</label>
-									<input name="phoneStandardTel" type="checkbox" class="form-control">
+									<input name="phoneStandardTel" type="checkbox" class="form-control" {% if client.phoneStandardTel == 1 %}checked{% endif %}>
 								</div>
 							</div>
 						</div>
@@ -262,19 +263,19 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="codeGestion">Code Gestion</label><input name="codeGestion" type="text" class="form-control" maxlength="250"></div>
+									<label for="codeGestion">Code Gestion</label><input name="codeGestion" type="text" class="form-control" maxlength="250" value="{{ client.codeGestion }}"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="phonePortable">Téléphone Portable</label><input name="phonePortable" type="tel" class="form-control" maxlength="20"></div>
+									<label for="phonePortable">Téléphone Portable</label><input name="phonePortable" type="tel" class="form-control" maxlength="20" value="{{ client.phonePortable }}"></div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
 									<label for="phonePortableTel">Type Télévente</label>
-									<input name="phonePortableTel" type="checkbox" class="form-control">
+									<input name="phonePortableTel" type="checkbox" class="form-control" {% if client.phonePortableTel == 1 %}checked{% endif %}>
 								</div>
 							</div>
 						</div>
@@ -282,35 +283,35 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="raisonSociale">Raison Sociale</label><input name="raisonSociale" type="text" class="form-control" maxlength="250"></div>
+									<label for="raisonSociale">Raison Sociale</label><input name="raisonSociale" type="text" class="form-control" maxlength="250" value="{{ client.raisonSocial }}"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="faxStandard">Fax Standard</label><input name="faxStandard" type="tel" class="form-control" maxlength="20"></div>
+									<label for="faxStandard">Fax Standard</label><input name="faxStandard" type="tel" class="form-control" maxlength="20" value="{{ client.faxStandard }}"></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="nomGrandCompte">Nom Grand Compte</label><input name="nomGrandCompte" type="text" class="form-control" maxlength="250"></div>
+									<label for="nomGrandCompte">Nom Grand Compte</label><input name="nomGrandCompte" type="text" class="form-control" maxlength="250" value="{{ client.nomGrandCompte }}"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="emailStandard">Email Standard</label><input name="emailStandard" type="mail" class="form-control" maxlength="250"></div>
+									<label for="emailStandard">Email Standard</label><input name="emailStandard" type="mail" class="form-control" maxlength="250" value="{{ client.emailStandard }}"></div>
 							</div>
 						</div>
 						
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="adrLivraison">Adresse Livraison</label><input name="adrLivraison" type="text" class="form-control" maxlength="250"></div>
+									<label for="adrLivraison">Adresse Livraison</label><input name="adrLivraison" type="text" class="form-control" maxlength="250" value="{{ client.adrLivraison }}"></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -323,13 +324,13 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="oui">Oui</label>
-									<input class="form-control" type="radio" id="oui" name="appelClient" value="1" checked>
+									<input class="form-control" type="radio" id="oui" name="appelClient" value="1" {% if client.appelClient == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="non">Non</label>
-									<input class="form-control" type="radio" id="non" name="appelClient" value="0">
+									<input class="form-control" type="radio" id="non" name="appelClient" value="0" {% if client.appelClient == 0 %}checked{% endif %}>
 								</div>
 							</div>
 						</div>
@@ -337,11 +338,11 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="adrLivCodePostal">Code Postal</label><input id="adrLivCodePostal" name="adrLivCodePostal" type="text" class="form-control" maxlength="10" onkeyup="geoApiCpVilleLivraison()"></div>
+									<label for="adrLivCodePostal">Code Postal</label><input id="adrLivCodePostal" name="adrLivCodePostal" type="text" class="form-control" maxlength="10" onkeyup="geoApiCpVilleLivraison()" value="{{ client.adrLivCodePostal }}"></div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="adrLivVille">Ville</label><input name="adrLivVille" list="adrLivVille" type="text" class="form-control" maxlength="250">
+									<label for="adrLivVille">Ville</label><input name="adrLivVille" list="adrLivVille" type="text" class="form-control" maxlength="250" value="{{ client.adrLivVille }}">
 									<datalist id="adrLivVille"></datalist>
 									</div>
 							</div>
@@ -351,19 +352,19 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
 									<label for="appelLundi">Lundi</label>
-									<input name="appelLundi" type="checkbox" class="form-control">
+									<input name="appelLundi" type="checkbox" class="form-control" {% if client.appelLundi == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="horaireLundi">Horaire Lundi</label><input name="horaireLundi" type="text" class="form-control" ></div>
+									<label for="horaireLundi">Horaire Lundi</label><input name="horaireLundi" type="text" class="form-control" value="{{ client.horaireLundi }}"></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="siret">N° SIRET</label><input name="siret" type="text" class="form-control" ></div>
+									<label for="siret">N° SIRET</label><input name="siret" type="text" class="form-control" value="{{ client.siret }}"></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -371,19 +372,19 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
 									<label for="appelMardi">Mardi</label>
-									<input name="appelMardi" type="checkbox" class="form-control">
+									<input name="appelMardi" type="checkbox" class="form-control" {% if client.appelMardi == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="horaireMardi">Horaire Mardi</label><input name="horaireMardi" type="text" class="form-control" ></div>
+									<label for="horaireMardi">Horaire Mardi</label><input name="horaireMardi" type="text" class="form-control" value="{{ client.horaireMardi }}"></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="tva">N° TVA Intracommunautaire</label><input name="tva" type="text" class="form-control" ></div>
+									<label for="tva">N° TVA Intracommunautaire</label><input name="tva" type="text" class="form-control" value="{{ client.tva }}"></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -391,12 +392,12 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
 									<label for="appelMercredi">Mercredi</label>
-									<input name="appelMercredi" type="checkbox" class="form-control">
+									<input name="appelMercredi" type="checkbox" class="form-control" {% if client.appelMercredi == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="horaireMercredi">Horaire Mercredi</label><input name="horaireMercredi" type="text" class="form-control" ></div>
+									<label for="horaireMercredi">Horaire Mercredi</label><input name="horaireMercredi" type="text" class="form-control" value="{{ client.horaireMercredi }}"></div>
 							</div>
 						</div>
 
@@ -409,13 +410,13 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="public">Public</label>
-									<input class="form-control" type="radio" id="public" name="typeClient" value="1">
+									<input class="form-control" type="radio" id="public" name="typeClient" value="1" {% if client.typeClient == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="prive">Privé</label>
-									<input class="form-control" type="radio" id="prive" name="typeClient" value="0" checked>
+									<input class="form-control" type="radio" id="prive" name="typeClient" value="0" {% if client.typeClient == 0 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-2">
@@ -424,19 +425,19 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
 									<label for="appelJeudi">Jeudi</label>
-									<input name="appelJeudi" type="checkbox" class="form-control">
+									<input name="appelJeudi" type="checkbox" class="form-control" {% if client.appelJeudi == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="horaireJeudi">Horaire Jeudi</label><input name="horaireJeudi" type="text" class="form-control" ></div>
+									<label for="horaireJeudi">Horaire Jeudi</label><input name="horaireJeudi" type="text" class="form-control" value="{{ client.horaireJeudi }}"></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="engagement">N° Engagement</label><input name="engagement" type="text" class="form-control" ></div>
+									<label for="engagement">N° Engagement</label><input name="engagement" type="text" class="form-control" value="{{ client.engagement }}"></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -444,19 +445,19 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
 									<label for="appelVendredi">Vendredi</label>
-									<input name="appelVendredi" type="checkbox" class="form-control">
+									<input name="appelVendredi" type="checkbox" class="form-control" {% if client.appelVendredi == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="horaireVendredi">Horaire Vendredi</label><input name="horaireVendredi" type="text" class="form-control" ></div>
+									<label for="horaireVendredi">Horaire Vendredi</label><input name="horaireVendredi" type="text" class="form-control" value="{{ client.horaireVendredi }}"></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="codeService">Code Service</label><input name="codeService" type="text" class="form-control"></div>
+									<label for="codeService">Code Service</label><input name="codeService" type="text" class="form-control" value="{{ client.codeService }}"></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -464,37 +465,37 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
 									<label for="appelSamedi">Samedi</label>
-									<input name="appelSamedi" type="checkbox" class="form-control">
+									<input name="appelSamedi" type="checkbox" class="form-control" {% if client.appelSamedi == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="horaireSamedi">Horaire Samedi</label><input name="horaireSamedi" type="text" class="form-control" ></div>
+									<label for="horaireSamedi">Horaire Samedi</label><input name="horaireSamedi" type="text" class="form-control" value="{{ client.horaireSamedi }}"></div>
 							</div>
 						</div>						
 
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="adrFacture">Adresse pour Envoi Factures (si différente d'Adresse Livraison)</label><input name="adrFacture" type="text" class="form-control"></div>
+									<label for="adrFacture">Adresse pour Envoi Factures (si différente d'Adresse Livraison)</label><input name="adrFacture" type="text" class="form-control" value="{{ client.adrFacture }}"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="emailFacture">Email Envoi Facture</label><input name="emailFacture" type="mail" class="form-control" ></div>
+									<label for="emailFacture">Email Envoi Facture</label><input name="emailFacture" type="mail" class="form-control" value="{{ client.emailFacture }}"></div>
 							</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="adrFacCodePostal">Code Postal</label><input id="adrFacCodePostal" name="adrFacCodePostal" type="text" class="form-control" maxlength="10" onkeyup="geoApiCpVilleFacture()"></div>
+									<label for="adrFacCodePostal">Code Postal</label><input id="adrFacCodePostal" name="adrFacCodePostal" type="text" class="form-control" maxlength="10" onkeyup="geoApiCpVilleFacture()" value="{{ client.adrFacCodePostal }}"></div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="adrFacVille">Ville</label><input name="adrFacVille" list="adrFacVille" type="text" class="form-control" maxlength="250">
+									<label for="adrFacVille">Ville</label><input name="adrFacVille" list="adrFacVille" type="text" class="form-control" maxlength="250" value="{{ client.adrFacVille }}">
 									<datalist id="adrFacVille"></datalist>
 									</div>
 							</div>
@@ -503,7 +504,7 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="tarifClient">Tarif Client</label><input name="tarifClient" type="text" class="form-control" ></div>
+									<label for="tarifClient">Tarif Client</label><input name="tarifClient" type="text" class="form-control" value="{{ client.tarifClient }}"></div>
 							</div>
 						</div>
 						
@@ -512,6 +513,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="stat1">AFFTYPO CHAMPS STAT 1</label>
 									<select class="form-control" name="stat1">
+										<option value="{{ client.stat1 }}">{{ stat1Code.Libelle_STAT1 }}</option>
 										<option value=""></option>
 										{% for stat in stats1 %}
 											<option value="{{ stat.Code_STAT1 }}">{{ stat.Libelle_STAT1 }}</option>
@@ -530,13 +532,13 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="oui">Oui</label>
-									<input class="form-control" type="radio" id="oui" name="envoiTarifAuto" value="1">
+									<input class="form-control" type="radio" id="oui" name="envoiTarifAuto" value="1" {% if client.envoiTarifAuto == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="non">Non</label>
-									<input class="form-control" type="radio" id="non" name="envoiTarifAuto" value="0" checked>
+									<input class="form-control" type="radio" id="non" name="envoiTarifAuto" value="0" {% if client.envoiTarifAuto == 0 %}checked{% endif %}>
 								</div>
 							</div>
 						</div>
@@ -546,6 +548,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="stat1">AFFCAT 2 CHAMPS STAT 2</label>
 									<select class="form-control" name="stat2">
+										<option value="{{ client.stat2 }}">{{ stat2Code.Libelle_STAT2 }}</option>
 										<option value=""></option>
 										{% for stat in stats2 %}
 											<option value="{{ stat.Code_STAT2 }}">{{ stat.Libelle_STAT2 }}</option>
@@ -558,7 +561,7 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="date1Livraison">Date 1ère Livraison</label><input name="date1Livraison" type="date" class="form-control" ></div>
+									<label for="date1Livraison">Date 1ère Livraison</label><input name="date1Livraison" type="date" class="form-control" value="{{ client.date1Livraison }}" ></div>
 							</div>
 						</div>
 						
@@ -567,6 +570,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="stat1">AFFCAT 3 CHAMPS STAT 3</label>
 									<select class="form-control" name="stat3">
+										<option value="{{ client.stat3 }}">{{ stat3Code.Libelle_STAT3 }}</option>
 										<option value=""></option>
 										{% for stat in stats3 %}
 											<option value="{{ stat.Code_STAT3 }}">{{ stat.Libelle_STAT3 }}</option>
@@ -585,13 +589,13 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="oui">Oui</label>
-									<input class="form-control" type="radio" id="oui" name="pvc" value="1">
+									<input class="form-control" type="radio" id="oui" name="pvc" value="1" {% if client.pvc == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="non">Non</label>
-									<input class="form-control" type="radio" id="non" name="pvc" value="0" checked>
+									<input class="form-control" type="radio" id="non" name="pvc" value="0" {% if client.pvc == 0 %}checked{% endif %}>
 								</div>
 							</div>
 						</div>
@@ -601,6 +605,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="stat1">AFFCAT 1 CHAMPS STAT 4</label>
 									<select class="form-control" name="stat4">
+										<option value="{{ client.stat4 }}">{{ stat4Code.Libelle_STAT4 }}</option>
 										<option value=""></option>
 										{% for stat in stats4 %}
 											<option value="{{ stat.Code_STAT4 }}">{{ stat.Libelle_STAT4 }}</option>
@@ -613,7 +618,7 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="coefPVC">Coef PVC</label><input name="coefPVC" type="text" class="form-control" ></div>
+									<label for="coefPVC">Coef PVC</label><input name="coefPVC" type="text" class="form-control" value="{{ client.coefPVC }}"></div>
 							</div>
 						</div>
 
@@ -622,6 +627,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="stat1">AFFCAT 4 CHAMPS STAT 5</label>
 									<select class="form-control" name="stat5">
+										<option value="{{ client.stat5 }}">{{ stat5Code.Libelle_STAT5 }}</option>
 										<option value=""></option>
 										{% for stat in stats5 %}
 											<option value="{{ stat.Code_STAT5 }}">{{ stat.Libelle_STAT5 }}</option>
@@ -639,20 +645,20 @@ function geoApiCpVilleFacture() {
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="regAvance">Avance</label><input name="regAvance" type="checkbox" class="form-control" >
+									<label for="regAvance">Avance</label><input name="regAvance" type="checkbox" class="form-control" {% if client.avance == 1 %}checked{% endif %}>
 									</div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="regChequeBancaire">Chèque Bancaire</label><input name="regChequeBancaire" type="checkbox" class="form-control" ></div>
+									<label for="regChequeBancaire">Chèque Bancaire</label><input name="regChequeBancaire" type="checkbox" class="form-control" {% if client.cheque == 1 %}checked{% endif %}></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="regVirement">Virement</label><input name="regVirement" type="checkbox" class="form-control" ></div>
+									<label for="regVirement">Virement</label><input name="regVirement" type="checkbox" class="form-control" {% if client.virement == 1 %}checked{% endif %}></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="regPrelevement">* Prélèvement</label><input name="regPrelevement" type="checkbox" class="form-control" ></div>
+									<label for="regPrelevement">* Prélèvement</label><input name="regPrelevement" type="checkbox" class="form-control" {% if client.prelevement == 1 %}checked{% endif %}></div>
 								</div>
 						</div>
 
@@ -710,17 +716,17 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctDirNom">Nom</label><input name="ctDirNom" type="text" class="form-control" >
+									<label for="ctDirNom">Nom</label><input name="ctDirNom" type="text" class="form-control" value="{{ client.ctDirNom }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctDirTel">Téléphone</label><input name="ctDirTel" type="tel" class="form-control" >
+									<label for="ctDirTel">Téléphone</label><input name="ctDirTel" type="tel" class="form-control" value="{{ client.ctDirTel }}">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctDirMail">Adresse Mail</label><input name="ctDirMail" type="mail" class="form-control" >
+									<label for="ctDirMail">Adresse Mail</label><input name="ctDirMail" type="mail" class="form-control" value="{{ client.ctDirMail }}">
 								</div>
 							</div>
 						</div>
@@ -733,17 +739,17 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctComptaNom">Nom</label><input name="ctComptaNom" type="text" class="form-control" >
+									<label for="ctComptaNom">Nom</label><input name="ctComptaNom" type="text" class="form-control" value="{{ client.ctComptaNom }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctComptaTel">Téléphone</label><input name="ctComptaTel" type="tel" class="form-control" >
+									<label for="ctComptaTel">Téléphone</label><input name="ctComptaTel" type="tel" class="form-control" value="{{ client.ctComptaTel }}">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctComptaMail">Adresse Mail</label><input name="ctComptaMail" type="mail" class="form-control" >
+									<label for="ctComptaMail">Adresse Mail</label><input name="ctComptaMail" type="mail" class="form-control" value="{{ client.ctComptaMail }}">
 								</div>
 							</div>
 						</div>
@@ -756,17 +762,17 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctComNom">Nom</label><input name="ctComNom" type="text" class="form-control" >
+									<label for="ctComNom">Nom</label><input name="ctComNom" type="text" class="form-control" value="{{ client.ctComNom }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctComTel">Téléphone</label><input name="ctComTel" type="tel" class="form-control" >
+									<label for="ctComTel">Téléphone</label><input name="ctComTel" type="tel" class="form-control" value="{{ client.ctComTel }}">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctComMail">Adresse Mail</label><input name="ctComMail" type="mail" class="form-control" >
+									<label for="ctComMail">Adresse Mail</label><input name="ctComMail" type="mail" class="form-control" value="{{ client.ctComMail }}">
 								</div>
 							</div>
 						</div>
@@ -779,17 +785,17 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctQuaNom">Nom</label><input name="ctQuaNom" type="text" class="form-control" >
+									<label for="ctQuaNom">Nom</label><input name="ctQuaNom" type="text" class="form-control" value="{{ client.ctQuaNom }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctQuaTel">Téléphone</label><input name="ctQuaTel" type="tel" class="form-control" >
+									<label for="ctQuaTel">Téléphone</label><input name="ctQuaTel" type="tel" class="form-control" value="{{ client.ctQuaTel }}">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctQuaMail">Adresse Mail</label><input name="ctQuaMail" type="mail" class="form-control" >
+									<label for="ctQuaMail">Adresse Mail</label><input name="ctQuaMail" type="mail" class="form-control" value="{{ client.ctQuaMail }}">
 								</div>
 							</div>
 						</div>
@@ -802,17 +808,17 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctSecNom">Nom</label><input name="ctSecNom" type="text" class="form-control" >
+									<label for="ctSecNom">Nom</label><input name="ctSecNom" type="text" class="form-control" value="{{ client.ctSecNom }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctSecTel">Téléphone</label><input name="ctSecTel" type="tel" class="form-control" >
+									<label for="ctSecTel">Téléphone</label><input name="ctSecTel" type="tel" class="form-control" value="{{ client.ctSecTel }}">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="ctSecMail">Adresse Mail</label><input name="ctSecMail" type="mail" class="form-control" >
+									<label for="ctSecMail">Adresse Mail</label><input name="ctSecMail" type="mail" class="form-control" value="{{ client.ctSecMail }}">
 								</div>
 							</div>
 						</div>
@@ -832,6 +838,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="trLundi">Tournée LUNDI</label>
 									<select class="form-control" name="trLundi">
+										<option value="{{ client.trLundi }}">{{ trLundiCode.0 }}</option>
 										<option value=""></option>
 										{% for tr in tournees %}
 											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
@@ -843,6 +850,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="trMardi">Tournée MARDI</label>
 									<select class="form-control" name="trMardi">
+										<option value="{{ client.trMardi }}">{{ trMardiCode.0 }}</option>
 										<option value=""></option>
 										{% for tr in tournees %}
 											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
@@ -854,6 +862,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="trMercredi">Tournée MERCREDI</label>
 									<select class="form-control" name="trMercredi">
+										<option value="{{ client.trMercredi }}">{{ trMercrediCode.0 }}</option>
 										<option value=""></option>
 										{% for tr in tournees %}
 											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
@@ -865,6 +874,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="trJeudi">Tournée JEUDI</label>
 									<select class="form-control" name="trJeudi">
+										<option value="{{ client.trJeudi }}">{{ trJeudiCode.0 }}</option>
 										<option value=""></option>
 										{% for tr in tournees %}
 											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
@@ -876,6 +886,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="trVendredi">Tournée VENDREDI</label>
 									<select class="form-control" name="trVendredi">
+										<option value="{{ client.trVendredi }}">{{ trVendrediCode.0 }}</option>
 										<option value=""></option>
 										{% for tr in tournees %}
 											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
@@ -887,6 +898,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="trSamedi">Tournée SAMEDI</label>
 									<select class="form-control" name="trSamedi">
+										<option value="{{ client.trSamedi }}">{{ trSamediCode.0 }}</option>
 										<option value=""></option>
 										{% for tr in tournees %}
 											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
@@ -900,39 +912,39 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-2">
 								<div class="position-relative form-group">
 									<label for="rgLundi">Rang LUNDI</label>
-									<input name="rgLundi" type="text" class="form-control" ></div>
+									<input name="rgLundi" type="text" class="form-control" value="{{ client.rgLundi }}"></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
 									<label for="rgMardi">Rang MARDI</label>
-									<input name="rgMardi" type="text" class="form-control" ></div>
+									<input name="rgMardi" type="text" class="form-control" value="{{ client.rgMardi }}"></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
 									<label for="rgMercredi">Rang MERCREDI</label>
-									<input name="rgMercredi" type="text" class="form-control" ></div>
+									<input name="rgMercredi" type="text" class="form-control" value="{{ client.rgMercredi }}"></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
 									<label for="rgJeudi">Rang JEUDI</label>
-									<input name="rgJeudi" type="text" class="form-control" ></div>
+									<input name="rgJeudi" type="text" class="form-control" value="{{ client.rgJeudi }}"></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
 									<label for="rgVendredi">Rang VENDREDI</label>
-									<input name="rgVendredi" type="text" class="form-control" ></div>
+									<input name="rgVendredi" type="text" class="form-control" value="{{ client.rgVendredi }}"></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
 									<label for="rgSamedi">Rang SAMEDI</label>
-									<input name="rgSamedi" type="text" class="form-control" ></div>
+									<input name="rgSamedi" type="text" class="form-control" value="{{ client.rgSamedi }}"></div>
 								</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-12">
 								<div class="position-relative form-group">
-									<label for="plageHoraire">Plage Horaire qu'Accepte le Client</label><input name="plageHoraire" type="text" class="form-control" >
+									<label for="plageHoraire">Plage Horaire qu'Accepte le Client</label><input name="plageHoraire" type="text" class="form-control" value="{{ client.plageHoraire }}">
 								</div>
 							</div>
 						</div>
@@ -945,12 +957,12 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="latitude">Latitude</label><input id="lat" name="latitude" type="text" class="form-control" >
+									<label for="latitude">Latitude</label><input id="lat" name="latitude" type="text" class="form-control" value="{{ client.latitude }}">
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="longitude">Longitude</label><input id="long" name="longitude" type="text" class="form-control" >
+									<label for="longitude">Longitude</label><input id="long" name="longitude" type="text" class="form-control" value="{{ client.longitude }}">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -964,7 +976,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-12">
 								<div class="position-relative form-group">
-									<label for="bp">Texte sur Bon de Préparation</label><input name="bp" type="text" class="form-control" >
+									<label for="bp">Texte sur Bon de Préparation</label><input name="bp" type="text" class="form-control" value="{{ client.bp }}">
 								</div>
 							</div>
 						</div>
@@ -972,7 +984,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-12">
 								<div class="position-relative form-group">
-									<label for="bl">Texte sur Bon de Livraison</label><input name="bl" type="text" class="form-control" >
+									<label for="bl">Texte sur Bon de Livraison</label><input name="bl" type="text" class="form-control" value="{{ client.bl }}">
 								</div>
 							</div>
 						</div>
@@ -990,7 +1002,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="dirCom">Attribution DIRECTION COMMERCIAL</label><input name="dirCom" type="text" class="form-control" >
+									<label for="dirCom">Attribution DIRECTION COMMERCIAL</label><input name="dirCom" type="text" class="form-control" value="{{ client.dirCom }}">
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -1009,6 +1021,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="comMaitre">Attribution COMMERCIAL MAITRE</label>
 									<select class="form-control" name="comMaitre">
+										<option value="{{ client.comMaitre }}">{{ comMaitreCode.COMMERCIAL }}</option>
 										<option value=""></option>
 										{% for dirCom in commercials %}
 											<option value="{{ dirCom.saljare }}">{{ dirCom.COMMERCIAL }}</option>
@@ -1022,12 +1035,12 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="taux1">Taux 1</label><input name="taux1" type="text" class="form-control" >
+									<label for="taux1">Taux 1</label><input name="taux1" type="text" class="form-control" value="{{ client.taux1 }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="nature1">Nature 1</label><input name="nature1" type="text" class="form-control" >
+									<label for="nature1">Nature 1</label><input name="nature1" type="text" class="form-control" value="{{ client.nature1 }}">
 								</div>
 							</div>
 						</div>
@@ -1037,6 +1050,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="com">Attribution COMMERCIAL</label>
 									<select class="form-control" name="com">
+										<option value="{{ client.com }}">{{ comCode.COMMERCIAL }}</option>
 										<option value=""></option>
 										{% for dirCom in commercials %}
 											<option value="{{ dirCom.saljare }}">{{ dirCom.COMMERCIAL }}</option>
@@ -1050,12 +1064,12 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="taux2">Taux 2</label><input name="taux2" type="text" class="form-control" >
+									<label for="taux2">Taux 2</label><input name="taux2" type="text" class="form-control" value="{{ client.taux2 }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="nature2">Nature 2</label><input name="nature2" type="text" class="form-control" >
+									<label for="nature2">Nature 2</label><input name="nature2" type="text" class="form-control" value="{{ client.nature2 }}">
 								</div>
 							</div>
 						</div>
@@ -1065,6 +1079,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="tel">Attribution TELEVENTE</label>
 									<select class="form-control" name="tel">
+										<option value="{{ client.tel }}">{{ telCode.TELEVENDEUR }}</option>
 										<option value=""></option>
 										{% for tel in televendeurs %}
 											<option value="{{ tel.perssign1 }}">{{ tel.TELEVENDEUR }}</option>
@@ -1078,12 +1093,12 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="taux3">Taux 3</label><input name="taux3" type="text" class="form-control" >
+									<label for="taux3">Taux 3</label><input name="taux3" type="text" class="form-control" value="{{ client.taux3 }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="nature3">Nature 3</label><input name="nature3" type="text" class="form-control" >
+									<label for="nature3">Nature 3</label><input name="nature3" type="text" class="form-control" value="{{ client.nature3 }}">
 								</div>
 							</div>
 						</div>
@@ -1106,12 +1121,12 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="limiteFrais">Limite Frais</label><input name="limiteFrais" type="text" class="form-control" >
+									<label for="limiteFrais">Limite Frais</label><input name="limiteFrais" type="text" class="form-control" value="{{ client.limiteFrais }}">
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="montantFrais">Montant Frais</label><input name="montantFrais" type="text" class="form-control" >
+									<label for="montantFrais">Montant Frais</label><input name="montantFrais" type="text" class="form-control" value="{{ client.montantFrais }}">
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -1120,7 +1135,7 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="delaisReg">Délais de Règlement</label><input name="delaisReg" type="text" class="form-control" >
+									<label for="delaisReg">Délais de Règlement</label><input name="delaisReg" type="text" class="form-control" value="{{ client.delaisReg }}">
 								</div>
 							</div>
 						</div>
@@ -1134,13 +1149,13 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-2">
 								<div class="position-relative form-group">
   									<label for="090">0,90 €</label>
-									<input class="form-control" type="radio" id="090" name="fraisDev" value="1">
+									<input class="form-control" type="radio" id="090" name="fraisDev" value="1"{% if client.fraisDev == 0 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
   									<label for="150">1,50 €</label>
-									<input class="form-control" type="radio" id="150" name="fraisDev" value="0" checked>
+									<input class="form-control" type="radio" id="150" name="fraisDev" value="0" {% if client.fraisDev == 0 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -1155,13 +1170,13 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-2">
 								<div class="position-relative form-group">
   									<label for="oui">Oui</label>
-									<input class="form-control" type="radio" id="oui" name="blocCompte" value="1">
+									<input class="form-control" type="radio" id="oui" name="blocCompte" value="1"{% if client.blocCompte == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
   									<label for="non">Non</label>
-									<input class="form-control" type="radio" id="non" name="blocCompte" value="0" checked>
+									<input class="form-control" type="radio" id="non" name="blocCompte" value="0" {% if client.blocCompte == 0 %}checked{% endif %}>
 								</div>
 							</div>
 						</div>

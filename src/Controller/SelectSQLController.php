@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\VarDumper\VarDumper;
 
 class SelectSQLController
 {
@@ -253,7 +253,7 @@ class SelectSQLController
             $i++;
         }
 
-        $req = $sql->requete("SELECT saljarenamn AS 'COMMERCIAL', saljteamkod FROM salj WHERE saljteamkod != '99' OR saljteamkod IS NULL AND SaljareNamn NOT LIKE '%NE PAS UTILISER%' ORDER BY saljarenamn ASC", $company);
+        $req = $sql->requete("SELECT saljarenamn AS 'COMMERCIAL', saljare FROM salj WHERE saljteamkod != '99' OR saljteamkod IS NULL AND SaljareNamn NOT LIKE '%NE PAS UTILISER%' ORDER BY saljarenamn ASC", $company);
         while ($r = $req->fetch())
         {
             $commercial[$i] = $r;
@@ -271,18 +271,18 @@ class SelectSQLController
 
         return $tab;
     }
-    public function selectSQLTournees($user, $company)
+    public function selectSQLTournees($user, $code, $company)
     {
         $sql = new SQL\SQLController();
         $i = 0;
 
         $tournees = array();
 
-        if($company == "RIBEGROUPE" || $company == "PROMER" || $company == "RIBEXPE" || $company == "BIOEMOI")
+        if($company == "RIBEGROUPE" || $company == "PROMER" || $company == "RIBEXPE" || $company == "BIOEMOI"|| $company == "HOLDING")
         {        
             $req = $sql->requete("SELECT ('(' + q_gctournee_tournee + ') - ' + q_2b_libtournee) AS 'Libelle_TOURNEE', q_gctournee_tournee AS 'Code_TOURNEE' FROM q_2bt_tournee ORDER BY q_2b_libtournee ASC", "HOLDING");
         }else{
-            $req = $sql->requete("SELECT ('(' + q_gctournee_tournee + ') - ' + q_2b_libtournee) AS 'Libelle_TOURNEE', q_gctournee_tournee AS 'Code_TOURNEE' FROM q_2bt_tournee ORDER BY q_2b_libtournee ASC", $company);
+            $req = $sql->requete("SELECT ('(' + q_gctournee_tournee + ') - ' + q_2b_libtournee) AS 'Libelle_TOURNEE', q_gctournee_tournee AS 'Code_TOURNEE' FROM q_2bt_tournee WHERE ftgnr = '".$code."' ORDER BY q_2b_libtournee ASC", "HOLDING");
         }
         while ($r = $req->fetch())
         {
@@ -291,6 +291,151 @@ class SelectSQLController
         }
         
         $tab = array($tournees);
+
+        return $tab;
+    }
+
+    public function selectSQLClientCode($user, $company, $client)
+    {
+        $sql = new SQL\SQLController();
+
+        $stat1 = "";
+        $stat2 = "";
+        $stat3 = "";
+        $stat4 = "";
+        $stat5 = "";
+        
+        $trLundi = "";
+        $trMardi = "";
+        $trMercredi = "";
+        $trJeudi = "";
+        $trVendredi = "";
+        $trSamedi = "";
+
+        $comMaitre = "";
+        $com = "";
+        $tel = "";
+
+        // CHAMPS STAT
+        
+        $i = 0;
+        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT1', q_gcstat_code AS 'Code_STAT1' FROM q_gcvue_kusstat1 WHERE q_gcstat_code = '".$client->getStat1()."' ", $company);
+        while ($r = $req->fetch())
+        {
+            $stat1 = $r;
+            $i++;
+        }
+        
+        $i = 0;
+        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT2', q_gcstat_code AS 'Code_STAT2' FROM q_gcvue_kusstat2 WHERE q_gcstat_code = '".$client->getStat2()."' ", $company);
+        while ($r = $req->fetch())
+        {
+            $stat2 = $r;
+            $i++;
+        }
+        
+        $i = 0;
+        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT3', q_gcstat_code AS 'Code_STAT3' FROM q_gcvue_kusstat3 WHERE q_gcstat_code = '".$client->getStat3()."' ", $company);
+        while ($r = $req->fetch())
+        {
+            $stat3 = $r;
+            $i++;
+        }
+        
+        $i = 0;
+        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT4', q_gcstat_code AS 'Code_STAT4' FROM q_gcvue_kusstat4 WHERE q_gcstat_code = '".$client->getStat4()."' ", $company);
+        while ($r = $req->fetch())
+        {
+            $stat4 = $r;
+            $i++;
+        }
+        
+        $i = 0;
+        $req = $sql->requete("SELECT q_gcstat_lib1 AS 'Libelle_STAT5', q_gcstat_code AS 'Code_STAT5' FROM q_gcvue_kusstat5 WHERE q_gcstat_code = '".$client->getStat5()."' ", $company);
+        while ($r = $req->fetch())
+        {
+            $stat5 = $r;
+            $i++;
+        }
+
+        // TOURNEES
+        
+        $i = 0;
+        $req = $sql->requete("SELECT ('(' + q_gctournee_tournee + ') - ' + q_2b_libtournee) AS 'Libelle_TOURNEE_LU', q_gctournee_tournee AS 'Code_TOURNEE_LU' FROM q_2bt_tournee WHERE q_gctournee_tournee = '".$client->getTrLundi()."' ", "HOLDING");
+        while ($r = $req->fetch())
+        {
+            $trLundi = $r;
+            $i++;
+        }
+        
+        $i = 0;
+        $req = $sql->requete("SELECT ('(' + q_gctournee_tournee + ') - ' + q_2b_libtournee) AS 'Libelle_TOURNEE_MA', q_gctournee_tournee AS 'Code_TOURNEE_MA' FROM q_2bt_tournee WHERE q_gctournee_tournee = '".$client->getTrMardi()."' ", "HOLDING");
+        while ($r = $req->fetch())
+        {
+            $trMardi = $r;
+            $i++;
+        }
+        
+        $i = 0;
+        $req = $sql->requete("SELECT ('(' + q_gctournee_tournee + ') - ' + q_2b_libtournee) AS 'Libelle_TOURNEE_ME', q_gctournee_tournee AS 'Code_TOURNEE_ME' FROM q_2bt_tournee WHERE q_gctournee_tournee = '".$client->getTrMercredi()."' ", "HOLDING");
+        while ($r = $req->fetch())
+        {
+            $trMercredi = $r;
+            $i++;
+        }
+        
+        $i = 0;
+        $req = $sql->requete("SELECT ('(' + q_gctournee_tournee + ') - ' + q_2b_libtournee) AS 'Libelle_TOURNEE_JE', q_gctournee_tournee AS 'Code_TOURNEE_JE' FROM q_2bt_tournee WHERE q_gctournee_tournee = '".$client->getTrJeudi()."' ", "HOLDING");
+        while ($r = $req->fetch())
+        {
+            $trJeudi = $r;
+            $i++;
+        }
+        
+        $i = 0;
+        $req = $sql->requete("SELECT ('(' + q_gctournee_tournee + ') - ' + q_2b_libtournee) AS 'Libelle_TOURNEE_VE', q_gctournee_tournee AS 'Code_TOURNEE_VE' FROM q_2bt_tournee WHERE q_gctournee_tournee = '".$client->getTrVendredi()."' ", "HOLDING");
+        while ($r = $req->fetch())
+        {
+            $trVendredi = $r;
+            $i++;
+        }
+        
+        $i = 0;
+        $req = $sql->requete("SELECT ('(' + q_gctournee_tournee + ') - ' + q_2b_libtournee) AS 'Libelle_TOURNEE_SA', q_gctournee_tournee AS 'Code_TOURNEE_SA' FROM q_2bt_tournee WHERE q_gctournee_tournee = '".$client->getTrSamedi()."' ", "HOLDING");
+        while ($r = $req->fetch())
+        {
+            $trSamedi = $r;
+            $i++;
+        }
+
+        // CHAMP COM_MAITRE COM TEL
+        
+        $i = 0;
+        $req = $sql->requete("SELECT saljarenamn AS 'COMMERCIAL', saljare FROM salj WHERE saljare = '".$client->getComMaitre()."' ", $company);
+        while ($r = $req->fetch())
+        {
+            $comMaitre = $r;
+            $i++;
+        }
+        
+        $i = 0;
+        $req = $sql->requete("SELECT saljarenamn AS 'COMMERCIAL', saljare FROM salj WHERE saljare = '".$client->getCom()."' ", $company);
+        while ($r = $req->fetch())
+        {
+            $com = $r;
+            $i++;
+        }
+        
+        $i = 0;
+        $req = $sql->requete("SELECT (us.respnamn + ' - (' + perssign1 + ')') AS 'TELEVENDEUR', perssign1 FROM q_2bt_gc_televendeur JOIN sy2 AS us ON us.PersSign = q_2bt_gc_televendeur.perssign1 WHERE perssign1 = '".$client->getTel()."' ", $company);
+        while ($r = $req->fetch())
+        {
+            $tel = $r;
+            $i++;
+        }
+
+        
+        $tab = array($stat1, $stat2, $stat3, $stat4, $stat5, $trLundi, $trMardi, $trMercredi, $trJeudi, $trVendredi, $trSamedi, $comMaitre, $com, $tel);
 
         return $tab;
     }

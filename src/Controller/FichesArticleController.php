@@ -29,6 +29,17 @@ class FichesArticleController extends AbstractController
 
         return $this->render('FichesArticle/FicheArticle.html.twig', ["articles" => $articles]);
     }
+    
+    /**
+     * @Route("/mes_fiches_article", name="myFicheArticle")
+     */
+    public function Myarticle(Request $request, UserInterface $user): Response
+    {
+        $allFichesArticle = $this->getDoctrine()->getRepository(FicheArticle::class);
+        $articles = $allFichesArticle->findBy(array("username" => $user), array("date" => "DESC"));
+
+        return $this->render('FichesArticle/My_FicheArticle.html.twig', ["articles" => $articles]);
+    }
 
     /**
      * @Route("/nouvelle_fiches_article", name="newFicheArticle")
@@ -288,17 +299,6 @@ class FichesArticleController extends AbstractController
         }
         
         return $this->render('FichesArticle/New_FicheArticle.html.twig', ["grp_art" => $tab[0], "stat1" => $tab[1], "stat2" => $tab[2], "stat3" => $tab[3], "stat4" => $tab[4], "men_val" => $tab[5], "loc" => $tab[6], "rup" => $tab[7], "siqo" => $tab[8]]);
-    }
-    
-    /**
-     * @Route("/mes_fiches_article", name="myFicheArticle")
-     */
-    public function Myarticle(Request $request, UserInterface $user): Response
-    {
-        $allFichesArticle = $this->getDoctrine()->getRepository(FicheArticle::class);
-        $articles = $allFichesArticle->findBy(array("username" => $user), array("date" => "DESC"));
-
-        return $this->render('FichesArticle/My_FicheArticle.html.twig', ["articles" => $articles]);
     }
 
     /**
