@@ -66,13 +66,13 @@
     </style>
 </head>
 
-<body style="font-size: 10px;">
+<body style="font-size: 9px;">
 <div class="section section1">
     <div id="header">
         <table style="text-align: center; ;font-size: 10px; border: 1px solid black" >
             <tr>
            {# <td rowspan="4"><img src="{{ asset("img/ribegroupe.png") }}" width="15%"/></td>#}
-          <td rowspan="4"><img src="{{ app.request.getSchemeAndHttpHost() ~ asset('images/societes/reseau_ribe.png') }}" width="95%" alt="logo"></td> 
+          <td rowspan="4"><img src="{{ app.request.getSchemeAndHttpHost() ~ asset('images/Logo_Reseau_Ribe.png') }}" width="95%" alt="logo"></td> 
                 <td>Date Création</td>
                 <td>06/01/2015</td>
                 <td></td>
@@ -257,13 +257,11 @@
                 <td colspan="3" class="gray">{{ fiche.coefPVC }}</td>
             </tr>
             <tr>
-                <td class="black" colspan="3">Mode de Règlement/ * Joindre Courrier Acceptation</td>
-            </tr>
-            <tr>
+                <td class="black" colspan="2">Mode de Règlement/ * Joindre Courrier Acceptation</td>
                 <td><input type="checkbox" {% if fiche.avance == 1 %}checked{% endif %} name="public"/><label for="public">Avance</label></td>
-                <td colspan="2"><input type="checkbox" {% if fiche.virement == 1 %}checked{% endif %} name="public"/><label for="public">Virement</label></td>
+                <td><input type="checkbox" {% if fiche.virement == 1 %}checked{% endif %} name="public"/><label for="public">Virement</label></td>
                 <td><input type="checkbox" {% if fiche.cheque == 1 %}checked{% endif %} name="public"/><label for="public">Chèque Bancaire</label></td>
-                <td colspan="2"><input type="checkbox" {% if fiche.prelevement == 1 %}checked{% endif %} name="public"/><label for="public">* Prélèvement</label></td>
+                <td><input type="checkbox" {% if fiche.prelevement == 1 %}checked{% endif %} name="public"/><label for="public">* Prélèvement</label></td>
             </tr>
         </table>
         <table width="100%" style="border: 1px solid black">
@@ -376,7 +374,7 @@
                 <td class="black">Attribution DIRECTION COMMERCIALE</td>
                 <td class="gray">{{ fiche.dirCom }}</td>
                 <td class="black">Date</td>
-                <td class="gray" colspan="4">et</td>
+                <td class="gray" colspan="4">{{ fiche.dateValidDirection|date('d/m/Y') }}</td>
             </tr>
             <tr>
                 <td class="black">Attribution COMMERCIAL MAÎTRE</td>

@@ -582,6 +582,11 @@ class FicheClient
      */
     private $companyTransport;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateValidDirection;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -1939,6 +1944,18 @@ class FicheClient
     public function setCompanyTransport(?string $companyTransport): self
     {
         $this->companyTransport = $companyTransport;
+
+        return $this;
+    }
+
+    public function getDateValidDirection(): ?\DateTimeInterface
+    {
+        return $this->dateValidDirection;
+    }
+
+    public function setDateValidDirection(?\DateTimeInterface $dateValidDirection): self
+    {
+        $this->dateValidDirection = $dateValidDirection;
 
         return $this;
     }

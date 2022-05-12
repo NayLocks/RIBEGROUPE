@@ -561,7 +561,7 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="date1Livraison">Date 1ère Livraison</label><input name="date1Livraison" type="date" class="form-control" value="{{ client.date1Livraison }}" ></div>
+									<label for="date1Livraison">Date 1ère Livraison</label><input name="date1Livraison" type="date" class="form-control" value="{{ client.date1Livraison|date('Y-m-d') }}" ></div>
 							</div>
 						</div>
 						

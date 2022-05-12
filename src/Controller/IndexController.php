@@ -29,7 +29,7 @@ class IndexController extends AbstractController
     public function index2(UserInterface $user)
     {
         $allClients = $this->getDoctrine()->getRepository(FicheClient::class);
-        $client = $allClients->findOneBy(array('id' => 45));
+        $client = $allClients->findOneBy(array('id' => 3));
 
         $tab = new SelectSQLController();
         $tab = $tab->selectSQLClient($user, $client->getCompany()->getDatabaseName());
@@ -57,6 +57,9 @@ class IndexController extends AbstractController
         }
         if(!isset($tabCode[10]['Libelle_TOURNEE_SA'])){
             $tabCode[10] = array("", "");
+        }
+        if(!isset($tabCode[2]['Libelle_STAT3'])){
+            $tabCode[2] = array("", "");
         }
 
         $pdfOptions = new Options();

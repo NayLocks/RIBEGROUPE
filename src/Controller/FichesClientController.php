@@ -301,6 +301,8 @@ class FichesClientController extends AbstractController
             $client->setRgVendredi($_POST["rgVendredi"]);
             $client->setRgSamedi($_POST["rgSamedi"]);
 
+            $date = new DateTime("now");
+            $client->setDateValidDirection($date);
             
             $client->setPlageHoraire($_POST["plageHoraire"]);
             $client->setLatitude($_POST["latitude"]);
@@ -912,6 +914,8 @@ class FichesClientController extends AbstractController
             $client->setRgVendredi($_POST["rgVendredi"]);
             $client->setRgSamedi($_POST["rgSamedi"]);
 
+            $date = new DateTime("now");
+            $client->setDateValidDirection($date);
             
             $client->setPlageHoraire($_POST["plageHoraire"]);
             $client->setLatitude($_POST["latitude"]);
@@ -1339,8 +1343,8 @@ class FichesClientController extends AbstractController
             }
 
             if($_FILES['ext_auth']['error'] != 4){
-                if(file_exists('Documents/FicheClient/'.$client->getId().'/AUTH.'.$client->getExtAuth())){
-                    unlink('Documents/FicheClient/'.$client->getId().'/AUTH.'.$client->getExtAuth());
+                if(file_exists('Documents/FicheClient/'.$client->getId().'/AUTH_PREV.'.$client->getExtAuth())){
+                    unlink('Documents/FicheClient/'.$client->getId().'/AUTH_PREV.'.$client->getExtAuth());
                 }
                 $filename = $_FILES["ext_auth"]["name"];
                 $filesize = $_FILES["ext_auth"]["size"];
@@ -1485,6 +1489,8 @@ class FichesClientController extends AbstractController
             $client->setRgVendredi($_POST["rgVendredi"]);
             $client->setRgSamedi($_POST["rgSamedi"]);
 
+            $date = new DateTime("now");
+            $client->setDateValidDirection($date);
             
             $client->setPlageHoraire($_POST["plageHoraire"]);
             $client->setLatitude($_POST["latitude"]);
@@ -1768,8 +1774,8 @@ class FichesClientController extends AbstractController
                         $email->attachFromPath('Documents/FicheClient/'.$client->getId().'/CGV.'.$client->getExtCgv());
                     }
 
-                    if(file_exists('Documents/FicheClient/'.$client->getId().'/AUTH.'.$client->getExtAuth())){
-                        $email->attachFromPath('Documents/FicheClient/'.$client->getId().'/AUTH.'.$client->getExtAuth());
+                    if(file_exists('Documents/FicheClient/'.$client->getId().'/AUTH_PREV.'.$client->getExtAuth())){
+                        $email->attachFromPath('Documents/FicheClient/'.$client->getId().'/AUTH_PREV.'.$client->getExtAuth());
                     }
 
                     if(file_exists('Documents/FicheClient/'.$client->getId().'/RIB.'.$client->getExtRib())){
