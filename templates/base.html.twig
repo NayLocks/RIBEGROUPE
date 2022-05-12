@@ -171,14 +171,15 @@
 							<div class="app-sidebar__inner">
 								<ul class="vertical-nav-menu">
 									<li class="app-sidebar__heading">
-										<a href="{{ path("index") }}">Accueil du Site</a>
+										<img src="{{ asset('images/societes/reseau_ribe.png') }}" width="100%"/>
 									</li>
+
 									<li class="app-sidebar__heading">
-										<a href="{{ path("mailTEST") }}">TEST MAIL</a>
+										<a href="{{ path("index") }}">Accueil du Site</a>
 									</li>
 
 									{% if app.user.accessFC == 1 or app.user.accessADM == 1 %}
-										<li class="mm-active">
+										<li>
 											<a class="app-sidebar__heading">
 												<i class="metismenu-icon pe-7s-notebook"></i>
 												Fiches Clients
@@ -196,7 +197,7 @@
 									{% endif %}
 
 									{% if app.user.accessFA == 1 or app.user.accessADM == 1 %}
-										<li class="mm-active">
+										<li>
 											<a class="app-sidebar__heading">
 												<i class="metismenu-icon pe-7s-notebook"></i>
 												Fiches Article
@@ -230,7 +231,7 @@
 										</li>
 									{% endif %} #}
 
-									<li class="mm-active">
+									<li>
 										<a class="app-sidebar__heading">
 											<i class="metismenu-icon pe-7s-graph2"></i>
 												Statistiques
@@ -257,7 +258,7 @@
 									{% endif %}
 
 									<li class="app-sidebar__heading">
-										<a href="{{ path("app_logout") }}">Se Déconnecter</a>
+										<a href="{{ path("app_logout") }}" style="background-color: #ff595e; text-align: center;">Se Déconnecter</a>
 									</li>
 								</ul>
 							</div>
