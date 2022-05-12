@@ -1,0 +1,434 @@
+{% set nbSection = 1 %}
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <style type="text/css">
+
+        body {
+            font-family: 'arial';
+            margin: 0.5cm 0;
+            text-align: justify;
+            font-size: 16px;
+            color: black;
+        }
+
+        #header{
+            position: relative;
+            top: -30px;
+            left: 0;
+            right: 0;
+        }
+
+        #footer {
+            position: fixed;
+            left: 0;
+            right: 0;
+            font-size: 0.9em;
+        }
+
+        #footer {
+            bottom: 60px;
+        }
+
+        #header table,
+        #footer table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none;
+        }
+
+        #header td,
+        #footer td {
+            padding: 0;
+            width: 50%;
+        }
+
+        .page-number {
+            text-align: right;
+        }
+
+        .page-number:before {
+            content: "Page " counter(page);
+        }
+
+        hr {
+            page-break-after: always;
+            border: 0;
+        }
+        .gray{
+            background-color: lightgray;
+            color: black;
+            font-weight: bold;
+        }
+        .colorVERT{
+            background-color: #70C057;
+        }
+
+    </style>
+</head>
+
+<body style="font-size: 10px;">
+<div class="section section1">
+    <div id="header">
+        <table style="text-align: center; ;font-size: 10px; border: 1px solid black" >
+            <tr>
+           {# <td rowspan="4"><img src="{{ asset("img/ribegroupe.png") }}" width="15%"/></td>#}
+          <td rowspan="4"><img src="{{ app.request.getSchemeAndHttpHost() ~ asset('images/societes/reseau_ribe.png') }}" width="95%" alt="logo"></td> 
+                <td>Date Création</td>
+                <td>06/01/2015</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Date Version</td>
+                <td>03/12/2021</td>
+                <td>FE 2</td>
+            </tr>
+            <tr>
+                <td>Page</td>
+                <td>01/1</td>
+                <td>FICHE CREATION CLIENT</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <div>
+        <table width="100%" style="margin-top: -42px; border-left: 1px solid black; border-right: 1px solid black">
+            <tr>
+                <td class="black">Date</td>
+                <td>{{ fiche.date|date('d/m/Y') }}</td>
+                <td class="black">Code Client</td>
+                <td class="gray">{{ fiche.codeClient }}</td>
+            </tr>
+            <tr>
+                <td class="black">Ouverture Demandé Par</td>
+                <td class="gray">{{ fiche.username.firstName }} {{ fiche.username.lastName }}</td>
+                <td class="black">Ancien Code Client (si existant)</td>
+                <td class="gray">{{ fiche.ancienCodeClient }}</td>
+            </tr>
+            <tr>
+                <td class="black" colspan="2">Compte Frère</td>
+                <td colspan="2" class="gray">{{ fiche.compteFrere }}</td>
+            </tr>
+        </table>
+        <table width="100%" style="border: 1px solid black">
+            <tr class="colorVERT" style="color: white;text-align: center;font-size: 9px">
+                <td class="black" colspan="7">PARTIE A RENSEIGNER PAR LE COMMERCIAL</td>
+            </tr>
+            <tr style="text-align: center">
+                <td class="black" colspan="7" style="border: 1px solid black;font-size: 9px">EXTRAIT KBIS + RIB + FICHE RETOUR CREDIT SAFE + SIGNATURE CGV</td>
+            </tr>
+            <tr>
+                <td class="black">SITE</td>
+                <td colspan="2" class="gray">{{ fiche.company.name }}</td>
+            </tr>
+            <tr>
+                <td class="black">Comptes à créer</td>
+                <td><input type="checkbox" {% if fiche.cpFL == 1 %}checked{% endif %} name="fl"/><label for="fl">Fruits & Légumes</label></td>
+                <td><input type="checkbox" {% if fiche.cp45g == 1 %}checked{% endif %} name="45g"/><label for="45g">4/5G</label></td>
+                <td><input type="checkbox" {% if fiche.cpMaree == 1 %}checked{% endif %}="maree"/><label for="maree">Marée</label></td>
+                <td colspan="3"><input type="checkbox" {% if fiche.cpBof == 1 %}checked{% endif %}="cremerie"/><label for="cremerie">BOF / Charcuterie / Volaille</label></td>
+            </tr>
+            <tr>
+                <td class="black">Nom Appel du Client</td>
+                <td colspan="2" class="gray">{{ fiche.nomAppel }}</td>
+                <td class="black">Téléphone Standard</td>
+                <td colspan="2" class="gray">{{ fiche.phoneStandard }}</td>
+                <td><input type="checkbox" {% if fiche.phoneStandardTel == 1 %}checked{% endif %} name="tel"/><label for="tel">Type Télévente</label></td>
+            </tr>
+            <tr>
+                <td class="black">Code Gestion</td>
+                <td colspan="2" class="gray">{{ fiche.codeGestion }}</td>
+                <td class="black">Portable</td>
+                <td colspan="2" class="gray">{{ fiche.phonePortable }}</td>
+                <td><input type="checkbox" {% if fiche.phonePortableTel == 1 %}checked{% endif %} name="port"/><label for="port">Type Télévente</label></td>
+            </tr>
+            <tr>
+                <td class="black">Raison Sociale</td>
+                <td colspan="2" class="gray">{{ fiche.raisonSocial }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="black">Nom Grand Compte</td>
+                <td colspan="2" class="gray">{{ fiche.nomGrandCompte }}</td>
+                <td class="black">Email Standard</td>
+                <td class="gray" colspan="3">{{ fiche.emailStandard }}</td>
+            </tr>
+            <tr>
+                <td class="black">Adresse Livraison</td>
+                <td colspan="2" class="gray">{{ fiche.adrLivraison }}</td>
+                <td class="black">Client à appeler</td>
+                <td><input type="checkbox" {% if fiche.appelClient == 1 %}checked{% endif %} name="clientOui"/><label for="clientOui">Oui</label></td>
+                <td><input type="checkbox" {% if fiche.appelClient == 0 %}checked{% endif %} name="clientNon"/><label for="clientNon">Non</label></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="black">Code Postal & Ville</td>
+                <td colspan="2" class="gray">{{ fiche.adrLivCodePostal }} {{ fiche.adrLivVille }}</td>
+                <td></td>
+                <td colspan="2" class="black" style="text-align: center">Jour</td>
+                <td class="black" colspan="2" style="text-align: center">Horaire</td>
+            </tr>
+            <tr>
+                <td class="black">N° SIRET</td>
+                <td colspan="2" class="gray">{{ fiche.siret }}</td>
+                <td></td>
+                <td><input type="checkbox" {% if fiche.appelLundi == 1 %}checked{% endif %} name="lundi"/><label for="public">Lundi</label></td>
+                <td></td>
+                <td colspan="2" class="gray" style="text-align: center">{{ fiche.horaireLundi }}</td>
+            </tr>
+            <tr>
+                <td class="black">N° TVA intercommunautaire</td>
+                <td colspan="2" class="gray">{{ fiche.tva }}</td>
+                <td></td>
+                <td><input type="checkbox" {% if fiche.appelMardi == 1 %}checked{% endif %} name="mardi"/><label for="public">Mardi</label></td>
+                <td></td>
+                <td colspan="2" class="gray" style="text-align: center">{{ fiche.horaireMardi }}</td>
+            </tr>
+            <tr>
+                <td class="black">Type Client</td>
+                <td><input type="checkbox" {% if fiche.typeClient == 1 %}checked{% endif %} name="public"/><label for="public">Public</label></td>
+                <td><input type="checkbox" {% if fiche.typeClient == 0 %}checked{% endif %} name="prive"/><label for="prive">Privé</label></td>
+                <td></td>
+                <td><input type="checkbox" {% if fiche.appelMercredi  == 1 %}checked{% endif %} name="mercredi"/><label for="public">Mercredi</label></td>
+                <td></td>
+                <td colspan="2" class="gray" style="text-align: center">{{ fiche.horaireMercredi }}</td>
+            </tr>
+            <tr>
+                <td colspan="4">Si client public (= chorus), compléter impérativement les champs suivants :  n° SIRET,  n° engagement et code service</td>
+                <td><input type="checkbox" {% if fiche.appelJeudi  == 1 %}checked{% endif %} name="jeudi"/><label for="public">Jeudi</label></td>
+                <td></td>
+                <td colspan="2" class="gray" style="text-align: center">{{ fiche.horaireJeudi }}</td>
+            </tr>
+            <tr>
+                <td class="black">N° Engagement</td>
+                <td colspan="2" class="gray">{{ fiche.engagement }}</td>
+                <td></td>
+                <td><input type="checkbox" {% if fiche.appelVendredi == 1 %}checked{% endif %} name="jeudi"/><label for="public">Vendredi</label></td>
+                <td></td>
+                <td colspan="2" class="gray" style="text-align: center">{{ fiche.horaireVendredi }}</td>
+            </tr>
+            <tr>
+                <td class="black">Code Service</td>
+                <td colspan="2" class="gray">{{ fiche.codeService }}</td>
+                <td></td>
+                <td><input type="checkbox" {% if fiche.appelSamedi  == 1 %}checked{% endif %} name="jeudi"/><label for="public">Samedi</label></td>
+                <td></td>
+                <td colspan="2" class="gray" style="text-align: center">{{ fiche.horaireSamedi }}</td>
+            </tr>
+            <tr>
+                <td class="black">Adresse pour Envoi Factures<br>(si différente Adresse de Livraison)</td>
+                <td colspan="2" class="gray">{{ fiche.adrFacture }} {{ fiche.adrFacCodePostal }} {{ fiche.adrFacVille }}</td>
+                <td class="black">Email Envoi Factures</td>
+                <td colspan="7" class="gray">{{ fiche.emailFacture }}</td>
+            </tr>
+            <tr>
+                <td class="black">AFFTYPO CHAMP STAT 1</td>
+                <td colspan="2" class="gray">{{ stat1Code.0 }}</td>
+                <td class="black">Tarif Client</td>
+                <td colspan="3" class="gray">{{ fiche.tarifClient }}</td>
+            </tr>
+            <tr>
+                <td class="black">AFFTYPO CHAMP STAT 2</td>
+                <td colspan="2" class="gray">{{ stat2Code.0 }}</td>
+                <td class="black">Envoi Tarif Auto</td>
+                <td><input type="checkbox" {% if fiche.envoiTarifAuto == 1 %}checked{% endif %} name="envoiTarifOui"/><label for="envoiTarifOui">Oui</label></td>
+                <td><input type="checkbox" {% if fiche.envoiTarifAuto == 0 %}checked{% endif %} name="envoiTarifNon"/><label for="envoiTarifNon">Non</label></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="black">AFFTYPO CHAMP STAT 3</td>
+                <td colspan="2" class="gray">{{ stat3Code.0 }}</td>
+                <td class="black">Date 1ère Livraison</td>
+                <td colspan="3" class="gray">{{ fiche.date1Livraison|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <td class="black">AFFTYPO CHAMP STAT 4</td>
+                <td colspan="2" class="gray">{{ stat4Code.0 }}</td>
+                <td class="black">PVC</td>
+                <td><input type="checkbox" {% if fiche.pvc == 1 %}checked{% endif %} name="pvcOui"/><label for="pvcOui">Oui</label></td>
+                <td><input type="checkbox" {% if fiche.pvc == 0 %}checked{% endif %} name="pvcNon"/><label for="pvcNon">Non</label></td>
+            </tr>
+            <tr>
+                <td class="black">AFFTYPO CHAMP STAT 5</td>
+                <td colspan="2" class="gray">{{ stat5Code.0 }}</td>
+                <td class="black">Coef PVC</td>
+                <td colspan="3" class="gray">{{ fiche.coefPVC }}</td>
+            </tr>
+            <tr>
+                <td class="black" colspan="3">Mode de Règlement/ * Joindre Courrier Acceptation</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" {% if fiche.avance == 1 %}checked{% endif %} name="public"/><label for="public">Avance</label></td>
+                <td colspan="2"><input type="checkbox" {% if fiche.virement == 1 %}checked{% endif %} name="public"/><label for="public">Virement</label></td>
+                <td><input type="checkbox" {% if fiche.cheque == 1 %}checked{% endif %} name="public"/><label for="public">Chèque Bancaire</label></td>
+                <td colspan="2"><input type="checkbox" {% if fiche.prelevement == 1 %}checked{% endif %} name="public"/><label for="public">* Prélèvement</label></td>
+            </tr>
+        </table>
+        <table width="100%" style="border: 1px solid black">
+            <tr style="text-align: center;font-size: 9px">
+                <td class="black" colspan="7" style="border: 1px solid black">CONTACTS</td>
+            </tr>
+            <tr>
+                <td class="black">Dirigieant</td>
+                <td class="black" >Nom</td>
+                <td class="gray">{{ fiche.ctDirNom }}</td>
+                <td class="black">Tél</td>
+                <td class="gray">{{ fiche.ctDirTel }}</td>
+                <td class="black">Mail</td>
+                <td class="gray">{{ fiche.ctDirMail }}</td>
+            </tr>
+            <tr>
+                <td class="black">Comtpa Règlement</td>
+                <td class="black" >Nom</td>
+                <td class="gray">{{ fiche.ctComptaNom }}</td>
+                <td class="black">Tél</td>
+                <td class="gray">{{ fiche.ctComptaTel }}</td>
+                <td class="black">Mail</td>
+                <td class="gray">{{ fiche.ctComptaMail }}</td>
+            </tr>
+            <tr>
+                <td class="black">Responsable Commandes</td>
+                <td class="black">Nom</td>
+                <td class="gray">{{ fiche.ctComNom }}</td>
+                <td class="black">Tél</td>
+                <td class="gray">{{ fiche.ctComTel }}</td>
+                <td class="black">Mail</td>
+                <td class="gray">{{ fiche.ctComMail }}</td>
+            </tr>
+            <tr>
+                <td class="black">Responsable Qualité</td>
+                <td class="black">Nom</td>
+                <td class="gray">{{ fiche.ctQuaNom }}</td>
+                <td class="black">Tél</td>
+                <td class="gray">{{ fiche.ctQuaTel }}</td>
+                <td class="black">Mail</td>
+                <td class="gray">{{ fiche.ctQuaMail }}</td>
+            </tr>
+            <tr>
+                <td class="black">Chef de Secteur</td>
+                <td class="black">Nom</td>
+                <td class="gray">{{ fiche.ctSecNom }}</td>
+                <td class="black">Tél</td>
+                <td class="gray">{{ fiche.ctSecMail }}</td>
+                <td class="black">Mail</td>
+                <td class="gray">{{ fiche.ctSecMail }}</td>
+            </tr>
+        </table>
+        <table width="100%" style="border: 1px solid black">
+            <tr class="colorVERT" style="color: white;text-align: center;font-size: 9px">
+                <td class="black"colspan="7">PARTIE A RENSEIGNER PAR LA LOGISTIQUE</td>
+            </tr>
+            <tr>
+                <td class="black">Jours de Livraison</td>
+                <td class="black" style="text-align: center">LUNDI</td>
+                <td class="black" style="text-align: center">MARDI</td>
+                <td class="black" style="text-align: center">MERCREDI</td>
+                <td class="black" style="text-align: center">JEUDI</td>
+                <td class="black" style="text-align: center">VENDREDI</td>
+                <td class="black" style="text-align: center">SAMEDI</td>
+            <tr>
+                <td class="black">Tournée</td>
+                <td class="gray">{{ trLundiCode.0 }}</td>
+                <td class="gray">{{ trMardiCode.0 }}</td>
+                <td class="gray">{{ trMercrediCode.0 }}</td>
+                <td class="gray">{{ trJeudiCode.0 }}</td>
+                <td class="gray">{{ trVendrediCode.0 }}</td>
+                <td class="gray">{{ trSamediCode.0 }}</td>
+            </tr>
+            <tr>
+                <td class="black">N° Rang</td>
+                <td class="gray">{{ fiche.rgLundi }}</td>
+                <td class="gray">{{ fiche.rgMardi }}</td>
+                <td class="gray">{{ fiche.rgMercredi }}</td>
+                <td class="gray">{{ fiche.rgJeudi }}</td>
+                <td class="gray">{{ fiche.rgVendredi }}</td>
+                <td class="gray">{{ fiche.rgSamedi }}</td>
+            </tr>
+            <tr>
+                <td class="black" colspan ="2">Plage Horaire Livraison</td>
+                <td colspan="2" class="gray">{{ fiche.plageHoraire }}</td>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td class="black" colspan="2">Coordonnées GPS Livraison</td>
+                <td class="black" style="text-align: right">Latitude</td>
+                <td class="gray">{{ fiche.latitude }}</td>
+                <td class="black" style="text-align: right">Longitude</td>
+                <td class="gray">{{ fiche.longitude }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="black">Text sur BP</td>
+                <td colspan="6" class="gray">{{ fiche.bp }}</td>
+            </tr>
+            <tr>
+                <td class="black">Text sur BL</td>
+                <td colspan="6" class="gray">{{ fiche.bl }}</td>
+            </tr>
+        </table>
+        <table width="100%" style="border: 1px solid black">
+            <tr class="colorVERT" style="color: white;text-align: center;font-size: 9px">
+                <td class="black" colspan="7">PARTIE A RENSEIGNER PAR LA DIRECTION</td>
+            </tr>
+            <tr>
+                <td class="black">Attribution DIRECTION COMMERCIALE</td>
+                <td class="gray">{{ fiche.dirCom }}</td>
+                <td class="black">Date</td>
+                <td class="gray" colspan="4">et</td>
+            </tr>
+            <tr>
+                <td class="black">Attribution COMMERCIAL MAÎTRE</td>
+                <td class="gray">{{ comMaitreCode.0 }}</td>
+                <td>Services Associés</td>
+                <td class="black">Taux</td>
+                <td class="gray">{{ fiche.taux1 }}</td>
+                <td class="black">Nature</td>
+                <td class="gray">{{ fiche.nature1 }}</td>
+            </tr>
+            <tr>
+                 <td class="black">Attribution COMMERCIAL</td>
+                <td class="gray">{{ comCode.0 }}</td>
+                <td></td>
+                <td class="black">Taux</td>
+                <td class="gray">{{ fiche.taux2 }}</td>
+                <td class="black">Nature</td>
+                <td class="gray">{{ fiche.nature2 }}</td>
+            </tr>
+            <tr>
+                <td class="black">Attribution TELEVENDEUR</td>
+                <td class="gray">{{ telCode.0 }}</td>
+                <td></td>
+                <td class="black">Taux</td>
+                <td class="gray">{{ fiche.taux3 }}</td>
+                <td class="black">Nature</td>
+                <td class="gray">{{ fiche.nature3 }}</td>
+            </tr>
+        </table>
+        <table width="100%" style="border: 1px solid black">
+            <tr class="colorVERT" style="color: white;text-align: center;font-size: 9px">
+                <td class="black" colspan="8">PARTIE A RENSEIGNER PAR LA COMPTABILITE</td>
+            </tr>
+            <tr>
+                <td class="black">Minimum Livraison</td>
+                <td class="black" style="text-align: right">Limite Frais</td>
+                <td class="gray">{{ fiche.limiteFrais }}</td>
+                <td class="black" style="text-align: right">Montant</td>
+                <td class="gray">{{ fiche.montantFrais }}</td>
+                <td class="black">Délais de Règlement</td>
+                <td colspan="2" class="gray">{{ fiche.delaisReg }}</td>
+            </tr>
+            <tr>
+                <td class="black" colspan="2">Frais de Développement Durable</td>
+                <td><input type="checkbox" {% if fiche.fraisDev == 1 %}checked{% endif %} name="090"/><label for="090">0,90 €</label></td>
+                <td><input type="checkbox" {% if fiche.fraisDev == 0 %}checked{% endif %} name="150"/><label for="150">1,50 €</label></td>
+                <td class="black">Blocage Compte</td>
+                <td><input type="checkbox" {% if fiche.blocCompte == 1 %}checked{% endif %} name="blocCompteOui"/><label for="blocCompteOui">Oui</label></td>
+                <td><input type="checkbox" {% if fiche.blocCompte == 0 %}checked{% endif %} name="blocCompteOui"/><label for="blocCompteNon">Non</label></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

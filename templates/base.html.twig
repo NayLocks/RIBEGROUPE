@@ -185,9 +185,12 @@
 												<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 											</a>
 											<ul>
+												{% if app.user.titleFC == "LOGISTIQUE" or app.user.titleFC == "DIRECTEUR" or app.user.titleFC == "COMPTA" %}
+													<li><a href="{{path("listValidFicheClient")}}">Fiche Client à Valider</a></li>
+												{% endif %}
 												<li><a href="{{ path("newFicheClient") }}">Nouvelle Fiche Client</a></li>
 												<li><a href="{{ path("myFicheClient") }}">Mes Fiches Client</a></li>
-												<li><a href="">Liste des Fiches Client</a></li>
+												<li><a href="{{ path("fichesClient") }}">Liste des Fiches Client</a></li>
 											</ul>
 										</li>
 									{% endif %}
@@ -203,7 +206,7 @@
 												{% if app.user.titleFA == "COMPTA" or app.user.accessADM == 1 %}
 													<li><a href="{{path("listValidFicheArticle")}}">Fiche Article à Valider</a></li>
 												{% endif %}
-												{% if app.user.titleFA == "ACHETEUR" or app.user.accessADM == 1 and app.user.company.name != "RIBEGROUPE" %}
+												{% if app.user.titleFA == "ACHETEUR" or app.user.accessADM == 1 %}
 													<li><a href="{{path("newFicheArticle")}}">Nouvelle Fiche Article</a></li>
 													<li><a href="{{path("myFicheArticle")}}">Mes Fiches Article</a></li>
 												{% endif %}

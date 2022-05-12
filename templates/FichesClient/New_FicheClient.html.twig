@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block actionsPage %}
-	<form method="POST">
+	<form method="POST" enctype="multipart/form-data">
 
     <div class="d-inline-block dropdown">
 		<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("newFicheArticle") }}">
@@ -634,7 +634,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label>Mode de Règlemence / * Joindre Courrier Acceptation</label>
+									<label>Mode de Règlement / * Joindre Courrier Acceptation</label>
 								</div>
 								</div>
 							<div class="col-md-2">
@@ -656,6 +656,8 @@ function geoApiCpVilleFacture() {
 								</div>
 						</div>
 
+						<hr>
+
 						<div class="form-row" style="text-align: center">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
@@ -676,7 +678,7 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label>Authorisation Prélèvement</label>
+									<label>Autorisation Prélèvement</label>
 									<input class="form-control-file" type="file" name="ext_auth"/>
 								</div>
 							</div>

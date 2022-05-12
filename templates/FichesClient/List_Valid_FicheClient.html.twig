@@ -17,11 +17,10 @@
 							<tr>
 								<th>Société</th>
 								<th>Etape Fiche</th>
-								<th>Utilisateur</th>ou
+								<th>Utilisateur</th>
 								<th>Nom d'Appel</th>
-								<th>Raison Social</th>
-								<th>Code Postal</th>
-								<th>Ville</th>
+								<th>Raison Sociale</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -33,8 +32,7 @@
 									<th>{{ client.username.firstName }} {{ client.username.lastName }}</th>
 									<th>{{ client.nomAppel }}</th>
 									<th>{{ client.raisonSocial }}</th>
-									<th>{{ client.adrFacCodePostal }}</th>
-									<th>{{ client.adrFacVille }}</th>
+									<th><a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("validFicheClient", {'id' : client.id }) }}"><span class="btn-icon-wrapper pr-2 opacity-7"><i class="fa fa-eraser fa-w-20"></i></span>Voir la fiche</a></th>
 								</tr>
 							{% endfor %}
 						</tbody>

@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block actionsPage %}
-	<form method="POST">
+	<form method="POST" enctype="multipart/form-data">
 
     <div class="d-inline-block dropdown">
 		<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("newFicheArticle") }}">
@@ -570,7 +570,7 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="stat1">AFFCAT 3 CHAMPS STAT 3</label>
 									<select class="form-control" name="stat3">
-										<option value="{{ client.stat3 }}">{{ stat3Code.Libelle_STAT3 }}</option>
+										<option value="{{ client.stat3 }}">{{ stat3Code.0 }}</option>
 										<option value=""></option>
 										{% for stat in stats3 %}
 											<option value="{{ stat.Code_STAT3 }}">{{ stat.Libelle_STAT3 }}</option>
@@ -640,7 +640,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label>Mode de Règlemence / * Joindre Courrier Acceptation</label>
+									<label>Mode de Règlement / * Joindre Courrier Acceptation</label>
 								</div>
 								</div>
 							<div class="col-md-2">
@@ -682,7 +682,7 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label>Authorisation Prélèvement</label>
+									<label>Autorisation Prélèvement</label>
 									<input class="form-control-file" type="file" name="ext_auth"/>
 								</div>
 							</div>
@@ -696,6 +696,49 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label>Autres Documents</label>
 									<input class="form-control-file" type="file" name="ext_autres"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row" style="text-align: center">
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>Voir les Documents</label>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									{% if client.extKbis != "" %}
+										<a class="btn mr-2 mb-2 btn-success" type="button" href="{{ asset('/Documents/FicheClient/' ~ client.id ~ '/KBIS.' ~ client.extKbis) }}" target="_blank">Voir le Documents</a>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									{% if client.extCgv != "" %}
+										<a class="btn mr-2 mb-2 btn-success" type="button" href="{{ asset('/Documents/FicheClient/' ~ client.id ~ '/CGV.' ~ client.extCgv) }}" target="_blank">Voir le Documents</a>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									{% if client.extAuth != "" %}
+										<a class="btn mr-2 mb-2 btn-success" type="button" href="{{ asset('/Documents/FicheClient/' ~ client.id ~ '/AUTH_PREV.' ~ client.extAuth) }}" target="_blank">Voir le Documents</a>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									{% if client.extRib != "" %}
+										<a class="btn mr-2 mb-2 btn-success" type="button" href="{{ asset('/Documents/FicheClient/' ~ client.id ~ '/RIB.' ~ client.extRib) }}" target="_blank">Voir le Documents</a>
+									{% endif %}
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									{% if client.extAutres != "" %}
+										<a class="btn mr-2 mb-2 btn-success" type="button" href="{{ asset('/Documents/FicheClient/' ~ client.id ~ '/AUTRES.' ~ client.extAutres) }}" target="_blank">Voir le Documents</a>
+									{% endif %}
 								</div>
 							</div>
 						</div>
