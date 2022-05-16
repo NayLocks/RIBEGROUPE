@@ -13,7 +13,7 @@ class SQLControllerRibeGroupe
 {
     function __construct()
     {        
-        $this->connexion_bdd = new \PDO('sqlsrv:Server=192.168.1.241;Database=RIBEGROUPE', 'sa', '2bsystem99');
+        $this->connexion_bdd = new \PDO('sqlsrv:Server=192.168.1.241;Database=HOLDING', 'sa', '2bsystem99');
         $this->connexion_bdd->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
     

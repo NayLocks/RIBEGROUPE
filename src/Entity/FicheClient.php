@@ -587,6 +587,11 @@ class FicheClient
      */
     private $dateValidDirection;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $raisonRefus;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -1956,6 +1961,18 @@ class FicheClient
     public function setDateValidDirection(?\DateTimeInterface $dateValidDirection): self
     {
         $this->dateValidDirection = $dateValidDirection;
+
+        return $this;
+    }
+
+    public function getRaisonRefus(): ?string
+    {
+        return $this->raisonRefus;
+    }
+
+    public function setRaisonRefus(?string $raisonRefus): self
+    {
+        $this->raisonRefus = $raisonRefus;
 
         return $this;
     }

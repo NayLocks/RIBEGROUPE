@@ -9,12 +9,24 @@
 {% block actionsPage %}
 	<form method="POST" enctype="multipart/form-data">
 
-    <div class="d-inline-block dropdown">
-		<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("newFicheArticle") }}">
+	{% if client.etapeFiche == "LOGISTIQUE" or client.etapeFiche == "DIRECTEUR" or client.etapeFiche == "COMPTA" %}
+	<div class="d-inline-block dropdown">
+		<button type="button" class="btn mr-2 mb-2 btn-danger" data-toggle="modal" data-target="#exampleModal">
 			<span class="btn-icon-wrapper pr-2 opacity-7">
 				<i class="fa fa-eraser fa-w-20"></i>
 			</span>
-			Remettre à zéro la fiche
+			Refuser la fiche
+		</button>
+	</div>
+	{% endif %}
+
+	{% if client.etapeFiche == "BROUILLON" %}
+    <div class="d-inline-block dropdown">
+		<a type="button" class="btn mr-2 mb-2 btn-danger"  href="{{ path("deleteFicheClient", {"id" : client.id}) }}">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-eraser fa-w-20"></i>
+			</span>
+			Supprimer la fiche
 		</a>
 	</div>
 
@@ -26,6 +38,7 @@
 			Enregistrer en brouillon
 		</button>
 	</div>
+	{% endif %}
 
 	<div class="d-inline-block dropdown">
 		<button type="submit" class="btn mr-2 mb-2 btn-success" name="VALID">
@@ -147,7 +160,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label>Ouverture Demandée Par</label><input class='form-control' type="text" name="ouvertureDemandee" value="{{ client.username.firstName }} {{ client.username.lastName }} / {{ app.user.username }}" disabled="disabled" />
+									<label>Ouverture Demandée Par</label><input class='form-control' type="text" name="ouvertureDemandee" value="{{ client.username.firstName }} {{ client.username.lastName }} / {{ client.username.username }}" disabled="disabled" />
 								</div>
 							</div>
 							<div class="col-md-2">
@@ -1223,7 +1236,6 @@ function geoApiCpVilleFacture() {
 								</div>
 							</div>
 						</div>
-					</form>
 				</div>
 			</div>
 		</div>
@@ -1253,4 +1265,25 @@ function geoApiCpVilleFacture() {
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Raison du Refus</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" rows="5" name="textRefus" placeholder="L'adresse est manquante / il manque les coordonnées GPS"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler le Refus</button>
+                <button type="submit" class="btn btn-success" name="REFUS">Envoyer le Refus</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
 {% endblock %}
