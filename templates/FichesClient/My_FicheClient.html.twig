@@ -36,9 +36,9 @@
 									{% if app.user.company.name == "SIDELIS" or app.user.company.name == "BIO E'MOI" or app.user.company.name == "PROMER OCEAN" %}
 										<th>{{ client.companyTransport }}</th>
 									{% endif %}
-									<th>{{ client.dateReceptionLogistique|date('d/m/Y') }}</th>
-									<th>{{ client.dateReceptionDirecteur|date('d/m/Y') }}</th>
-									<th>{{ client.dateValidDirection|date('d/m/Y') }}</th>
+									<th>{% if client.dateReceptionLogistique != null %}{{ client.dateReceptionLogistique|date('d/m/Y') }}{% endif %}</th>
+									<th>{% if client.dateReceptionDirecteur != null %}{{ client.dateReceptionDirecteur|date('d/m/Y') }}{% endif %}</th>
+									<th>{% if client.dateValidDirection != null %}{{ client.dateValidDirection|date('d/m/Y') }}{% endif %}</th>
 									<th>{{ client.nomAppel }}</th>
 									<th>{{ client.raisonSocial }}</th>
 
