@@ -20,7 +20,9 @@
 								{% if app.user.company.name == "SIDELIS" or app.user.company.name == "BIO E'MOI" or app.user.company.name == "PROMER OCEAN" %}
 									<th>Société de Transport</th>
 								{% endif %}
-								<th>Utilisateur</th>
+								<th>Date Réception Logistique</th>
+								<th>Date Réception Directeur</th>
+								<th>Date Réception Compta</th>
 								<th>Nom d'Appel</th>
 								<th>Raison Sociale</th>
 								<th>Actions</th>
@@ -34,7 +36,9 @@
 									{% if app.user.company.name == "SIDELIS" or app.user.company.name == "BIO E'MOI" or app.user.company.name == "PROMER OCEAN" %}
 										<th>{{ client.companyTransport }}</th>
 									{% endif %}
-									<th>{{ client.username.firstName }}  {{ client.username.lastName }}</th>
+									<th>{{ client.dateReceptionLogistique|date('d/m/Y') }}</th>
+									<th>{{ client.dateReceptionDirecteur|date('d/m/Y') }}</th>
+									<th>{{ client.dateValidationDirecteur|date('d/m/Y') }}</th>
 									<th>{{ client.nomAppel }}</th>
 									<th>{{ client.raisonSocial }}</th>
 

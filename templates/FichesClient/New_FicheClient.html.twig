@@ -42,6 +42,7 @@
            src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
 <script>
+
 function geoApiCpVilleLivraison() {
     let requestURL = 'https://geo.api.gouv.fr/communes?codePostal=' + document.getElementById("adrLivCodePostal").value +'&fields=nom,code,codesPostaux,codeDepartement,codeRegion,population&format=json&geometry=centre';
     let request = new XMLHttpRequest();
@@ -103,9 +104,7 @@ function geoApiCpVilleFacture() {
  		var options = '';
         options += '<table class="mb-0 table table-striped"><thead><tr><th>Adresse</th><th>Code Postal</th><th>Ville</th><tr></thead><tbody><tr><td>' + ville.features[0].properties.housenumber + ' ' + ville.features[0].properties.street + '</td><td>' + ville.features[0].properties.postcode + '</td><td>' + ville.features[0].properties.city + '</td></tr></tbody></table>';
         document.getElementById('textGPS').innerHTML = options;
-    
-}
-
+		}
 
 		var select = document.getElementById("GPS_Display");
  		var options = '';
@@ -113,6 +112,102 @@ function geoApiCpVilleFacture() {
         document.getElementById('GPS_Display').innerHTML = options;
 
 	}
+
+function functionSiretSirenTVA(){
+	let requestURL = '';
+	if(document.getElementById("siren").value != ""){
+    	requestURL = 'https://entreprise.data.gouv.fr/api/sirene/v3/unites_legales/' + document.getElementById("siren").value;
+		let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+	console.log(ville);
+		var options = '';
+		options += '<table class="mb-0 table table-striped"><thead>'
+		options += '<tr><th colspan="2" style="text-align: center">Entreprise Siège</th></tr>';
+		options += '<tr><th>Société</th><th>' + ville.unite_legale.denomination + '</th></tr>';
+		options += '<tr><th>SIRET</th><th>' + ville.unite_legale.etablissement_siege.siret + '</th></tr>';
+		options += '<tr><th>SIREN</th><th>' + ville.unite_legale.etablissement_siege.siren + '</th></tr>';
+		options += '<tr><th>N TVA</th><th>' + ville.unite_legale.numero_tva_intra + '</th></tr>';
+		options += '<tr><th>Adresse</th><th>' + ville.unite_legale.etablissement_siege.geo_l4 + '</th></tr>';
+		options += '<tr><th>Complément d\'Adresse</th><th>' + ville.unite_legale.etablissement_siege.complement_adresse + '</th></tr>';
+		options += '<tr><th>Code Postal</th><th>' + ville.unite_legale.etablissement_siege.code_postal + '</th></tr>';
+		options += '<tr><th>Ville</th><th>' + ville.unite_legale.etablissement_siege.libelle_commune + '</th></tr>';
+		options += '<tr><th>Latitude</th><th>' + ville.unite_legale.etablissement_siege.latitude + '</th></tr>';
+		options += '<tr><th>Longitude</th><th>' + ville.unite_legale.etablissement_siege.longitude + '</th></tr></thead></table>';
+		options += '<input type="hidden" id="TEMP_siret" value="' + ville.unite_legale.etablissement_siege.siret  + '"/>';
+		options += '<input type="hidden" id="TEMP_siren" value="' + ville.unite_legale.etablissement_siege.siren + '"/>';
+		options += '<input type="hidden" id="TEMP_tva" value="' + ville.unite_legale.numero_tva_intra + '"/>';
+		options += '<input type="hidden" id="TEMP_latitude" value="' + ville.unite_legale.etablissement_siege.latitude + '"/>';
+		options += '<input type="hidden" id="TEMP_longitude" value="' + ville.unite_legale.etablissement_siege.longitude + '"/>';
+        document.getElementById('textEtablissement').innerHTML = options;
+
+		
+
+ 		var options = '';
+		options += '<h3 style="text-align: center">Liste des Etablissements</h3>';	
+
+ 		ville.unite_legale.etablissements.forEach((et) => {
+		options += '<table class="mb-0 table table-striped"><thead>';
+		options += '<tr><th>SIRET</th><th>' + et.siret + '</th></tr>';
+		options += '<tr><th>SIREN</th><th>' + et.siren + '</th></tr>';
+		options += '<tr><th>Adresse</th><th>' + et.geo_l4 + '</th></tr>';
+		options += '<tr><th>Complément d\'Adresse</th><th>' + et.complement_adresse + '</th></tr>';
+		options += '<tr><th>Code Postal</th><th>' + et.code_postal + '</th></tr>';
+		options += '<tr><th>Ville</th><th>' + et.libelle_commune + '</th></tr>';
+		options += '<tr><th>Latitude</th><th>' + et.latitude + '</th></tr>';
+		options += '<tr><th>Longitude</th><th>' + et.longitude + '</th></tr>';
+		options += '</thead></table>';
+		options += '</br></br>';
+		});
+		
+        document.getElementById('infosEtablissement').innerHTML = options;
+	}
+	}
+	else if(document.getElementById("siret").value != ""){
+    	requestURL = 'https://entreprise.data.gouv.fr/api/sirene/v3/etablissements/' + document.getElementById("siret").value;
+		let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+	console.log(ville);
+		var options = '';
+        document.getElementById('infosEtablissement').innerHTML = options;
+		options += '<table class="mb-0 table table-striped"><thead>';
+		options += '<tr><th colspan="2" style="text-align: center">Information Entreprise</th></tr>';
+		options += '<tr><th>Société</th><th>' + ville.etablissement.unite_legale.denomination + '</th></tr>';
+		options += '<tr><th>SIRET</th><th>' + ville.etablissement.siret + '</th></tr>';
+		options += '<tr><th>SIREN</th><th>' + ville.etablissement.siren + '</th></tr>';
+		options += '<tr><th>N TVA</th><th>' + ville.etablissement.unite_legale.numero_tva_intra + '</th></tr>';
+		options += '<tr><th>Adresse</th><th>' + ville.etablissement.geo_l4 + '</th></tr>';
+		options += '<tr><th>Complément d\'Adresse</th><th>' + ville.etablissement.complement_adresse + '</th></tr>';
+		options += '<tr><th>Code Postal</th><th>' + ville.etablissement.code_postal + '</th></tr>';
+		options += '<tr><th>Ville</th><th>' + ville.etablissement.libelle_commune + '</th></tr>';
+		options += '<tr><th>Latitude</th><th>' + ville.etablissement.latitude + '</th></tr>';
+		options += '<tr><th>Longitude</th><th>' + ville.etablissement.longitude + '</th></tr></thead></table>';
+		options += '<input type="hidden" id="TEMP_siret" value="' + ville.etablissement.siret + '"/>';
+		options += '<input type="hidden" id="TEMP_siren" value="' + ville.etablissement.siren + '"/>';
+		options += '<input type="hidden" id="TEMP_tva" value="' + ville.etablissement.unite_legale.numero_tva_intra + '"/>';
+		options += '<input type="hidden" id="TEMP_latitude" value="' + ville.etablissement.latitude + '"/>';
+		options += '<input type="hidden" id="TEMP_longitude" value="' + ville.etablissement.longitude + '"/>';
+        document.getElementById('textEtablissement').innerHTML = options;
+	}
+	}
+
+	
+}
+
+function functionInsertSiretSirenTVA(){
+	document.getElementById("siret").value = document.getElementById("TEMP_siret").value;
+	document.getElementById("siren").value = document.getElementById("TEMP_siren").value;
+	document.getElementById("tva").value = document.getElementById("TEMP_tva").value;
+	document.getElementById("lat").value = document.getElementById("TEMP_latitude").value;
+	document.getElementById("long").value = document.getElementById("TEMP_longitude").value;
+}
 </script>
 
 	<div class="tab-content">
@@ -339,13 +434,19 @@ function geoApiCpVilleFacture() {
 								<div class="position-relative form-group">
 									<label for="adrLivCodePostal">Code Postal</label><input id="adrLivCodePostal" name="adrLivCodePostal" type="text" class="form-control" maxlength="10" onkeyup="geoApiCpVilleLivraison()"></div>
 							</div>
-							<div class="col-md-3">
+							<div class="col-md-2">
 								<div class="position-relative form-group">
 									<label for="adrLivVille">Ville</label><input name="adrLivVille" list="adrLivVille" type="text" class="form-control" maxlength="250">
 									<datalist id="adrLivVille"></datalist>
 									</div>
 							</div>
 							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="siren">Chercher le Latitude / Longitude</label>
+									<button type="button" class="btn mr-2 mb-2 btn-success form-control"  data-toggle="modal" data-target=".bd-example-modal-info" name="siretSirenTVA" onclick="functionSiretSirenTVA()" disabled=disabled>Longitude / Latitude</button>
+								</div>
+							</div>
+							<div class="col-md-1">
 								
 							</div>
 							<div class="col-md-1">
@@ -361,11 +462,21 @@ function geoApiCpVilleFacture() {
 						</div>
 
 						<div class="form-row">
-							<div class="col-md-5">
+							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="siret">N° SIRET</label><input name="siret" type="text" class="form-control" ></div>
+									<label for="siret">N° SIRET</label><input name="siret" id="siret" type="text" class="form-control" ></div>
 							</div>
 							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="siren">N° SIREN</label><input name="siren" id="siren" type="text" class="form-control" ></div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="siren">Chercher le SIRET / SIREN / TVA</label>
+									<button type="button" class="btn mr-2 mb-2 btn-success form-control"  data-toggle="modal" data-target=".bd-example-modal-info" name="siretSirenTVA" onclick="functionSiretSirenTVA()">Informations Entreprise</button>
+								</div>
+							</div>
+							<div class="col-md-1">
 								
 							</div>
 							<div class="col-md-1">
@@ -383,7 +494,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="tva">N° TVA Intracommunautaire</label><input name="tva" type="text" class="form-control" ></div>
+									<label for="tva">N° TVA Intracommunautaire</label><input name="tva" id="tva" type="text" class="form-control" value="FR" ></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -1192,6 +1303,28 @@ function geoApiCpVilleFacture() {
             <div class="modal-body" id="GPS_Display">
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer la Fenêtre</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-info" tabindex="-1" role="dialog" aria-labelledby="siretSirenTVA" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="siretSirenTVA">Informaions Entreprise Trouvées</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+			<div class="modal-body" id="textEtablissement">
+            </div>
+            <div class="modal-body" id="infosEtablissement">
+            </div>
+            <div class="modal-footer">
+				<button type="button" class="btn mr-2 mb-2 btn-success form-control" data-dismiss="modal" name="siretSirenTVAInsert" onclick="functionInsertSiretSirenTVA()">Remplir les champs : SIRET / SIREN / TVA / Latitude / Longitude</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer la Fenêtre</button>
             </div>
         </div>

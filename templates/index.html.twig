@@ -4,4 +4,32 @@
 {% endblock %}
 
 {% block body %}
+<script>
+
+
+    let requestURL = 'https://entreprise.data.gouv.fr/api/sirene/v3/unites_legales/453131021';
+    //let requestURL = 'https://api-adresse.data.gouv.fr/reverse/?lon=2.875667&lat=49.474364&type=housenumber';
+	let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+        console.log("Nom Société (Siège) : " + ville.unite_legale.denomination);
+        console.log("Adresse (Siège) : " + ville.unite_legale.etablissement_siege.geo_l4);
+        console.log("TVA FR (Siège) : " + ville.unite_legale.numero_tva_intra);
+        console.log("SIRET (Siège) : " + ville.unite_legale.etablissement_siege.siret);
+        console.log("SIREN (Siège) : " + ville.unite_legale.etablissement_siege.siren);
+        
+        ville.unite_legale.etablissements.forEach((test)  => {
+            console.log("Adresse : " + test.geo_adresse);
+            console.log("SIRET : " + test.siret);
+        });
+
+        console.log("");
+        console.log(ville);
+    }
+
+</script>
+
 {% endblock %}

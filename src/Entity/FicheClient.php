@@ -592,6 +592,11 @@ class FicheClient
      */
     private $raisonRefus;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateReceptionDirecteur;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -1973,6 +1978,18 @@ class FicheClient
     public function setRaisonRefus(?string $raisonRefus): self
     {
         $this->raisonRefus = $raisonRefus;
+
+        return $this;
+    }
+
+    public function getDateReceptionDirecteur(): ?\DateTimeInterface
+    {
+        return $this->dateReceptionDirecteur;
+    }
+
+    public function setDateReceptionDirecteur(?\DateTimeInterface $dateReceptionDirecteur): self
+    {
+        $this->dateReceptionDirecteur = $dateReceptionDirecteur;
 
         return $this;
     }
