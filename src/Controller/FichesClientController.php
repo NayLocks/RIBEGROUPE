@@ -75,7 +75,7 @@ class FichesClientController extends AbstractController
         }
     }
 
-    /**
+    
      * @Route("/nouvelle_fiche_client", name="newFicheClient")
      */
     public function index(UserInterface $user, MailerInterface $mailer)
