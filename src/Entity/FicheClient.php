@@ -597,6 +597,11 @@ class FicheClient
      */
     private $dateReceptionDirecteur;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateReceptionLogistique;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -1990,6 +1995,18 @@ class FicheClient
     public function setDateReceptionDirecteur(?\DateTimeInterface $dateReceptionDirecteur): self
     {
         $this->dateReceptionDirecteur = $dateReceptionDirecteur;
+
+        return $this;
+    }
+
+    public function getDateReceptionLogistique(): ?\DateTimeInterface
+    {
+        return $this->dateReceptionLogistique;
+    }
+
+    public function setDateReceptionLogistique(?\DateTimeInterface $dateReceptionLogistique): self
+    {
+        $this->dateReceptionLogistique = $dateReceptionLogistique;
 
         return $this;
     }

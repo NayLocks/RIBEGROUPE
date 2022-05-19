@@ -96,18 +96,27 @@ class FichesClientController extends AbstractController
                 if($_POST["companyTransport"] == "PROMER OCEAN" or $_POST["companyTransport"] == "SIDELIS" or $_POST["companyTransport"] == "BIO E'MOI"){
                     if($user->getTitleFC() == "DIRECTEUR"){
                         $client->setEtapefiche("COMPTA");
+                        $date = new DateTime("now");
+                        $client->setDateValidDirection($date);
                     }
                     else{
                         $client->setEtapefiche("DIRECTEUR");
+                        $date = new DateTime("now");
+                        $client->setDateReceptionDirecteur($date);
                     }
                 }else{
                     $client->setEtapefiche("LOGISTIQUE");
+                    $date = new DateTime("now");
+                    $client->setDateReceptionLogistique($date);
                 }
             }
             else if(isset($_POST['BROUILLON'])) {
                 $client->setEtapefiche("BROUILLON");
             }  
 
+            $date = new DateTime("now");
+            $client->setDate($date);
+            
             if(isset($_POST["fl"])){
                 $_POST["fl"] = 1;
             }else{
@@ -208,8 +217,6 @@ class FichesClientController extends AbstractController
             }
             
     
-            $date = new DateTime("now");
-            $client->setDate($date);
     
             $client->setCompany($user->getCompany());
             $client->setUsername($user);
@@ -641,12 +648,18 @@ class FichesClientController extends AbstractController
                 if($_POST["companyTransport"] == "PROMER OCEAN" or $_POST["companyTransport"] == "SIDELIS" or $_POST["companyTransport"] == "BIO E'MOI"){
                     if($user->getTitleFC() == "DIRECTEUR"){
                         $client->setEtapefiche("COMPTA");
+                        $date = new DateTime("now");
+                        $client->setDateValidDirecton($date);
                     }
                     else{
                         $client->setEtapefiche("DIRECTEUR");
+                        $date = new DateTime("now");
+                        $client->setDateReceptionDirecteur($date);
                     }
                 }else{
                     $client->setEtapefiche("LOGISTIQUE");
+                    $date = new DateTime("now");
+                    $client->setDateReceptionLogistique($date);
                 }
             }
             else if(isset($_POST['BROUILLON'])) {
@@ -1230,16 +1243,28 @@ class FichesClientController extends AbstractController
             if(isset($_POST['VALID'])){
                 if($client->getEtapeFiche() == "LOGISTIQUE"){
                     $client->setEtapeFiche("DIRECTEUR");
+                    $date = new DateTime("now");
+                    $client->setDateReceptionDirecteur($date);
                 }else{
                     $client->setEtapeFiche("COMPTA");
+                    $date = new DateTime("now");
+                    $client->setDateValidDirection($date);
                 }
             }
             else if(isset($_POST['REFUS'])){
                 $client->setRaisonRefus($_POST["textRefus"]);
                 if($client->getEtapeFiche() == "LOGISTIQUE"){
                     $client->setEtapeFiche("BROUILLON");
+                    $client->setDateReceptionDirecteur(null);
+                    $client->setDateReceptionLogistique(null);
+                    $client->setDateValidDirection(null);
+
                 }else if($client->getEtapeFiche() == "DIRECTEUR"){
                     $client->setEtapeFiche("LOGISTIQUE");
+                    $date = new DateTime("now");
+                    $client->setDateReceptionLogistique($date);
+                    $client->setDateReceptionDirecteur(null);
+                    $client->setDateValidDirection(null);
                 }
             }  
             
