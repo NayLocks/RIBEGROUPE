@@ -943,10 +943,6 @@ class FichesClientController extends AbstractController
             $client->setRgJeudi($_POST["rgJeudi"]);
             $client->setRgVendredi($_POST["rgVendredi"]);
             $client->setRgSamedi($_POST["rgSamedi"]);
-
-            $date = new DateTime("now");
-            $client->setDateValidDirection($date);
-            
             $client->setPlageHoraire($_POST["plageHoraire"]);
             $client->setLatitude($_POST["latitude"]);
             $client->setLongitude($_POST["longitude"]);
@@ -1538,9 +1534,6 @@ class FichesClientController extends AbstractController
             $client->setRgJeudi($_POST["rgJeudi"]);
             $client->setRgVendredi($_POST["rgVendredi"]);
             $client->setRgSamedi($_POST["rgSamedi"]);
-
-            $date = new DateTime("now");
-            $client->setDateValidDirection($date);
             
             $client->setPlageHoraire($_POST["plageHoraire"]);
             $client->setLatitude($_POST["latitude"]);
