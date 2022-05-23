@@ -50,7 +50,12 @@ class FichesClientController extends AbstractController
     public function listValidClient(UserInterface $user, Request $request): Response
     {
         $allFichesClient = $this->getDoctrine()->getRepository(FicheClient::class);
-        $clients = $allFichesClient->findBy(array("etapeFiche" => $user->getTitleFC(), "companyTransport" => $user->getcompany()->getName()));
+        if($user->getTitleFC() == "LOGISTIQUE"){
+            $clients = $allFichesClient->findBy(array("etapeFiche" => $user->getTitleFC(), "companyTransport" => $user->getCompany()->getName()));
+        }
+        else{
+            $clients = $allFichesClient->findBy(array("etapeFiche" => $user->getTitleFC(), "company" => $user->getCompany()));
+        }
 
         return $this->render('FichesClient/List_Valid_FicheClient.html.twig', ["clients" => $clients]);
     }
@@ -238,6 +243,7 @@ class FichesClientController extends AbstractController
             $client->setAdrLivCodePostal($_POST["adrLivCodePostal"]);
             $client->setAdrLivVille($_POST["adrLivVille"]);
             $client->setSiret($_POST["siret"]);
+            $client->setSiren($_POST["siren"]);
             $client->setTva($_POST["tva"]);
 
             
@@ -856,6 +862,7 @@ class FichesClientController extends AbstractController
             $client->setAdrLivCodePostal($_POST["adrLivCodePostal"]);
             $client->setAdrLivVille($_POST["adrLivVille"]);
             $client->setSiret($_POST["siret"]);
+            $client->setSiren($_POST["siren"]);
             $client->setTva($_POST["tva"]);
 
             
@@ -1447,6 +1454,7 @@ class FichesClientController extends AbstractController
             $client->setAdrLivCodePostal($_POST["adrLivCodePostal"]);
             $client->setAdrLivVille($_POST["adrLivVille"]);
             $client->setSiret($_POST["siret"]);
+            $client->setSiren($_POST["siren"]);
             $client->setTva($_POST["tva"]);
 
             
@@ -1702,7 +1710,7 @@ class FichesClientController extends AbstractController
                                                                      Utilisateur :
                                                                  </td>
                                                                  <td data-color="text" data-size="size text" data-min="10" data-max="26" data-link-color="link text color" data-link-style="font-weight:bold; text-decoration:underline; color:#40aceb;" align="center" style="font:bold 16px/25px Arial, Helvetica, sans-serif; color:#888; padding:0 0 23px;">
-                                                                 '.$user->getUsername()->getFirstName().' '.$client->getUsername()->getLastName().'
+                                                                 '.$client ->getUsername()->getFirstName().' '.$client->getUsername()->getLastName().'
                                                                  </td>
                                                              </tr>
                                                              <tr>

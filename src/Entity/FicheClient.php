@@ -602,6 +602,11 @@ class FicheClient
      */
     private $dateReceptionLogistique;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $siren;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -2007,6 +2012,18 @@ class FicheClient
     public function setDateReceptionLogistique(?\DateTimeInterface $dateReceptionLogistique): self
     {
         $this->dateReceptionLogistique = $dateReceptionLogistique;
+
+        return $this;
+    }
+
+    public function getSiren(): ?string
+    {
+        return $this->siren;
+    }
+
+    public function setSiren(?string $siren): self
+    {
+        $this->siren = $siren;
 
         return $this;
     }

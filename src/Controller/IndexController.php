@@ -19,8 +19,11 @@ class IndexController extends AbstractController
      */
     public function index(UserInterface $user)
     {
-
-        return $this->render('index.html.twig');
+        if($user->getTitleFC() == "VENDEUR" && $user->getTitleFA() == "AUCUN"){
+            return $this->redirectToRoute("myFicheClient");
+        }else{
+            return $this->redirectToRoute("listValidFicheClient");  
+        }
     }
 
     /**

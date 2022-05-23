@@ -113,6 +113,41 @@ function geoApiCpVilleFacture() {
 
 	}
 
+	function searchCoorGPS(){
+
+    let requestURL = 'https://api-adresse.data.gouv.fr/search/?q=' + document.getElementById("adrLivraison").value  + '+' + document.getElementById("adrLivCodePostal").value + '+' + document.getElementById("adrLivVille2").value + '&type=housenumber';
+	let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+		console.log(ville);
+		let requestURL2 = 'https://api-adresse.data.gouv.fr/reverse/?lon=' + ville.features[0].geometry.coordinates[0] + '&lat=' + ville.features[0].geometry.coordinates[1] + '&type=housenumber';
+		let request2 = new XMLHttpRequest();
+    	request2.open('GET', requestURL2);
+    	request2.responseType = 'json';
+    	request2.send();
+   		request2.onload = function() {
+    	const gps = request2.response;
+		console.log(gps);
+		var select = document.getElementById("textGPS");
+ 		var options = '';
+        options += '<table class="mb-0 table table-striped"><thead><tr><th>Adresse</th><th>Code Postal</th><th>Ville</th><tr></thead><tbody><tr><td>' + gps.features[0].properties.housenumber + ' ' + gps.features[0].properties.street + '</td><td>' + gps.features[0].properties.postcode + '</td><td>' + gps.features[0].properties.city + '</td></tr></tbody></table>';
+        document.getElementById('textGPS').innerHTML = options;
+		}
+
+		var select = document.getElementById("GPS_Display");
+ 		var options = '';
+        options += '<iframe width="100%" height="500" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=' + ville.features[0].geometry.coordinates[1] + ',' + ville.features[0].geometry.coordinates[0] + '&amp;key=AIzaSyAVnZiratT6_nsfEO_RYBNnsrgd-onQfMY"></iframe>';
+        options += '<input type="hidden" id="TEMP1_latitude" value="' + ville.features[0].geometry.coordinates[1] + '"/>';
+		options += '<input type="hidden" id="TEMP1_longitude" value="' + ville.features[0].geometry.coordinates[0] + '"/>';		
+		options += '<tr><th colspan="2"><button type="button" class="btn mr-2 mb-2 btn-success form-control" data-dismiss="modal" name="validGPS" onclick="insertCoordGPS(1)">Remplir les champs : Latitude / Longitude</button></th></tr>';
+        document.getElementById('GPS_Display').innerHTML = options;
+
+		}		
+	}
+
 function functionSiretSirenTVA(){
 	let requestURL = '';
 	if(document.getElementById("siren").value != ""){
@@ -124,46 +159,37 @@ function functionSiretSirenTVA(){
     request.onload = function() {
     const ville = request.response;
 	console.log(ville);
-		var options = '';
-		options += '<table class="mb-0 table table-striped"><thead>'
-		options += '<tr><th colspan="2" style="text-align: center">Entreprise Siège</th></tr>';
-		options += '<tr><th>Société</th><th>' + ville.unite_legale.denomination + '</th></tr>';
-		options += '<tr><th>SIRET</th><th>' + ville.unite_legale.etablissement_siege.siret + '</th></tr>';
-		options += '<tr><th>SIREN</th><th>' + ville.unite_legale.etablissement_siege.siren + '</th></tr>';
-		options += '<tr><th>N TVA</th><th>' + ville.unite_legale.numero_tva_intra + '</th></tr>';
-		options += '<tr><th>Adresse</th><th>' + ville.unite_legale.etablissement_siege.geo_l4 + '</th></tr>';
-		options += '<tr><th>Complément d\'Adresse</th><th>' + ville.unite_legale.etablissement_siege.complement_adresse + '</th></tr>';
-		options += '<tr><th>Code Postal</th><th>' + ville.unite_legale.etablissement_siege.code_postal + '</th></tr>';
-		options += '<tr><th>Ville</th><th>' + ville.unite_legale.etablissement_siege.libelle_commune + '</th></tr>';
-		options += '<tr><th>Latitude</th><th>' + ville.unite_legale.etablissement_siege.latitude + '</th></tr>';
-		options += '<tr><th>Longitude</th><th>' + ville.unite_legale.etablissement_siege.longitude + '</th></tr></thead></table>';
-		options += '<input type="hidden" id="TEMP_siret" value="' + ville.unite_legale.etablissement_siege.siret  + '"/>';
-		options += '<input type="hidden" id="TEMP_siren" value="' + ville.unite_legale.etablissement_siege.siren + '"/>';
-		options += '<input type="hidden" id="TEMP_tva" value="' + ville.unite_legale.numero_tva_intra + '"/>';
-		options += '<input type="hidden" id="TEMP_latitude" value="' + ville.unite_legale.etablissement_siege.latitude + '"/>';
-		options += '<input type="hidden" id="TEMP_longitude" value="' + ville.unite_legale.etablissement_siege.longitude + '"/>';
+ 		var options = '';
+		 var i = 1;
         document.getElementById('textEtablissement').innerHTML = options;
 
-		
-
- 		var options = '';
 		options += '<h3 style="text-align: center">Liste des Etablissements</h3>';	
 
  		ville.unite_legale.etablissements.forEach((et) => {
-		options += '<table class="mb-0 table table-striped"><thead>';
+		options += '<table class="mb-0 table table-striped"><thead>';	
+		options += '<tr><th>Société</th><th>' + ville.unite_legale.denomination + '</th></tr>';
 		options += '<tr><th>SIRET</th><th>' + et.siret + '</th></tr>';
 		options += '<tr><th>SIREN</th><th>' + et.siren + '</th></tr>';
+		options += '<tr><th>N TVA</th><th>' + ville.unite_legale.numero_tva_intra + '</th></tr>';
 		options += '<tr><th>Adresse</th><th>' + et.geo_l4 + '</th></tr>';
 		options += '<tr><th>Complément d\'Adresse</th><th>' + et.complement_adresse + '</th></tr>';
 		options += '<tr><th>Code Postal</th><th>' + et.code_postal + '</th></tr>';
 		options += '<tr><th>Ville</th><th>' + et.libelle_commune + '</th></tr>';
 		options += '<tr><th>Latitude</th><th>' + et.latitude + '</th></tr>';
 		options += '<tr><th>Longitude</th><th>' + et.longitude + '</th></tr>';
+		options += '<input type="hidden" id="TEMP' + i + '_siret" value="' + et.siret + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_siren" value="' + et.siren + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_tva" value="' + ville.unite_legale.numero_tva_intra + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_latitude" value="' + et.latitude + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_longitude" value="' + et.longitude + '"/>';
+		options += '<tr><th colspan="2"><button type="button" class="btn mr-2 mb-2 btn-success form-control" data-dismiss="modal" name="siretSirenTVAInsert" onclick="functionInsertSiretSirenTVA(' + i + ')">Remplir les champs : SIRET / SIREN / TVA / Latitude / Longitude</button></th></tr>';
 		options += '</thead></table>';
 		options += '</br></br>';
+		i = i+1;
 		});
-		
-        document.getElementById('infosEtablissement').innerHTML = options;
+
+        document.getElementById('textEtablissement').innerHTML = options;
+
 	}
 	}
 	else if(document.getElementById("siret").value != ""){
@@ -176,7 +202,8 @@ function functionSiretSirenTVA(){
     const ville = request.response;
 	console.log(ville);
 		var options = '';
-        document.getElementById('infosEtablissement').innerHTML = options;
+		var i = 1;
+        document.getElementById('textEtablissement').innerHTML = options;
 		options += '<table class="mb-0 table table-striped"><thead>';
 		options += '<tr><th colspan="2" style="text-align: center">Information Entreprise</th></tr>';
 		options += '<tr><th>Société</th><th>' + ville.etablissement.unite_legale.denomination + '</th></tr>';
@@ -189,11 +216,13 @@ function functionSiretSirenTVA(){
 		options += '<tr><th>Ville</th><th>' + ville.etablissement.libelle_commune + '</th></tr>';
 		options += '<tr><th>Latitude</th><th>' + ville.etablissement.latitude + '</th></tr>';
 		options += '<tr><th>Longitude</th><th>' + ville.etablissement.longitude + '</th></tr></thead></table>';
-		options += '<input type="hidden" id="TEMP_siret" value="' + ville.etablissement.siret + '"/>';
-		options += '<input type="hidden" id="TEMP_siren" value="' + ville.etablissement.siren + '"/>';
-		options += '<input type="hidden" id="TEMP_tva" value="' + ville.etablissement.unite_legale.numero_tva_intra + '"/>';
-		options += '<input type="hidden" id="TEMP_latitude" value="' + ville.etablissement.latitude + '"/>';
-		options += '<input type="hidden" id="TEMP_longitude" value="' + ville.etablissement.longitude + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_siret" value="' + ville.etablissement.siret + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_siren" value="' + ville.etablissement.siren + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_tva" value="' + ville.etablissement.unite_legale.numero_tva_intra + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_latitude" value="' + ville.etablissement.latitude + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_longitude" value="' + ville.etablissement.longitude + '"/>';		
+		options += '<tr><th colspan="2"><button type="button" class="btn mr-2 mb-2 btn-success form-control" data-dismiss="modal" name="siretSirenTVAInsert" onclick="functionInsertSiretSirenTVA(' + i + ')">Remplir les champs : SIRET / SIREN / TVA / Latitude / Longitude</button></th></tr>';
+
         document.getElementById('textEtablissement').innerHTML = options;
 	}
 	}
@@ -201,12 +230,17 @@ function functionSiretSirenTVA(){
 	
 }
 
-function functionInsertSiretSirenTVA(){
-	document.getElementById("siret").value = document.getElementById("TEMP_siret").value;
-	document.getElementById("siren").value = document.getElementById("TEMP_siren").value;
-	document.getElementById("tva").value = document.getElementById("TEMP_tva").value;
-	document.getElementById("lat").value = document.getElementById("TEMP_latitude").value;
-	document.getElementById("long").value = document.getElementById("TEMP_longitude").value;
+function functionInsertSiretSirenTVA(id){
+	document.getElementById("siret").value = document.getElementById("TEMP" + id +"_siret").value;
+	document.getElementById("siren").value = document.getElementById("TEMP" + id +"_siren").value;
+	document.getElementById("tva").value = document.getElementById("TEMP" + id +"_tva").value;
+	document.getElementById("lat").value = document.getElementById("TEMP" + id +"_latitude").value;
+	document.getElementById("long").value = document.getElementById("TEMP" + id +"_longitude").value;
+}
+
+function insertCoordGPS(id){
+	document.getElementById("lat").value = document.getElementById("TEMP" + id +"_latitude").value;
+	document.getElementById("long").value = document.getElementById("TEMP" + id +"_longitude").value;
 }
 </script>
 
@@ -337,14 +371,14 @@ function functionInsertSiretSirenTVA(){
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="nomAppel">Nom d'Appel</label><input name="nomAppel" type="text" class="form-control" maxlength="250"></div>
+									<label for="nomAppel">Nom d'Appel</label><input name="nomAppel" type="text" class="form-control champsOb" required maxlength="250" ></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="phoneStandard">Téléphone Standard</label><input name="phoneStandard" type="tel" class="form-control" maxlength="20"></div>
+									<label for="phoneStandard">Téléphone Standard</label><input name="phoneStandard" type="tel" class="form-control champsOb" required maxlength="20"></div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
@@ -377,7 +411,7 @@ function functionInsertSiretSirenTVA(){
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="raisonSociale">Raison Sociale</label><input name="raisonSociale" type="text" class="form-control" maxlength="250"></div>
+									<label for="raisonSociale">Raison Sociale</label><input name="raisonSociale" type="text" class="form-control champsOb" required maxlength="250"></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -405,7 +439,7 @@ function functionInsertSiretSirenTVA(){
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="adrLivraison">Adresse Livraison</label><input name="adrLivraison" type="text" class="form-control" maxlength="250"></div>
+									<label for="adrLivraison">Adresse Livraison</label><input id="adrLivraison" name="adrLivraison" type="text" class="form-control champsOb" required maxlength="250"></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -432,18 +466,18 @@ function functionInsertSiretSirenTVA(){
 						<div class="form-row">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="adrLivCodePostal">Code Postal</label><input id="adrLivCodePostal" name="adrLivCodePostal" type="text" class="form-control" maxlength="10" onkeyup="geoApiCpVilleLivraison()"></div>
+									<label for="adrLivCodePostal">Code Postal</label><input id="adrLivCodePostal" name="adrLivCodePostal" type="text" class="form-control champsOb" required maxlength="10" onkeyup="geoApiCpVilleLivraison()"></div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="adrLivVille">Ville</label><input name="adrLivVille" list="adrLivVille" type="text" class="form-control" maxlength="250">
+									<label for="adrLivVille">Ville</label><input id="adrLivVille2" name="adrLivVille" list="adrLivVille" type="text" class="form-control champsOb" required maxlength="250">
 									<datalist id="adrLivVille"></datalist>
 									</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
 									<label for="siren">Chercher le Latitude / Longitude</label>
-									<button type="button" class="btn mr-2 mb-2 btn-success form-control"  data-toggle="modal" data-target=".bd-example-modal-info" name="siretSirenTVA" onclick="functionSiretSirenTVA()" disabled=disabled>Longitude / Latitude</button>
+									<button type="button" class="btn mr-2 mb-2 btn-success form-control" style="border : 1px solid {{ app.user.company.colorCode }} ;background-color: {{ app.user.company.colorCode }}; color : {{ app.user.company.colorText }}" data-toggle="modal" data-target=".bd-example-modal-lg" name="validGPS" onclick="searchCoorGPS()">Longitude / Latitude</button>
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -464,16 +498,16 @@ function functionInsertSiretSirenTVA(){
 						<div class="form-row">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="siret">N° SIRET</label><input name="siret" id="siret" type="text" class="form-control" ></div>
+									<label for="siret">N° SIRET</label><input name="siret" id="siret" type="text" class="form-control champsOb" required minlength="14" maxlength="14" ></div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="siren">N° SIREN</label><input name="siren" id="siren" type="text" class="form-control" ></div>
+									<label for="siren">N° SIREN</label><input name="siren" id="siren" type="text" class="form-control" minlength="9" maxlength="9" ></div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
 									<label for="siren">Chercher le SIRET / SIREN / TVA</label>
-									<button type="button" class="btn mr-2 mb-2 btn-success form-control"  data-toggle="modal" data-target=".bd-example-modal-info" name="siretSirenTVA" onclick="functionSiretSirenTVA()">Informations Entreprise</button>
+									<button type="button" class="btn mr-2 mb-2 btn-success form-control" style="border : 1px solid {{ app.user.company.colorCode }} ;background-color: {{ app.user.company.colorCode }}; color : {{ app.user.company.colorText }}"  data-toggle="modal" data-target=".bd-example-modal-info" name="siretSirenTVA" onclick="functionSiretSirenTVA()">Informations Entreprise</button>
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -494,7 +528,7 @@ function functionInsertSiretSirenTVA(){
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="tva">N° TVA Intracommunautaire</label><input name="tva" id="tva" type="text" class="form-control" value="FR" ></div>
+									<label for="tva">N° TVA Intracommunautaire</label><input name="tva" id="tva" type="text" class="form-control champsOb" required value="FR" ></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -622,7 +656,7 @@ function functionInsertSiretSirenTVA(){
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="stat1">AFFTYPO CHAMPS STAT 1</label>
-									<select class="form-control" name="stat1">
+									<select class="form-control champsOb" required name="stat1">
 										<option value=""></option>
 										{% for stat in stats1 %}
 											<option value="{{ stat.Code_STAT1 }}">{{ stat.Libelle_STAT1 }}</option>
@@ -656,7 +690,7 @@ function functionInsertSiretSirenTVA(){
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="stat1">AFFCAT 2 CHAMPS STAT 2</label>
-									<select class="form-control" name="stat2">
+									<select class="form-control champsOb" required name="stat2">
 										<option value=""></option>
 										{% for stat in stats2 %}
 											<option value="{{ stat.Code_STAT2 }}">{{ stat.Libelle_STAT2 }}</option>
@@ -711,7 +745,7 @@ function functionInsertSiretSirenTVA(){
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="stat1">AFFCAT 1 CHAMPS STAT 4</label>
-									<select class="form-control" name="stat4">
+									<select class="form-control champsOb" required name="stat4">
 										<option value=""></option>
 										{% for stat in stats4 %}
 											<option value="{{ stat.Code_STAT4 }}">{{ stat.Libelle_STAT4 }}</option>
@@ -732,7 +766,7 @@ function functionInsertSiretSirenTVA(){
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="stat1">AFFCAT 4 CHAMPS STAT 5</label>
-									<select class="form-control" name="stat5">
+									<select class="form-control champsOb" required name="stat5">
 										<option value=""></option>
 										{% for stat in stats5 %}
 											<option value="{{ stat.Code_STAT5 }}">{{ stat.Libelle_STAT5 }}</option>
@@ -1058,18 +1092,24 @@ function functionInsertSiretSirenTVA(){
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="latitude">Latitude</label><input id="lat" name="latitude" type="text" class="form-control" >
+									<label for="latitude">Latitude</label><input id="lat" name="latitude" type="text" class="form-control"  minlength="8">
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="longitude">Longitude</label><input id="long" name="longitude" type="text" class="form-control" >
+									<label for="longitude">Longitude</label><input id="long" name="longitude" type="text" class="form-control"  minlength="7">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-3">
 								<div class="position-relative form-group">
 									<label for="validGPS">Coordonées sur Google Maps</label>
-									<button type="button" class="btn mr-2 mb-2 btn-success form-control"  data-toggle="modal" data-target=".bd-example-modal-lg" name="validGPS"  onclick="validCoorGPS()">Visualiser les Coordonnées GPS</button>
+									<button type="button" class="btn mr-2 mb-2 btn-success form-control" style="border : 1px solid {{ app.user.company.colorCode }} ;background-color: {{ app.user.company.colorCode }}; color : {{ app.user.company.colorText }}" data-toggle="modal" data-target=".bd-example-modal-lg" name="validGPS"  onclick="validCoorGPS()">Visualiser les Coordonnées GPS</button>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="validGPS">Générer les Coordonnées avec l'Adresse de Livraison</label>
+									<button type="button" class="btn mr-2 mb-2 btn-success form-control" style="border : 1px solid {{ app.user.company.colorCode }} ;background-color: {{ app.user.company.colorCode }}; color : {{ app.user.company.colorText }}" data-toggle="modal" data-target=".bd-example-modal-lg" name="validGPS" onclick="searchCoorGPS()">Générer les Coordonnées avec l'Adresse de Livraison</button>
 								</div>
 							</div>
 						</div>
@@ -1121,7 +1161,7 @@ function functionInsertSiretSirenTVA(){
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="comMaitre">Attribution COMMERCIAL MAITRE</label>
-									<select class="form-control" name="comMaitre">
+									<select class="form-control champsOb" required name="comMaitre">
 										<option value=""></option>
 										{% for dirCom in commercials %}
 											<option value="{{ dirCom.saljare }}">{{ dirCom.COMMERCIAL }}</option>
@@ -1149,7 +1189,7 @@ function functionInsertSiretSirenTVA(){
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="com">Attribution COMMERCIAL</label>
-									<select class="form-control" name="com">
+									<select class="form-control champsOb" required name="com">
 										<option value=""></option>
 										{% for dirCom in commercials %}
 											<option value="{{ dirCom.saljare }}">{{ dirCom.COMMERCIAL }}</option>
@@ -1177,7 +1217,7 @@ function functionInsertSiretSirenTVA(){
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="tel">Attribution TELEVENTE</label>
-									<select class="form-control" name="tel">
+									<select class="form-control champsOb" required name="tel">
 										<option value=""></option>
 										{% for tel in televendeurs %}
 											<option value="{{ tel.perssign1 }}">{{ tel.TELEVENDEUR }}</option>
@@ -1321,10 +1361,7 @@ function functionInsertSiretSirenTVA(){
             </div>
 			<div class="modal-body" id="textEtablissement">
             </div>
-            <div class="modal-body" id="infosEtablissement">
-            </div>
             <div class="modal-footer">
-				<button type="button" class="btn mr-2 mb-2 btn-success form-control" data-dismiss="modal" name="siretSirenTVAInsert" onclick="functionInsertSiretSirenTVA()">Remplir les champs : SIRET / SIREN / TVA / Latitude / Longitude</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer la Fenêtre</button>
             </div>
         </div>

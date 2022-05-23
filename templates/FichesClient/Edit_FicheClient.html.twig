@@ -126,6 +126,96 @@ function geoApiCpVilleFacture() {
         document.getElementById('GPS_Display').innerHTML = options;
 
 	}
+
+	function functionSiretSirenTVA(){
+	let requestURL = '';
+	if(document.getElementById("siren").value != ""){
+    	requestURL = 'https://entreprise.data.gouv.fr/api/sirene/v3/unites_legales/' + document.getElementById("siren").value;
+		let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+	console.log(ville);
+ 		var options = '';
+		 var i = 1;
+        document.getElementById('textEtablissement').innerHTML = options;
+
+		options += '<h3 style="text-align: center">Liste des Etablissements</h3>';	
+
+ 		ville.unite_legale.etablissements.forEach((et) => {
+		options += '<table class="mb-0 table table-striped"><thead>';	
+		options += '<tr><th>Société</th><th>' + ville.unite_legale.denomination + '</th></tr>';
+		options += '<tr><th>SIRET</th><th>' + et.siret + '</th></tr>';
+		options += '<tr><th>SIREN</th><th>' + et.siren + '</th></tr>';
+		options += '<tr><th>N TVA</th><th>' + ville.unite_legale.numero_tva_intra + '</th></tr>';
+		options += '<tr><th>Adresse</th><th>' + et.geo_l4 + '</th></tr>';
+		options += '<tr><th>Complément d\'Adresse</th><th>' + et.complement_adresse + '</th></tr>';
+		options += '<tr><th>Code Postal</th><th>' + et.code_postal + '</th></tr>';
+		options += '<tr><th>Ville</th><th>' + et.libelle_commune + '</th></tr>';
+		options += '<tr><th>Latitude</th><th>' + et.latitude + '</th></tr>';
+		options += '<tr><th>Longitude</th><th>' + et.longitude + '</th></tr>';
+		options += '<input type="hidden" id="TEMP' + i + '_siret" value="' + et.siret + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_siren" value="' + et.siren + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_tva" value="' + ville.unite_legale.numero_tva_intra + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_latitude" value="' + et.latitude + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_longitude" value="' + et.longitude + '"/>';
+		options += '<tr><th colspan="2"><button type="button" class="btn mr-2 mb-2 btn-success form-control" data-dismiss="modal" name="siretSirenTVAInsert" onclick="functionInsertSiretSirenTVA(' + i + ')">Remplir les champs : SIRET / SIREN / TVA / Latitude / Longitude</button></th></tr>';
+		options += '</thead></table>';
+		options += '</br></br>';
+		i = i+1;
+		});
+
+        document.getElementById('textEtablissement').innerHTML = options;
+
+	}
+	}
+	else if(document.getElementById("siret").value != ""){
+    	requestURL = 'https://entreprise.data.gouv.fr/api/sirene/v3/etablissements/' + document.getElementById("siret").value;
+		let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+	console.log(ville);
+		var options = '';
+		var i = 1;
+        document.getElementById('textEtablissement').innerHTML = options;
+		options += '<table class="mb-0 table table-striped"><thead>';
+		options += '<tr><th colspan="2" style="text-align: center">Information Entreprise</th></tr>';
+		options += '<tr><th>Société</th><th>' + ville.etablissement.unite_legale.denomination + '</th></tr>';
+		options += '<tr><th>SIRET</th><th>' + ville.etablissement.siret + '</th></tr>';
+		options += '<tr><th>SIREN</th><th>' + ville.etablissement.siren + '</th></tr>';
+		options += '<tr><th>N TVA</th><th>' + ville.etablissement.unite_legale.numero_tva_intra + '</th></tr>';
+		options += '<tr><th>Adresse</th><th>' + ville.etablissement.geo_l4 + '</th></tr>';
+		options += '<tr><th>Complément d\'Adresse</th><th>' + ville.etablissement.complement_adresse + '</th></tr>';
+		options += '<tr><th>Code Postal</th><th>' + ville.etablissement.code_postal + '</th></tr>';
+		options += '<tr><th>Ville</th><th>' + ville.etablissement.libelle_commune + '</th></tr>';
+		options += '<tr><th>Latitude</th><th>' + ville.etablissement.latitude + '</th></tr>';
+		options += '<tr><th>Longitude</th><th>' + ville.etablissement.longitude + '</th></tr></thead></table>';
+		options += '<input type="hidden" id="TEMP' + i + '_siret" value="' + ville.etablissement.siret + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_siren" value="' + ville.etablissement.siren + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_tva" value="' + ville.etablissement.unite_legale.numero_tva_intra + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_latitude" value="' + ville.etablissement.latitude + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_longitude" value="' + ville.etablissement.longitude + '"/>';		
+		options += '<tr><th colspan="2"><button type="button" class="btn mr-2 mb-2 btn-success form-control" data-dismiss="modal" name="siretSirenTVAInsert" onclick="functionInsertSiretSirenTVA(' + i + ')">Remplir les champs : SIRET / SIREN / TVA / Latitude / Longitude</button></th></tr>';
+
+        document.getElementById('textEtablissement').innerHTML = options;
+	}
+	}
+
+	
+}
+
+function functionInsertSiretSirenTVA(id){
+	document.getElementById("siret").value = document.getElementById("TEMP" + id +"_siret").value;
+	document.getElementById("siren").value = document.getElementById("TEMP" + id +"_siren").value;
+	document.getElementById("tva").value = document.getElementById("TEMP" + id +"_tva").value;
+	document.getElementById("lat").value = document.getElementById("TEMP" + id +"_latitude").value;
+	document.getElementById("long").value = document.getElementById("TEMP" + id +"_longitude").value;
+}
 </script>
 
 	<div class="tab-content">
@@ -256,14 +346,14 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="nomAppel">Nom d'Appel</label><input name="nomAppel" type="text" class="form-control" maxlength="250" value="{{ client.nomAppel }}"></div>
+									<label for="nomAppel">Nom d'Appel</label><input name="nomAppel" type="text" class="form-control champsOb" required maxlength="250" value="{{ client.nomAppel }}"></div>
 							</div>
 							<div class="col-md-2">
 								
 							</div>
 							<div class="col-md-4">
 								<div class="position-relative form-group">
-									<label for="phoneStandard">Téléphone Standard</label><input name="phoneStandard" type="tel" class="form-control" maxlength="20" value="{{ client.phoneStandard }}"></div>
+									<label for="phoneStandard">Téléphone Standard</label><input name="phoneStandard" type="tel" class="form-control champsOb" required maxlength="20" value="{{ client.phoneStandard }}"></div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
@@ -296,7 +386,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="raisonSociale">Raison Sociale</label><input name="raisonSociale" type="text" class="form-control" maxlength="250" value="{{ client.raisonSocial }}"></div>
+									<label for="raisonSociale">Raison Sociale</label><input name="raisonSociale" type="text" class="form-control champsOb" required maxlength="250" value="{{ client.raisonSocial }}"></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -324,7 +414,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="adrLivraison">Adresse Livraison</label><input name="adrLivraison" type="text" class="form-control" maxlength="250" value="{{ client.adrLivraison }}"></div>
+									<label for="adrLivraison">Adresse Livraison</label><input name="adrLivraison" type="text" class="form-control champsOb" required maxlength="250" value="{{ client.adrLivraison }}"></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -351,11 +441,11 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="adrLivCodePostal">Code Postal</label><input id="adrLivCodePostal" name="adrLivCodePostal" type="text" class="form-control" maxlength="10" onkeyup="geoApiCpVilleLivraison()" value="{{ client.adrLivCodePostal }}"></div>
+									<label for="adrLivCodePostal">Code Postal</label><input id="adrLivCodePostal" name="adrLivCodePostal" type="text" class="form-control champsOb" required maxlength="10" onkeyup="geoApiCpVilleLivraison()" value="{{ client.adrLivCodePostal }}"></div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="adrLivVille">Ville</label><input name="adrLivVille" list="adrLivVille" type="text" class="form-control" maxlength="250" value="{{ client.adrLivVille }}">
+									<label for="adrLivVille">Ville</label><input name="adrLivVille" list="adrLivVille" type="text" class="form-control champsOb" required maxlength="250" value="{{ client.adrLivVille }}">
 									<datalist id="adrLivVille"></datalist>
 									</div>
 							</div>
@@ -375,11 +465,21 @@ function geoApiCpVilleFacture() {
 						</div>
 
 						<div class="form-row">
-							<div class="col-md-5">
+							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="siret">N° SIRET</label><input name="siret" type="text" class="form-control" value="{{ client.siret }}"></div>
+									<label for="siret">N° SIRET</label><input name="siret" id="siret" type="text" class="form-control champsOb" required value="{{ client.siret }}"  minlength="14" maxlength="14"></div>
 							</div>
 							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="siren">N° SIREN</label><input name="siren" id="siren" type="text" class="form-control" value="{{ client.siren }}"  minlength="9" maxlength="9"></div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="siren">Chercher le SIRET / SIREN / TVA</label>
+									<button type="button" class="btn mr-2 mb-2 btn-success form-control"  data-toggle="modal" data-target=".bd-example-modal-info" name="siretSirenTVA" onclick="functionSiretSirenTVA()">Informations Entreprise</button>
+								</div>
+							</div>
+							<div class="col-md-1">
 								
 							</div>
 							<div class="col-md-1">
@@ -397,7 +497,7 @@ function geoApiCpVilleFacture() {
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="tva">N° TVA Intracommunautaire</label><input name="tva" type="text" class="form-control" value="{{ client.tva }}"></div>
+									<label for="tva">N° TVA Intracommunautaire</label><input name="tva" id="tva" type="text" class="form-control champsOb" required value="{{ client.tva }}"></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -525,7 +625,7 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="stat1">AFFTYPO CHAMPS STAT 1</label>
-									<select class="form-control" name="stat1">
+									<select class="form-control champsOb" required name="stat1">
 										<option value="{{ client.stat1 }}">{{ stat1Code.Libelle_STAT1 }}</option>
 										<option value=""></option>
 										{% for stat in stats1 %}
@@ -560,7 +660,7 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="stat1">AFFCAT 2 CHAMPS STAT 2</label>
-									<select class="form-control" name="stat2">
+									<select class="form-control champsOb" required name="stat2">
 										<option value="{{ client.stat2 }}">{{ stat2Code.Libelle_STAT2 }}</option>
 										<option value=""></option>
 										{% for stat in stats2 %}
@@ -617,7 +717,7 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="stat1">AFFCAT 1 CHAMPS STAT 4</label>
-									<select class="form-control" name="stat4">
+									<select class="form-control champsOb" required name="stat4">
 										<option value="{{ client.stat4 }}">{{ stat4Code.Libelle_STAT4 }}</option>
 										<option value=""></option>
 										{% for stat in stats4 %}
@@ -639,7 +739,7 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="stat1">AFFCAT 4 CHAMPS STAT 5</label>
-									<select class="form-control" name="stat5">
+									<select class="form-control champsOb" required name="stat5">
 										<option value="{{ client.stat5 }}">{{ stat5Code.Libelle_STAT5 }}</option>
 										<option value=""></option>
 										{% for stat in stats5 %}
@@ -1013,12 +1113,12 @@ function geoApiCpVilleFacture() {
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="latitude">Latitude</label><input id="lat" name="latitude" type="text" class="form-control" value="{{ client.latitude }}">
+									<label for="latitude">Latitude</label><input id="lat" name="latitude" type="text" minlength="8" {% if client.etapeFiche == "LOGISTIQUE" %}class="form-control  champsOb" required{% else %}class="form-control"{% endif %} value="{{ client.latitude }}">
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="longitude">Longitude</label><input id="long" name="longitude" type="text" class="form-control" value="{{ client.longitude }}">
+									<label for="longitude">Longitude</label><input id="long" name="longitude" type="text" minlength="7" {% if client.etapeFiche == "LOGISTIQUE" %}class="form-control  champsOb" required{% else %}class="form-control"{% endif %} value="{{ client.longitude }}">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -1076,7 +1176,7 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="comMaitre">Attribution COMMERCIAL MAITRE</label>
-									<select class="form-control" name="comMaitre">
+									<select class="form-control champsOb" required name="comMaitre">
 										<option value="{{ client.comMaitre }}">{{ comMaitreCode.COMMERCIAL }}</option>
 										<option value=""></option>
 										{% for dirCom in commercials %}
@@ -1105,7 +1205,7 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="com">Attribution COMMERCIAL</label>
-									<select class="form-control" name="com">
+									<select class="form-control champsOb" required name="com">
 										<option value="{{ client.com }}">{{ comCode.COMMERCIAL }}</option>
 										<option value=""></option>
 										{% for dirCom in commercials %}
@@ -1134,7 +1234,7 @@ function geoApiCpVilleFacture() {
 							<div class="col-md-5">
 								<div class="position-relative form-group">
 									<label for="tel">Attribution TELEVENTE</label>
-									<select class="form-control" name="tel">
+									<select class="form-control champsOb" required name="tel">
 										<option value="{{ client.tel }}">{{ telCode.TELEVENDEUR }}</option>
 										<option value=""></option>
 										{% for tel in televendeurs %}
@@ -1281,6 +1381,24 @@ function geoApiCpVilleFacture() {
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler le Refus</button>
                 <button type="submit" class="btn btn-success" name="REFUS">Envoyer le Refus</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-info" tabindex="-1" role="dialog" aria-labelledby="siretSirenTVA" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="siretSirenTVA">Informaions Entreprise Trouvées</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+			<div class="modal-body" id="textEtablissement">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer la Fenêtre</button>
             </div>
         </div>
     </div>

@@ -46,10 +46,6 @@
 										<th>
 											<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("editFicheClient", {'id' : client.id }) }}"><span class="btn-icon-wrapper pr-2 opacity-7"><i class="fa fa-eraser fa-w-20"></i></span>Modifier la fiche</a>
 										</th>
-									{% elseif client.etapeFiche == "DIRECTEUR" and app.user.titleFC == "DIRECTEUR" %}
-										<th>
-											<a type="button" class="btn mr-2 mb-2 btn-success" href="{{ path("editFicheClient", {'id' : client.id }) }}"><span class="btn-icon-wrapper pr-2 opacity-7"><i class="fa fa-eraser fa-w-20"></i></span>Valider la fiche la fiche</a>
-										</th>
 									{% else %}
 										<th></th>
 									{% endif %}
