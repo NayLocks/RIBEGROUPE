@@ -1,0 +1,262 @@
+{% set nbSection = 1 %}
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <link type="text/css" media="dompdf" href="/css/main.css" rel="stylesheet" />
+	<link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    <style type="text/css">
+
+        body {
+            font-family: 'arial';
+            margin: 0.5cm 0;
+            text-align: justify;
+            font-size: 13px;
+            color: black;
+        }
+
+        #header{
+            position: relative;
+            top: -30px;
+            left: 0;
+            right: 0;
+        }
+
+        #footer {
+            position: fixed;
+            left: 0;
+            right: 0;
+            font-size: 0.9em;
+        }
+
+        #footer {
+            bottom: 60px;
+        }
+
+        #header table,
+        #footer table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none;
+        }
+
+        #header td,
+        #footer td {
+            padding: 0;
+            width: 50%;
+        }
+
+        .page-number {
+            text-align: right;
+        }
+
+        .page-number:before {
+            content: "Page " counter(page);
+        }
+
+        hr {
+            page-break-after: always;
+            border: 0;
+        }
+        
+        .gray{
+            background-color: lightgray;
+            color: black;
+            font-weight: bold;
+        }
+
+        td{
+            /* border-bottom: 1px solid gray;
+            border-top: 1px solid gray; */
+            padding: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="section section1">
+    <div id="header">
+        <table style="text-align: center; ;font-size: 13px; border: 1px solid black" >
+            <tr>
+                <td rowspan="5"><img src="{{ app.request.getSchemeAndHttpHost() ~ asset('images/Logo_Reseau_Ribe.png') }}" width="95%" alt="logo"></td> 
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Date Création</td>
+                <td>30/10/2017</td>
+                <td>FE 58</td>
+            </tr>
+            <tr>
+                <td>Date Version</td>
+                <td>01/06/2022</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Page</td>
+                <td>01/1</td>
+                <td>FICHE CREATION ARTICLE</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <br>
+    <div>
+        <table class="mb-0 table table-striped" style="margin-top: -42px; border: 1px solid black;; width: 100%">
+            <tr>
+                <td class="black">Demandeur</td>
+                <td class="gray">{{ item.username.firstName }} {{ item.username.lastName }}</td>
+            </tr>
+            <tr>
+                <td class="black">Le</td>
+                <td class="gray">{{ item.dateCreated|date('d/m/Y') }}</td>
+            </tr>
+        </table>
+        <br>
+        <table class="mb-0 table table-striped" style="border: 1px solid black; width: 100%">
+            <tr>
+                <td class="black">Générique</td>
+                <td class="gray">{{ item.generic }}</td>
+            </tr>
+            <tr>
+                <td class="black">Espèce / Variété</td>
+                <td class="gray">{{ item.variety }}</td>
+            </tr>
+            <tr>
+                <td class="black">Marque</td>
+                <td class="gray">{{ item.brand }}</td>
+            </tr>
+            <tr>
+                <td class="black">Origine</td>
+                <td class="gray">{{ item.origin }}</td>
+            </tr>
+            <tr>
+                <td class="black">Calibre</td>
+                <td class="gray">{{ item.diameter }}</td>
+            </tr>
+            <tr>
+                <td class="black">Conditionnement</td>
+                <td class="gray">{{ item.packaging }}</td>
+            </tr>
+            <tr>
+                <td>Categorie</td>
+                <td class="gray">{{ item.category }}</td>
+            </tr>
+        </table>
+        <br>
+        <table class="mb-0 table table-striped" style="border: 1px solid black; width: 100%">
+            <tr>
+                <td class="black">Groupe Article</td>
+                <td class="gray">{{ itemFields[0].0 }}</td>
+            </tr>
+        </table>
+        <br>
+        <table class="mb-0 table table-striped" style="border: 1px solid black; width: 100%">
+            <tr>
+                <td class="black" colspan="2">Spécificité Marée</td>
+            </tr>
+            <tr>
+                <td class="black">Nom Latin</td>
+                <td class="gray">{{ item.fishingNameLatin }}</td>
+            </tr>
+            <tr>
+                <td class="black">Zone de Pêche</td>
+                <td class="gray">{{ item.fishingArea }}</td>
+            </tr>
+        </table>
+        <br>
+        <table class="mb-0 table table-striped" style="border: 1px solid black; width: 100%">
+            <tr>
+                <td class="black">Poids du Colis</td>
+                <td class="gray">{{ item.weightPackaging }}</td>
+                <td></td>
+                <td class="black">STAT 1</td>
+                <td class="gray">{{ itemFields[1].0 }}</td>
+            </tr>
+                        <tr>
+                            <td class="black">Variable</td>
+                            <td class="gray">{% if item.weightVariable == 1 %}OUI{% else %}NON{% endif %}</td>
+                            <td></td>
+                            <td class="black">STAT 2</td>
+                            <td class="gray">{{ itemFields[2].0 }}</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Pièce du Colis</td>
+                            <td class="gray">{{ item.unitPackaging }}</td>
+                            <td></td>
+                            <td class="black">STAT 3</td>
+                            <td class="gray">{{ itemFields[3].0 }}</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Variable</td>
+                            <td class="gray">{% if item.unitVariable == 1 %}OUI{% else %}NON{% endif %}</td>
+                            <td></td>
+                            <td class="black">STAT 4</td>
+                            <td class="gray">{{ itemFields[4].0 }}</td>
+                        </tr>
+        </table>
+        <br>
+                    <table class="mb-0 table table-striped" style="border: 1px solid black; width: 100%">
+                        <tr>
+                            <td class="black">DLC / DDM</td>
+                            <td class="gray">{% if item.dlc == 1 %}DLC{% elseif item.ddm == 1 %}DDM{% endif %}</td>
+                            <td></td>
+                            <td class="black">Mention Valorisante</td>
+                            <td class="gray">{{ itemFields[5].0 }}</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Si Oui, Dpart Usine</td>
+                            <td class="gray">{{ item.dlcDate }}</td>
+                            <td></td>
+                            <td class="black">Localisation</td>
+                            <td class="gray">{{ itemFields[6].0 }}</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Unité Achat Courante</td>
+                            <td class="gray">{{ item.unitPurchase }}</td>
+                            <td></td>
+                            <td class="black">RUP</td>
+                            <td class="gray">{{ itemFields[7].0 }}</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Unité Vente Courante</td>
+                            <td class="gray">{{ item.unitSale }}</td>
+                            <td></td>
+                            <td class="black">SIQO</td>
+                            <td class="gray">{{ itemFields[8].0 }}</td>
+                        </tr>
+                        <tr>
+                            <td class="black">Unité Stock</td>
+                            <td class="gray">{{ item.unitStock }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+            </tr>
+        </table>
+        <br>
+        <table class="mb-0 table table-striped" style="border: 1px solid black; width: 100%">
+            <tr>
+                <td class="black" colspan="2">Partie Réservée RIBEGROUPE</td>
+            </tr>
+            <tr>
+                <td class="black">Code Article</td>
+                <td class="gray">{{ item.codeArticle }}</td>
+            </tr>
+            <tr>
+                <td class="black">Code Sodexo</td>
+                <td class="gray">{{ item.codeSodexo }}</td>
+            </tr>
+            <tr>
+                <td class="black">Préciser Code SXO</td>
+                <td class="gray">{{ item.codeSXO }}</td>
+            </tr>
+            <tr>
+                <td class="black">Créé Par / Le</td>
+                <td class="gray">{% if item.dateValidation is not null %}{{ item.usernameValidation.firstName }} {{ item.usernameValidation.lastName }} / {{ item.dateValidation|date('d/m/Y') }}{% else %}EN ATTENTE DE CREATION{% endif %}</td>
+            </tr>
+        </table>
+        </div>
+</div>
+</body>
+</html>

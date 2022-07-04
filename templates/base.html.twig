@@ -13,53 +13,25 @@
 		<meta name="description" content="Outils / Logiciels > Réseau Ribé">
 		<meta name="msapplication-tap-highlight" content="no">
 		<link href="{{ asset('css/main.css') }}" rel="stylesheet">
+		<link href="{{ asset('css/style.css') }}" rel="stylesheet">
 		<link rel="icon" type="image/ico" href="{{ asset("images/Sigle_Reseau_Ribe_Blanc.ico") }}" />
 	</head>
 
 	<style>
 		.btn-primary {
 			color: #fff;
-			background-color: {{app.user.company.colorCode}}
-			;
-			border-color: {{ app.user.company.colorCode }}
-			;
-		}
-		.btn-admin-OUI {
-			color: #000;
-			background-color: #00D610;
-			border-color: #204265;
-		}
-		.btn-admin-NON {
-			color: #fff;
-			background-color: #D60000;
-			border-color: #204265;
+			background-color: {{app.user.company.colorCode}};
+			border-color: {{ app.user.company.colorCode }};
 		}
 		.app-sidebar__heading {
-			color: {{app.user.company.colorCode}}
-			;
+			color: {{app.user.company.colorCode}};
 		}
-
-		.card-body{
-			overflow-x: auto; 
-			width: 100%;
-		}
-
-	.backDIV{
-		background-color: lightgrey;
-	}
-
-	label{
-		font-weight: bold;
-	}
-
-	.champsOb{
-		background-color : #ADEAFF;
-	}
-}
-
 	</style>
 
+	{% block javascripts %}{% endblock %}
+
 	<body>
+		<form method="POST">
 		<div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
 			<div class="app-header header-shadow">
 				<div class="app-header__logo">
@@ -117,10 +89,10 @@
 													<i class="fa fa-angle-down ml-2 opacity-8"></i>
 												</a>
 												<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-													<button type="button" tabindex="0" class="dropdown-item">User Account</button>
-													<button type="button" tabindex="0" class="dropdown-item">Settings</button>
-													<h6 tabindex="-1" class="dropdown-header">Header</h6>
-													<button type="button" tabindex="0" class="dropdown-item">Actions</button>
+													<h6 tabindex="-1" class="dropdown-header">Client : {{ app.user.titleFC }}</h6>
+													<h6 tabindex="-1" class="dropdown-header">Article : {{ app.user.titleFA }}</h6>
+													<h6 tabindex="-1" class="dropdown-header">Fournisseur : {{ app.user.titleFF }}</h6>
+													<h6 tabindex="-1" class="dropdown-header">Email : {{ app.user.email }}</h6>
 													<div tabindex="-1" class="dropdown-divider"></div>
 													<a href="{{ path("app_logout") }}" type="button" tabindex="0" class="dropdown-item">Déconnexion</a>
 												</div>
@@ -190,12 +162,18 @@
 												<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 											</a>
 											<ul>
-												{% if app.user.titleFC == "LOGISTIQUE" or app.user.titleFC == "DIRECTEUR" or app.user.titleFC == "COMPTA" %}
-													<li><a href="{{path("listValidFicheClient")}}">Fiche Client à Valider</a></li>
+												{% if app.user.titleFC == "LOGISTIQUE" or app.user.titleFC == "DIRECTEUR" %}
+													<li><a href="#">Fiche Client à Valider</a></li>
+													{% if app.user.titleFC == "DIRECTEUR" %}
+														<li><a href="{{ path("newCustomerSheet") }}">Nouvelle Fiche Client</a></li>
+														<li><a href="{{ path("myCustomersSheets") }}">Mes Fiches Client</a></li>
+													{% endif %}
 												{% endif %}
-												<li><a href="{{ path("newFicheClient") }}">Nouvelle Fiche Client</a></li>
-												<li><a href="{{ path("myFicheClient") }}">Mes Fiches Client</a></li>
-												<li><a href="{{ path("fichesClient") }}">Liste des Fiches Client</a></li>
+												{% if app.user.titleFC == "VENDEUR" %}
+														<li><a href="{{ path("newCustomerSheet") }}">Nouvelle Fiche Client</a></li>
+														<li><a href="{{ path("myCustomersSheets") }}">Mes Fiches Client</a></li>
+												{% endif %}
+												<li><a href="{{ path("customersSheets") }}">Liste des Fiches Client</a></li>
 											</ul>
 										</li>
 									{% endif %}
@@ -208,14 +186,11 @@
 												<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 											</a>
 											<ul>
-												{% if app.user.titleFA == "COMPTA" or app.user.accessADM == 1 %}
-													<li><a href="{{path("listValidFicheArticle")}}">Fiche Article à Valider</a></li>
-												{% endif %}
 												{% if app.user.titleFA == "ACHETEUR" or app.user.accessADM == 1 %}
-													<li><a href="{{path("newFicheArticle")}}">Nouvelle Fiche Article</a></li>
-													<li><a href="{{path("myFicheArticle")}}">Mes Fiches Article</a></li>
+													<li><a href="{{path("newItemSheet")}}">Nouvelle Fiche Article</a></li>
+													<li><a href="{{path("myItemsSheets")}}">Mes Fiches Article</a></li>
 												{% endif %}
-													<li><a href="{{path("ficheArticle")}}">Liste des Fiches Article</a></li>
+													<li><a href="{{path("itemsSheets")}}">Liste des Fiches Articles</a></li>
 											</ul>
 										</li>
 									{% endif %}
@@ -245,6 +220,32 @@
 											</ul>
 										</li>
 									{% endif %}
+									
+									{# <li>
+										<a class="app-sidebar__heading">
+											<i class="metismenu-icon pe-7s-graph2"></i>
+												TEST Fiches Clients
+											<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+										</a>
+										<ul>
+											<li><a href="{{ path("test_HTML_CustomerSheet") }}"><i class="metismenu-icon pe-7s-graph2"></i>Test HTML</a></li>
+											<li><a href="{{ path("test_PDF_CustomerSheet") }}"><i class="metismenu-icon pe-7s-graph2"></i>Test PDF</a></li>
+											<li><a href="{{ path("test_Mail_CustomerSheet") }}"><i class="metismenu-icon pe-7s-graph2"></i>Test MAIL</a></li>
+										</ul>
+									</li> #}
+									
+									<li>
+										<a class="app-sidebar__heading">
+											<i class="metismenu-icon pe-7s-graph2"></i>
+												TEST Fiches Articles
+											<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+										</a>
+										<ul>
+											<li><a href="{{ path("test_HTML_ItemSheet") }}"><i class="metismenu-icon pe-7s-graph2"></i>Test HTML</a></li>
+											<li><a href="{{ path("test_PDF_ItemSheet") }}"><i class="metismenu-icon pe-7s-graph2"></i>Test PDF</a></li>
+											<li><a href="{{ path("test_Mail_ItemSheet") }}"><i class="metismenu-icon pe-7s-graph2"></i>Test MAIL</a></li>
+										</ul>
+									</li>
 
 									<li class="app-sidebar__heading">
 										<a href="{{ path("app_logout") }}" style="background-color: #ff595e; text-align: center;">Se Déconnecter</a>
@@ -278,6 +279,7 @@
 		</div>
 		<script type="text/javascript" src="{{ asset('scripts/main.js') }}"></script>
 		{% block autres %}{% endblock %}
+		</form>
 	</body>
 </html>
 

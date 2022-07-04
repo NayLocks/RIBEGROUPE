@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fiches Articles{% endblock %}
+
+{% block page %}
+	Liste des Fiches Articles
+{% endblock %}
+
+{% block actionsPage %}
+	{% if app.user.titleFA == "COMPTA" %} {# AFFICHER LES BOUTONS DE LA COMPTA #}
+	<div class="d-inline-block dropdown">
+		<button type="submit" class="btn mr-2 mb-2 btn-warning" name="TEST">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-eraser fa-w-20"></i>
+			</span>
+			Imprimer les fiches selectionnées.
+		</button>
+	</div>
+	{% endif %}
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="main-card mb-3 card">
+				<div class="card-body">
+					<h5 class="card-title">Liste des Fiches Articles</h5>
+
+					{% if app.request.get('_route') == 'myItemsSheets' %}
+					<table class="mb-0 table table-striped">
+						<thead>
+							<tr style="text-align: center;">
+								<th>BROUILLON</th>
+								<th>COMPTABILITE</th>
+								<th>TERMINEE</th>
+								<th>REFUSEE</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td style="background-color: lightgray;"></td>
+								<td style="background-color: #FF7F50;"></td>
+								<td style="background-color: lightgreen;"></td>
+								<td style="background-color: darkred;"></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<br>
+					{% endif %}
+
+					<table class="mb-0 table table-striped">
+						<thead>
+							<tr>
+							{% if app.user.titleFA == 'COMPTA' %}
+								<th>Choix Impression</th>
+							{% endif %}
+								<th>ID</th>
+							{% if app.request.get('_route') == 'itemsSheets' %}
+								<th>Société</th>
+							{% endif %}
+								<th>Etape Fiche</th>
+							{% if app.request.get('_route') == 'itemsSheets' %}
+								<th>Utilisateur</th>
+							{% endif %}
+								<th>Crée le</th>
+								<th>Recu le</th>
+								<th colspan="2" style="text-align: center">(Validée/Refusée) le / Par</th>
+								<th>Groupe Article</th>
+								<th>Générique</th>
+								<th>Stat 1</th>
+								<th>Dernière Modification</th>
+							{% if app.request.get('_route') == 'myItemsSheets' or app.user.titleFA == "COMPTA" %}
+								<th>Actions</th>
+							{% endif %}
+							</tr>
+						</thead>
+						<tbody>
+							{% set i = 0 %}
+							{% for item in items %}
+								{% if app.request.get('_route') == 'myItemsSheets' %}
+									{% if item.step == "BROUILLON" and item.reasonRefusal is null %}
+										<tr style="background-color: lightgray;">
+									{% elseif  item.step == "COMPTABILITE" %}
+										<tr style="background-color: #FF7F50">
+									{% elseif  item.step == "TERMINEE" %}
+										<tr style="background-color: lightgreen; ">
+									{% elseif  item.reasonRefusal is not null %}
+										<tr style="background-color: darkred; color: white">
+									{% endif %}
+								{% else %}
+									<tr style="background-color: {{ item.company.colorCode }}; color: {{ item.company.colorText }};">
+								{% endif %}
+								{% if app.user.titleFA == 'COMPTA' %}
+									{% if item.step == "COMPTABILITE" %}
+										<td>{# <input class="form-control" type="checkbox" id="{{ item.id }}" name="{{ item.id }}"> #}</td>
+									{% else %}
+									<td></td>
+									{% endif %}
+								{% endif %}
+									<th>{{ item.id }}</th>
+								{% if app.request.get('_route') == 'itemsSheets' %}
+									<td>{{ item.company.name }}</td>
+								{% endif %}
+									<td>{{ item.step }}</td>
+								{% if app.request.get('_route') == 'itemsSheets' %}
+									<td>{{ item.username.firstName }} {{ item.username.lastName }}</td>
+								{% endif %}
+									<td>{% if item.dateCreated is not null %}{{ item.dateCreated|date('d/m/Y') }}{% endif %}</td>
+									<td>{% if item.dateReceipt is not null %}{{ item.dateReceipt|date('d/m/Y') }}{% endif %}</td>
+									<td colspan="2" style="text-align: center">{% if item.dateValidation is not null and item.usernameValidation is not null %}{{ item.dateValidation|date('d/m/Y') }} / {{ item.usernameValidation.firstName }} {{ item.usernameValidation.lastName }}{% endif %}</td>
+									<td>{{ champs[i][0][0] }}</td>
+									<td>{{ item.generic }}</td>
+									<td>{{ champs[i][1][0] }}</td>
+									<td>{% if item.dateLastChange is not null %}{{ item.dateLastChange|date('d/m/Y') }}{% endif %}</td>
+								{% if app.request.get('_route') == 'myItemsSheets' %}
+									{% if item.step == "BROUILLON" %}
+									<td><a href="{{ path('editItemSheet', {'id' : item.id}) }}" class="btn mr-2 mb-2 btn-success">
+											<span class="btn-icon-wrapper pr-2 opacity-7">
+												<i class="fa fa-check-square fa-w-20"></i>
+											</span>
+											Modifier
+										</a>
+									</td>
+									{% else %}
+									<td></td>
+									{% endif %}
+								{% elseif app.user.titleFA == 'COMPTA' %}
+									{% if item.step == "COMPTABILITE" %}
+									<td><a href="{{ path('validItemSheet', {'id' : item.id}) }}" class="btn mr-2 mb-2 btn-success">
+											<span class="btn-icon-wrapper pr-2 opacity-7">
+												<i class="fa fa-check-square fa-w-20"></i>
+											</span>
+											Valider la Fiche
+										</a>
+									</td>
+									{% else %}
+									<td></td>
+									{% endif %}
+								{% endif %}
+								</tr>
+								{% set i = i+1 %}
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

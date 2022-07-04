@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\FicheClient;
+use App\Entity\ItemsSheets;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -19,12 +21,72 @@ class IndexController extends AbstractController
      */
     public function index(UserInterface $user)
     {
-        if($user->getTitleFC() == "VENDEUR" && $user->getTitleFA() == "AUCUN"){
-            return $this->redirectToRoute("myFicheClient");
-        }else{
-            return $this->redirectToRoute("listValidFicheClient");  
+        if($user->getTitleFC() == "VENDEUR" && $user->getTitleFA() == "AUCUN" && $user->getTitleFF() == "AUCUN"){
+            return $this->redirectToRoute("myFicheClient"); // A CHANGER QUAND OPTIMISATION OK
+        }
+        else if($user->getTitleFC() == "AUCUN" && $user->getTitleFA() == "ACHETEUR" && $user->getTitleFF() == "AUCUN"){
+            return $this->redirectToRoute("myItemsSheets");
+        }
+        else if($user->getTitleFC() == "AUCUN" && $user->getTitleFA() == "AUCUN" && $user->getTitleFF() == "ACHETEUR"){
+            echo "METTRE UNE REDIRECTION";
+            exit();
+        }
+        else{
+            return $this->render('index.html.twig');
         }
     }
+
+    /**
+     * @Route("/fiches_articles/html/{id}", name="htmlItemSheet")
+     */
+    public function htmlItemSheet(UserInterface $user, $id): Response
+    {
+        $allItemsSheets = $this->getDoctrine()->getRepository(ItemsSheets::class);
+        $itemSheet = $allItemsSheets->findOneBy(array("id" => $id));
+        
+        $champs = new SelectSQL();
+        $ItemFields = $champs->selectSQLItemCode($user->getCompany()->getDatabaseName(), $itemSheet);
+                
+        if(!file_exists('Documents/Fiches_Articles/'.$itemSheet->getId())){
+            mkdir('Documents/Fiches_Articles/'.$itemSheet->getId());
+        }
+
+        return $this->render('ItemsSheets/PDF_ItemsSheets.html.twig', ["item"=> $itemSheet, "itemFields" => $ItemFields]);
+    }
+
+    /**
+     * @Route("/fiches_articles/pdf/{id}", name="pdfItemSheet")
+     */
+    public function pdfItemSheet(UserInterface $user, $id): Response
+    {
+        $allItemsSheets = $this->getDoctrine()->getRepository(ItemsSheets::class);
+        $itemSheet = $allItemsSheets->findOneBy(array("id" => $id));
+        
+        $champs = new SelectSQL();
+        $ItemFields = $champs->selectSQLItemCode($user->getCompany()->getDatabaseName(), $itemSheet);
+                
+        if(!file_exists('Documents/Fiches_Articles/'.$itemSheet->getId())){
+            mkdir('Documents/Fiches_Articles/'.$itemSheet->getId());
+        }
+
+        $pdfOptions = new Options();
+        $pdfOptions->set('isHtml5ParserEnabled', 'true');
+        $pdfOptions->set('enable_remote', true);
+        $dompdf = new Dompdf($pdfOptions);
+        $dompdf->setBasePath($this->getParameter('kernel.project_dir')."/public/");
+        $html = $this->renderView('ItemsSheets/PDF_ItemsSheets.html.twig', ["item"=> $itemSheet, "itemFields" => $ItemFields]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $output = $dompdf->output();
+        $pdfFilepath =  'Documents/Fiches_Articles/'.$itemSheet->getId().'/Fiche_Article_'.$itemSheet->getId().'.pdf';
+        $path = 'Fiche_Article_'.$itemSheet->getId().'.pdf';
+        file_put_contents($pdfFilepath, $output);
+        
+        return $this->redirect('/'.$pdfFilepath);
+    }
+
+
 
     /**
      * @Route("/1", name="index21")

@@ -1,0 +1,1414 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Fiche Article{% endblock %}
+
+{% block page %}
+	Nouvelle Fiche Article
+{% endblock %}
+
+{% block actionsPage %}
+	<form method="POST" enctype="multipart/form-data">
+
+    <div class="d-inline-block dropdown">
+		<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("newCustomerSheet") }}">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-eraser fa-w-20"></i>
+			</span>
+			Remettre à zéro la fiche
+		</a>
+	</div>
+
+    <div class="d-inline-block dropdown">
+		<button type="submit" class="btn mr-2 mb-2 btn-warning" name="BROUILLON">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-edit fa-w-20"></i>
+			</span>
+			Enregistrer en brouillon
+		</button>
+	</div>
+
+	<div class="d-inline-block dropdown">
+		<button type="submit" class="btn mr-2 mb-2 btn-success" name="VALID">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-check-square fa-w-20"></i>
+			</span>
+			Envoyer la fiche en validation
+		</button>
+	</div>
+{% endblock %}
+
+{% block body %}
+<script type="text/javascript" 
+           src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<script>
+
+function geoApiCpVilleLivraison() {
+    let requestURL = 'https://geo.api.gouv.fr/communes?codePostal=' + document.getElementById("adrLivCodePostal").value +'&fields=nom,code,codesPostaux,codeDepartement,codeRegion,population&format=json&geometry=centre';
+    let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+
+    var select = document.getElementById("adrLivVille");
+    var opts = select.getElementsByTagName('option');
+    for (var i = 0; i < opts.length; i++) {
+        select.removeChild(opts[i]);
+    }
+
+    var options = '';
+    for (let i = 0; i < ville.length; i++) {
+        console.log(ville[i].nom);
+        options += '<option value="'+ville[i].nom+'" />';
+        document.getElementById('adrLivVille').innerHTML = options;
+    }
+    }
+}
+
+function geoApiCpVilleFacture() {
+    let requestURL = 'https://geo.api.gouv.fr/communes?codePostal=' + document.getElementById("adrFacCodePostal").value +'&fields=nom,code,codesPostaux,codeDepartement,codeRegion,population&format=json&geometry=centre';
+    let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+
+    var select = document.getElementById("adrFacVille");
+    var opts = select.getElementsByTagName('option');
+    for (var i = 0; i < opts.length; i++) {
+        select.removeChild(opts[i]);
+    }
+
+    var options = '';
+    for (let i = 0; i < ville.length; i++) {
+        console.log(ville[i].nom);
+        options += '<option value="'+ville[i].nom+'" />';
+        document.getElementById('adrFacVille').innerHTML = options;
+    }
+    }
+}
+	function validCoorGPS(){
+
+    let requestURL = 'https://api-adresse.data.gouv.fr/reverse/?lon=' + document.getElementById("long").value + '&lat=' + document.getElementById("lat").value + '&type=housenumber';
+    //let requestURL = 'https://api-adresse.data.gouv.fr/reverse/?lon=2.875667&lat=49.474364&type=housenumber';
+	let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+		var select = document.getElementById("textGPS");
+ 		var options = '';
+        options += '<table class="mb-0 table table-striped"><thead><tr><th>Adresse</th><th>Code Postal</th><th>Ville</th><tr></thead><tbody><tr><td>' + ville.features[0].properties.housenumber + ' ' + ville.features[0].properties.street + '</td><td>' + ville.features[0].properties.postcode + '</td><td>' + ville.features[0].properties.city + '</td></tr></tbody></table>';
+        document.getElementById('textGPS').innerHTML = options;
+		}
+
+		var select = document.getElementById("GPS_Display");
+ 		var options = '';
+        options += '<iframe width="100%" height="500" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=' + document.getElementById("lat").value + ',' + document.getElementById("long").value + '&amp;key=AIzaSyAVnZiratT6_nsfEO_RYBNnsrgd-onQfMY"></iframe>';
+        document.getElementById('GPS_Display').innerHTML = options;
+
+	}
+
+	function searchCoorGPS(){
+
+    let requestURL = 'https://api-adresse.data.gouv.fr/search/?q=' + document.getElementById("adrLivraison").value  + '+' + document.getElementById("adrLivCodePostal").value + '+' + document.getElementById("adrLivVille2").value + '&type=housenumber';
+	let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+		console.log(ville);
+		let requestURL2 = 'https://api-adresse.data.gouv.fr/reverse/?lon=' + ville.features[0].geometry.coordinates[0] + '&lat=' + ville.features[0].geometry.coordinates[1] + '&type=housenumber';
+		let request2 = new XMLHttpRequest();
+    	request2.open('GET', requestURL2);
+    	request2.responseType = 'json';
+    	request2.send();
+   		request2.onload = function() {
+    	const gps = request2.response;
+		console.log(gps);
+		var select = document.getElementById("textGPS");
+ 		var options = '';
+        options += '<table class="mb-0 table table-striped"><thead><tr><th>Adresse</th><th>Code Postal</th><th>Ville</th><tr></thead><tbody><tr><td>' + gps.features[0].properties.housenumber + ' ' + gps.features[0].properties.street + '</td><td>' + gps.features[0].properties.postcode + '</td><td>' + gps.features[0].properties.city + '</td></tr></tbody></table>';
+        document.getElementById('textGPS').innerHTML = options;
+		}
+
+		var select = document.getElementById("GPS_Display");
+ 		var options = '';
+        options += '<iframe width="100%" height="500" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=' + ville.features[0].geometry.coordinates[1] + ',' + ville.features[0].geometry.coordinates[0] + '&amp;key=AIzaSyAVnZiratT6_nsfEO_RYBNnsrgd-onQfMY"></iframe>';
+        options += '<input type="hidden" id="TEMP1_latitude" value="' + ville.features[0].geometry.coordinates[1] + '"/>';
+		options += '<input type="hidden" id="TEMP1_longitude" value="' + ville.features[0].geometry.coordinates[0] + '"/>';		
+		options += '<tr><th colspan="2"><button type="button" class="btn mr-2 mb-2 btn-success form-control" data-dismiss="modal" name="validGPS" onclick="insertCoordGPS(1)">Remplir les champs : Latitude / Longitude</button></th></tr>';
+        document.getElementById('GPS_Display').innerHTML = options;
+
+		}		
+	}
+
+function functionSiretSirenTVA(){
+	let requestURL = '';
+	if(document.getElementById("siren").value != ""){
+    	requestURL = 'https://entreprise.data.gouv.fr/api/sirene/v3/unites_legales/' + document.getElementById("siren").value;
+		let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+	console.log(ville);
+ 		var options = '';
+		 var i = 1;
+        document.getElementById('textEtablissement').innerHTML = options;
+
+		options += '<h3 style="text-align: center">Liste des Etablissements</h3>';	
+
+ 		ville.unite_legale.etablissements.forEach((et) => {
+		options += '<table class="mb-0 table table-striped"><thead>';	
+		options += '<tr><th>Société</th><th>' + ville.unite_legale.denomination + '</th></tr>';
+		options += '<tr><th>SIRET</th><th>' + et.siret + '</th></tr>';
+		options += '<tr><th>SIREN</th><th>' + et.siren + '</th></tr>';
+		options += '<tr><th>N TVA</th><th>' + ville.unite_legale.numero_tva_intra + '</th></tr>';
+		options += '<tr><th>Adresse</th><th>' + et.geo_l4 + '</th></tr>';
+		options += '<tr><th>Complément d\'Adresse</th><th>' + et.complement_adresse + '</th></tr>';
+		options += '<tr><th>Code Postal</th><th>' + et.code_postal + '</th></tr>';
+		options += '<tr><th>Ville</th><th>' + et.libelle_commune + '</th></tr>';
+		options += '<tr><th>Latitude</th><th>' + et.latitude + '</th></tr>';
+		options += '<tr><th>Longitude</th><th>' + et.longitude + '</th></tr>';
+		options += '<input type="hidden" id="TEMP' + i + '_siret" value="' + et.siret + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_siren" value="' + et.siren + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_tva" value="' + ville.unite_legale.numero_tva_intra + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_latitude" value="' + et.latitude + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_longitude" value="' + et.longitude + '"/>';
+		options += '<tr><th colspan="2"><button type="button" class="btn mr-2 mb-2 btn-success form-control" data-dismiss="modal" name="siretSirenTVAInsert" onclick="functionInsertSiretSirenTVA(' + i + ')">Remplir les champs : SIRET / SIREN / TVA / Latitude / Longitude</button></th></tr>';
+		options += '</thead></table>';
+		options += '</br></br>';
+		i = i+1;
+		});
+
+        document.getElementById('textEtablissement').innerHTML = options;
+
+	}
+	}
+	else if(document.getElementById("siret").value != ""){
+    	requestURL = 'https://entreprise.data.gouv.fr/api/sirene/v3/etablissements/' + document.getElementById("siret").value;
+		let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+    const ville = request.response;
+	console.log(ville);
+		var options = '';
+		var i = 1;
+        document.getElementById('textEtablissement').innerHTML = options;
+		options += '<table class="mb-0 table table-striped"><thead>';
+		options += '<tr><th colspan="2" style="text-align: center">Information Entreprise</th></tr>';
+		options += '<tr><th>Société</th><th>' + ville.etablissement.unite_legale.denomination + '</th></tr>';
+		options += '<tr><th>SIRET</th><th>' + ville.etablissement.siret + '</th></tr>';
+		options += '<tr><th>SIREN</th><th>' + ville.etablissement.siren + '</th></tr>';
+		options += '<tr><th>N TVA</th><th>' + ville.etablissement.unite_legale.numero_tva_intra + '</th></tr>';
+		options += '<tr><th>Adresse</th><th>' + ville.etablissement.geo_l4 + '</th></tr>';
+		options += '<tr><th>Complément d\'Adresse</th><th>' + ville.etablissement.complement_adresse + '</th></tr>';
+		options += '<tr><th>Code Postal</th><th>' + ville.etablissement.code_postal + '</th></tr>';
+		options += '<tr><th>Ville</th><th>' + ville.etablissement.libelle_commune + '</th></tr>';
+		options += '<tr><th>Latitude</th><th>' + ville.etablissement.latitude + '</th></tr>';
+		options += '<tr><th>Longitude</th><th>' + ville.etablissement.longitude + '</th></tr></thead></table>';
+		options += '<input type="hidden" id="TEMP' + i + '_siret" value="' + ville.etablissement.siret + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_siren" value="' + ville.etablissement.siren + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_tva" value="' + ville.etablissement.unite_legale.numero_tva_intra + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_latitude" value="' + ville.etablissement.latitude + '"/>';
+		options += '<input type="hidden" id="TEMP' + i + '_longitude" value="' + ville.etablissement.longitude + '"/>';		
+		options += '<tr><th colspan="2"><button type="button" class="btn mr-2 mb-2 btn-success form-control" data-dismiss="modal" name="siretSirenTVAInsert" onclick="functionInsertSiretSirenTVA(' + i + ')">Remplir les champs : SIRET / SIREN / TVA / Latitude / Longitude</button></th></tr>';
+
+        document.getElementById('textEtablissement').innerHTML = options;
+	}
+	}
+
+	
+}
+
+function functionInsertSiretSirenTVA(id){
+	document.getElementById("siret").value = document.getElementById("TEMP" + id +"_siret").value;
+	document.getElementById("siren").value = document.getElementById("TEMP" + id +"_siren").value;
+	document.getElementById("tva").value = document.getElementById("TEMP" + id +"_tva").value;
+	document.getElementById("lat").value = document.getElementById("TEMP" + id +"_latitude").value;
+	document.getElementById("long").value = document.getElementById("TEMP" + id +"_longitude").value;
+}
+
+function insertCoordGPS(id){
+	document.getElementById("lat").value = document.getElementById("TEMP" + id +"_latitude").value;
+	document.getElementById("long").value = document.getElementById("TEMP" + id +"_longitude").value;
+}
+</script>
+
+	<div class="tab-content">
+		<div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+			<div class="main-card mb-3 card">
+				<div class="card-body">
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}; padding: 5px;">
+									<h5 style="text-align: center">EN-TÊTE FICHE CLIENT</h5>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="date">Date de la Demande</label><input class='form-control' type="date" name="date" value="{% if app.request.get('_route') == 'newCustomerSheet' %}{{ "now"|date('Y-m-d') }}{% else %}{{ customerSheet.date|date('Y-m-d') }}{% endif %}" disabled="disabled" />
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="customerCode">Code Client</label><input class='form-control' type="text" name="customerCode" value="{{ customerSheet.customerCode }}"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="username">Ouverture Demandée Par</label><input class='form-control' type="text" name="username" value="{% if app.request.get('_route') == 'newCustomerSheet' %}{{ app.user.firstName }} {{ app.user.lastName }} / {{ app.user.username }}{% else %}{{ customerSheet.username.firstName }} {{ customerSheet.username.lastName }} / {{ customerSheet.username.username }}{% endif %}" disabled="disabled" />
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="oldCustomerCode">Ancien Code Client</label><input class='form-control' type="text" name="oldCustomerCode" value="{{ customerSheet.oldCustomerCode }}"/>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group">
+									<label for="accountBrother">Compte Frère (Indiquer si besoin de rattacher ce client à un autre compte, ex : 4G / Maree / BOF)</label><textarea class='form-control' row="3" type="text" name="accountBrother">{{ customerSheet.accountBrother }}</textarea>
+								</div>
+							</div>
+						</div>
+
+						<hr>
+						
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}; padding: 5px;">
+									<h5 style="text-align: center">PARTIE A RENSEIGNER PAR LE COMMERCIAL</h5>
+								</div>
+							</div>
+						</div>
+
+						{% if app.user.company.name == "ARDENNES PRIMEURS" %}
+							<div class="form-row">
+								<div class="col-md-12">
+									<div class="position-relative form-group">
+										<label>Société</label>
+										<select name="company" class="form-control">
+											<option value="ARDENNES PRIMEURS">ARDENNES PRIMEURS</option>
+											<option value="RIVOALLON">RIVOALLON</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						{% else %}
+							<input type="hidden" name="company" value="{% if app.request.get('_route') == 'newCustomerSheet' %}{{ app.user.company.name }}{% else %}{{ customerSheet.company.name }}{% endif %}"/>
+						{% endif %}
+
+						{% if app.user.company.name == "SIDELIS" or app.user.company.name == "BIO E'MOI" or app.user.company.name == "PROMER OCEAN" %}
+							<div class="form-row">
+								<div class="col-md-12">
+									<div class="position-relative form-group">
+										<label>Choix de la Société qui va livrer</label>
+										<select name="companyTransport" class="form-control">
+											{% if app.request.get('_route') == 'newCustomerSheet' %}
+												<option value="{{ app.user.company.name }}">{{ app.user.company.name }}</option>
+											{% else %}
+												<option value="{{ customerSheet.company.name }}">{{ customerSheet.company.name }}</option>
+											{% endif %}
+											{% for company in companies %}
+												<option value="{{ company.name }}">{{ company.name }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</div>
+						{% else %}
+							{% if app.request.get('_route') == 'newCustomerSheet' %}
+								<input type="hidden" name="company" value="{{ app.user.company.name }}"/>
+							{% else %}
+								<input type="hidden" name="company" value="{{ customerSheet.company.name }}"/>
+							{% endif %}
+						{% endif %}
+
+						<div class="form-row">
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label>Compte à Créer</label>
+								</div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="accountFL">Fruits et Légumes</label><input name="accountFL" type="checkbox" class="form-control" {% if customerSheet.accountFL == 1 %}checked{% endif %}>
+									</div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="account45G">4 / 5 Gamme</label><input name="account45G" type="checkbox" class="form-control" {% if customerSheet.account45G == 1 %}checked{% endif %}></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="accountTide">Marée</label><input name="accountTide" type="checkbox" class="form-control" {% if customerSheet.accountTide == 1 %}checked{% endif %}></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="accountBOF">BOF / Charcuterie / Volaille</label><input name="accountBOF" type="checkbox" class="form-control" {% if customerSheet.accountBOF == 1 %}checked{% endif %}></div>
+								</div>
+						</div>
+
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="callName">Nom d'Appel</label><input name="callName" type="text" class="form-control champsOb" required maxlength="250" value="{{ customerSheet.callName }}"></div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label for="phoneStandard">Téléphone Standard</label><input name="phoneStandard" type="tel" class="form-control champsOb" required maxlength="20" value="{{ customerSheet.phoneStandard }}"></div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label for="phoneStandardTel">Type Télévente</label>
+									<input name="phoneStandardTel" type="checkbox" class="form-control" {% if customerSheet.phoneStandardTel == 1 %}checked{% endif %}>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="codeManagement">Code Gestion</label><input name="codeManagement" type="text" class="form-control" maxlength="250" value="{{ customerSheet.codeManagement }}"></div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label for="phoneMobile">Téléphone Portable</label><input name="phoneMobile" type="tel" class="form-control" maxlength="20" value="{{ customerSheet.phoneMobile }}"></div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label for="phoneMobileTel">Type Télévente</label>
+									<input name="phoneMobileTel" type="checkbox" class="form-control" {% if customerSheet.phoneMobileTel == 1 %}checked{% endif %}>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="socialReason">Raison Sociale</label><input name="socialReason" type="text" class="form-control champsOb" required maxlength="250" value="{{ customerSheet.socialReason }}"></div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="faxStandard">Fax Standard</label><input name="faxStandard" type="tel" class="form-control" maxlength="20" value="{{ customerSheet.faxStandard }}"></div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="nameAccount">Nom Grand Compte</label><input name="nameAccount" type="text" class="form-control" maxlength="250" value="{{ customerSheet.nameAccount }}"></div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="mailStandard">Email Standard</label><input name="mailStandard" type="mail" class="form-control" maxlength="250" value="{{ customerSheet.mailStandard }}"></div>
+							</div>
+						</div>
+						
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="deliveryAddress">Adresse Livraison</label><input id="deliveryAddress" name="deliveryAddress" type="text" class="form-control champsOb" required maxlength="250" value="{{ customerSheet.deliveryAddress }}"></div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="callCustomer">Client à Appeler</label>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="oui">Oui</label>
+									<input class="form-control" type="radio" id="oui" name="callCustomer" value="1" {% if app.request.get('_route') == 'newCustomerSheet' or customerSheet.callCustomer == 1 %}checked{% endif %}>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="non">Non</label>
+									<input class="form-control" type="radio" id="non" name="callCustomer" value="0" {% if app.request.get('_route') != 'newCustomerSheet' and customerSheet.callCustomer == 0 %}checked{% endif %}>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="deliveryAddressZipCode">Code Postal</label><input id="deliveryAddressZipCode" name="deliveryAddressZipCode" type="text" class="form-control champsOb" required maxlength="10" onkeyup="geoApiCpVilleLivraison()" value="{{ customerSheet.deliveryAddressZipCode }}"></div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="deliveryAddressCity">Ville</label><input id="deliveryAddressCity" name="deliveryAddressCity" list="deliveryAddressCity" type="text" class="form-control champsOb" required maxlength="250" value="{{ customerSheet.deliveryAddressCity }}">
+									<datalist id="deliveryAddressCity"></datalist>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="siren">Chercher le Latitude / Longitude</label>
+									<button type="button" class="btn mr-2 mb-2 btn-success form-control" style="border : 1px solid {{ app.user.company.colorCode }} ;background-color: {{ app.user.company.colorCode }}; color : {{ app.user.company.colorText }}" data-toggle="modal" data-target=".bd-example-modal-lg" name="validGPS" onclick="searchCoorGPS()">Longitude / Latitude</button>
+								</div>
+							</div>
+							<div class="col-md-1">
+								
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label for="callMonday">Lundi</label>
+									<input name="callMonday" type="checkbox" class="form-control" {% if customerSheet.callMonday == 1 %}checked{% endif %}>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label for="hoursMonday">Horaire Lundi</label><input name="hoursMonday" type="text" class="form-control" value="{{ customerSheet.hoursMonday }}"></div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="siret">N° SIRET</label><input name="siret" id="siret" type="text" class="form-control champsOb" required minlength="14" maxlength="14" value="{{ customerSheet.siret }}"></div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="siren">N° SIREN</label><input name="siren" id="siren" type="text" class="form-control" minlength="9" maxlength="9" value="{{ customerSheet.siren }}"></div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="siren">Chercher le SIRET / SIREN / TVA</label>
+									<button type="button" class="btn mr-2 mb-2 btn-success form-control" style="border : 1px solid {{ app.user.company.colorCode }} ;background-color: {{ app.user.company.colorCode }}; color : {{ app.user.company.colorText }}"  data-toggle="modal" data-target=".bd-example-modal-info" name="siretSirenTVA" onclick="functionSiretSirenTVA()">Informations Entreprise</button>
+								</div>
+							</div>
+							<div class="col-md-1">
+								
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label for="callTuesday">Mardi</label>
+									<input name="callTuesday" type="checkbox" class="form-control" {% if customerSheet.callTuesday == 1 %}checked{% endif %}>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label for="hoursTuesday">Horaire Mardi</label><input name="hoursTuesday" type="text" class="form-control" value="{{ customerSheet.hoursTuesday }}"></div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="tva">N° TVA Intracommunautaire</label><input name="tva" id="tva" type="text" class="form-control champsOb" required value="{{ customerSheet.tva }}"></div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label for="callWednesday">Mercredi</label>
+									<input name="callWednesday" type="checkbox" class="form-control" {% if customerSheet.callWednesday == 1 %}checked{% endif %}>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label for="hoursWednesday">Horaire Mercredi</label><input name="hoursWednesday" type="text" class="form-control" value="{{ customerSheet.hoursWednesday }}"></div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="typeClient">Type Client <i style="font-weight : normal;">(Si client public = chorus, compléter impérativement les champs suivants: N° Siret, N° Engagement et Code Service)</i></label>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="public">Public</label>
+									<input class="form-control" type="radio" id="public" name="typeClient" value="1" {% if app.request.get('_route') != 'newCustomerSheet' and customerSheet.customerType == 1 %}checked{% endif %}>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="prive">Privé</label>
+									<input class="form-control" type="radio" id="prive" name="typeClient" value="0" {% if app.request.get('_route') == 'newCustomerSheet' and customerSheet.customerType == 0 %}checked{% endif %}>
+								</div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label for="callThursday">Jeudi</label>
+									<input name="callThursday" type="checkbox" class="form-control" {% if customerSheet.callThursday == 1 %}checked{% endif %}>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label for="hoursThursday">Horaire Jeudi</label><input name="hoursThursday" type="text" class="form-control" value="{{ customerSheet.hoursThursday }}"></div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="engagement">N° Engagement</label><input name="engagement" type="text" class="form-control" value="{{ customerSheet.commitmentNumber }}"></div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label for="callFriday">Vendredi</label>
+									<input name="callFriday" type="checkbox" class="form-control" {% if customerSheet.callFriday == 1 %}checked{% endif %}>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label for="hoursFriday">Horaire Vendredi</label><input name="hoursFriday" type="text" class="form-control" value="{{ customerSheet.hoursFriday }}"></div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="codeService">Code Service</label><input name="codeService" type="text" class="form-control" value="{{ customerSheet.serviceCode }}"></div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label for="callSaturday">Samedi</label>
+									<input name="callSaturday" type="checkbox" class="form-control" {% if customerSheet.callSaturday == 1 %}checked{% endif %}>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label for="hoursSaturday">Horaire Samedi</label><input name="hoursSaturday" type="text" class="form-control" value="{{ customerSheet.hoursSaturday }}"></div>
+							</div>
+						</div>						
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="invoiceAddress">Adresse pour Envoi Factures (si différente d'Adresse Livraison)</label><input name="invoiceAddress" type="text" class="form-control" value="{{ customerSheet.invoiceAddress }}"></div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="emailFacture">Email Envoi Facture</label><input name="emailFacture" type="mail" class="form-control" ></div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="invoiceAddressZipCode">Code Postal</label><input id="invoiceAddressZipCode" name="invoiceAddressZipCode" type="text" class="form-control" maxlength="10" onkeyup="geoApiCpVilleFacture()" value="{{ customerSheet.invoiceAddressZipCode }}"></div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="invoiceAddressCity">Ville</label><input id="invoiceAddressCity" name="invoiceAddressCity" list="invoiceAddressCity" type="text" class="form-control" maxlength="250" value="{{ customerSheet.invoiceAddressCity }}">
+									<datalist id="invoiceAddressCity"></datalist>
+									</div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="tarifClient">Tarif Client</label><input name="tarifClient" type="text" class="form-control" ></div>
+							</div>
+						</div>
+						
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="stat1">AFFTYPO CHAMPS STAT 1</label>
+									<select class="form-control champsOb" required name="stat1">
+										<option value="{{ customerSheet.stat1 }}">{{ customerSheet.stat1 }}</option>
+										<option value=""></option>
+										{% for stat in stat1 %}
+											<option value="{{ stat.Libelle_STAT1 }}">{{ stat.Libelle_STAT1 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="envoiTarifAuto">Envoi Tarif Automatique</label>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="oui">Oui</label>
+									<input class="form-control" type="radio" id="oui" name="envoiTarifAuto" value="1">
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="non">Non</label>
+									<input class="form-control" type="radio" id="non" name="envoiTarifAuto" value="0" checked>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="stat1">AFFCAT 2 CHAMPS STAT 2</label>
+									<select class="form-control champsOb" required name="stat2">
+										<option value="{{ customerSheet.stat2 }}">{{ customerSheet.stat2 }}</option>
+										<option value=""></option>
+										{% for stat in stat2 %}
+											<option value="{{ stat.Libelle_STAT2 }}">{{ stat.Libelle_STAT2 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="date1Livraison">Date 1ère Livraison</label><input name="date1Livraison" type="date" class="form-control" ></div>
+							</div>
+						</div>
+						
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="stat1">AFFCAT 3 CHAMPS STAT 3</label>
+									<select class="form-control" name="stat3">
+										<option value="{{ customerSheet.stat3 }}">{{ customerSheet.stat3 }}</option>
+										<option value=""></option>
+										{% for stat in stat3 %}
+											<option value="{{ stat.Libelle_STAT3 }}">{{ stat.Libelle_STAT3 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="typeClient">PVC</label>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="oui">Oui</label>
+									<input class="form-control" type="radio" id="oui" name="pvc" value="1">
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+  									<label for="non">Non</label>
+									<input class="form-control" type="radio" id="non" name="pvc" value="0" checked>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="stat1">AFFCAT 1 CHAMPS STAT 4</label>
+									<select class="form-control champsOb" required name="stat4">
+										<option value="{{ customerSheet.stat4 }}">{{ customerSheet.stat4 }}</option>
+										<option value=""></option>
+										{% for stat in stat4 %}
+											<option value="{{ stat.Libelle_STAT4 }}">{{ stat.Libelle_STAT4 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="coefPVC">Coef PVC</label><input name="coefPVC" type="text" class="form-control" ></div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="stat1">AFFCAT 4 CHAMPS STAT 5</label>
+									<select class="form-control champsOb" required name="stat5">
+										<option value="{{ customerSheet.stat5 }}">{{ customerSheet.stat5 }}</option>
+										<option value=""></option>
+										{% for stat in stat5 %}
+											<option value="{{ stat.Libelle_STAT5 }}">{{ stat.Libelle_STAT5 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-4">
+								<div class="position-relative form-group">
+									<label>Mode de Règlement / * Joindre Courrier Acceptation</label>
+								</div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="regAvance">Avance</label><input name="regAvance" type="checkbox" class="form-control" >
+									</div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="regChequeBancaire">Chèque Bancaire</label><input name="regChequeBancaire" type="checkbox" class="form-control" ></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="regVirement">Virement</label><input name="regVirement" type="checkbox" class="form-control" ></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="regPrelevement">* Prélèvement</label><input name="regPrelevement" type="checkbox" class="form-control" ></div>
+								</div>
+						</div>
+
+						<hr>
+
+						<div class="form-row" style="text-align: center">
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>Choix Documents</label>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>KBIS</label>
+									<input class="form-control-file" type="file" name="ext_kbis" id="ext_kbis"/>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>CGV</label>
+									<input class="form-control-file" type="file" name="ext_cgv"/>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>Autorisation Prélèvement</label>
+									<input class="form-control-file" type="file" name="ext_auth"/>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>RIB</label>
+									<input class="form-control-file" type="file" name="ext_rib"/>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>Autres Documents</label>
+									<input class="form-control-file" type="file" name="ext_autres"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}; padding: 5px;">
+									<h5 style="text-align: center">Contacts</h5>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label>Dirigeant</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctDirNom">Nom</label><input name="ctDirNom" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctDirTel">Téléphone</label><input name="ctDirTel" type="tel" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctDirMail">Adresse Mail</label><input name="ctDirMail" type="mail" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label>Compta Règlement</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctComptaNom">Nom</label><input name="ctComptaNom" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctComptaTel">Téléphone</label><input name="ctComptaTel" type="tel" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctComptaMail">Adresse Mail</label><input name="ctComptaMail" type="mail" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label>Responsable Commandes</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctComNom">Nom</label><input name="ctComNom" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctComTel">Téléphone</label><input name="ctComTel" type="tel" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctComMail">Adresse Mail</label><input name="ctComMail" type="mail" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label>Responsable Qualité</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctQuaNom">Nom</label><input name="ctQuaNom" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctQuaTel">Téléphone</label><input name="ctQuaTel" type="tel" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctQuaMail">Adresse Mail</label><input name="ctQuaMail" type="mail" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label>Chef de Secteur</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctSecNom">Nom</label><input name="ctSecNom" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctSecTel">Téléphone</label><input name="ctSecTel" type="tel" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="ctSecMail">Adresse Mail</label><input name="ctSecMail" type="mail" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<hr>
+						
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}; padding: 5px;">
+									<h5 style="text-align: center">PARTIE A VALIDER ET COMPLETER PAR LA LOGISTIQUE</h5>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row" style="text-align: center">
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="trLundi">Tournée LUNDI</label>
+									<select class="form-control" name="trLundi">
+										<option value=""></option>
+										{% for tr in tournees %}
+											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="trMardi">Tournée MARDI</label>
+									<select class="form-control" name="trMardi">
+										<option value=""></option>
+										{% for tr in tournees %}
+											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="trMercredi">Tournée MERCREDI</label>
+									<select class="form-control" name="trMercredi">
+										<option value=""></option>
+										{% for tr in tournees %}
+											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="trJeudi">Tournée JEUDI</label>
+									<select class="form-control" name="trJeudi">
+										<option value=""></option>
+										{% for tr in tournees %}
+											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="trVendredi">Tournée VENDREDI</label>
+									<select class="form-control" name="trVendredi">
+										<option value=""></option>
+										{% for tr in tournees %}
+											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="trSamedi">Tournée SAMEDI</label>
+									<select class="form-control" name="trSamedi">
+										<option value=""></option>
+										{% for tr in tournees %}
+											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row" style="text-align: center">
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="rgLundi">Rang LUNDI</label>
+									<input name="rgLundi" type="text" class="form-control" ></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="rgMardi">Rang MARDI</label>
+									<input name="rgMardi" type="text" class="form-control" ></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="rgMercredi">Rang MERCREDI</label>
+									<input name="rgMercredi" type="text" class="form-control" ></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="rgJeudi">Rang JEUDI</label>
+									<input name="rgJeudi" type="text" class="form-control" ></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="rgVendredi">Rang VENDREDI</label>
+									<input name="rgVendredi" type="text" class="form-control" ></div>
+								</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="rgSamedi">Rang SAMEDI</label>
+									<input name="rgSamedi" type="text" class="form-control" ></div>
+								</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group">
+									<label for="plageHoraire">Plage Horaire qu'Accepte le Client</label><input name="plageHoraire" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label>Coordonnées GPS Livraison</label>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="latitude">Latitude</label><input id="lat" name="latitude" type="text" class="form-control"  minlength="8">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group" style="text-align: center">
+									<label for="longitude">Longitude</label><input id="long" name="longitude" type="text" class="form-control"  minlength="7">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="validGPS">Coordonées sur Google Maps</label>
+									<button type="button" class="btn mr-2 mb-2 btn-success form-control" style="border : 1px solid {{ app.user.company.colorCode }} ;background-color: {{ app.user.company.colorCode }}; color : {{ app.user.company.colorText }}" data-toggle="modal" data-target=".bd-example-modal-lg" name="validGPS"  onclick="validCoorGPS()">Visualiser les Coordonnées GPS</button>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="validGPS">Générer les Coordonnées avec l'Adresse de Livraison</label>
+									<button type="button" class="btn mr-2 mb-2 btn-success form-control" style="border : 1px solid {{ app.user.company.colorCode }} ;background-color: {{ app.user.company.colorCode }}; color : {{ app.user.company.colorText }}" data-toggle="modal" data-target=".bd-example-modal-lg" name="validGPS" onclick="searchCoorGPS()">Générer les Coordonnées avec l'Adresse de Livraison</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group">
+									<label for="bp">Texte sur Bon de Préparation</label><input name="bp" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group">
+									<label for="bl">Texte sur Bon de Livraison</label><input name="bl" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<hr>
+						
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}; padding: 5px;">
+									<h5 style="text-align: center">PARTIE A VALIDER ET COMPLETER PAR LA DIRECTION DU SITE</h5>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="dirCom">Attribution DIRECTION COMMERCIAL</label><input name="dirCom" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-6" style="text-align: center">
+								<div class="position-relative form-group">
+									<label>Service Associés</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="comMaitre">Attribution COMMERCIAL MAITRE</label>
+									<select class="form-control champsOb" required name="comMaitre">
+										<option value=""></option>
+										{% for dirCom in commercials %}
+											<option value="{{ dirCom.saljare }}">{{ dirCom.COMMERCIAL }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="taux1">Taux 1</label><input name="taux1" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="nature1">Nature 1</label><input name="nature1" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="com">Attribution COMMERCIAL</label>
+									<select class="form-control champsOb" required name="com">
+										<option value=""></option>
+										{% for dirCom in commercials %}
+											<option value="{{ dirCom.saljare }}">{{ dirCom.COMMERCIAL }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="taux2">Taux 2</label><input name="taux2" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="nature2">Nature 2</label><input name="nature2" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-5">
+								<div class="position-relative form-group">
+									<label for="tel">Attribution TELEVENTE</label>
+									<select class="form-control champsOb" required name="tel">
+										<option value=""></option>
+										{% for tel in televendeurs %}
+											<option value="{{ tel.perssign1 }}">{{ tel.TELEVENDEUR }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="taux3">Taux 3</label><input name="taux3" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="position-relative form-group">
+									<label for="nature3">Nature 3</label><input name="nature3" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<hr>
+						
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group" style="background-color: {{ app.user.company.colorCode }}; color: {{ app.user.company.colorText }}; padding: 5px;">
+									<h5 style="text-align: center">PARTIE A VALIDER ET COMPLETER PAR LA COMPTABILITE</h5>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label>Minimum de Livraison</label>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="limiteFrais">Limite Frais</label><input name="limiteFrais" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="montantFrais">Montant Frais</label><input name="montantFrais" type="text" class="form-control" >
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="position-relative form-group">
+									<label for="delaisReg">Délais de Règlement</label><input name="delaisReg" type="text" class="form-control" >
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+									<label for="fraisDev">Frais de Développement Durable</label>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+  									<label for="090">0,90 €</label>
+									<input class="form-control" type="radio" id="090" name="fraisDev" value="1">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+  									<label for="150">1,50 €</label>
+									<input class="form-control" type="radio" id="150" name="fraisDev" value="0" checked>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<div class="position-relative form-group">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+									<label for="blocCompte">Blocage Compte</label>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+  									<label for="oui">Oui</label>
+									<input class="form-control" type="radio" id="oui" name="blocCompte" value="1">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="position-relative form-group">
+  									<label for="non">Non</label>
+									<input class="form-control" type="radio" id="non" name="blocCompte" value="0" checked>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="d-inline-block dropdown">
+		<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("newFicheClient") }}">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-eraser fa-w-20"></i>
+			</span>
+			Remettre à zéro la fiche
+		</a>
+	</div>
+
+    <div class="d-inline-block dropdown">
+		<button type="submit" class="btn mr-2 mb-2 btn-warning" name="BROUILLON">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-edit fa-w-20"></i>
+			</span>
+			Enregistrer en brouillon
+		</button>
+	</div>
+
+	<div class="d-inline-block dropdown">
+		<button type="submit" class="btn mr-2 mb-2 btn-success" name="VALID">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-check-square fa-w-20"></i>
+			</span>
+			Envoyer la fiche en validation
+		</button>
+	</div>
+	</div>
+{% endblock %}
+
+{% block autres %}
+
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="validGPS" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="validGPS">Visualisation Coordonnées GPS</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+			<div class="modal-body" id="textGPS">
+            </div>
+            <div class="modal-body">
+				<h6>Attention ne pas ce fier à l'adresse affiché sur la carte mais l'adresse dans le tableau ci-dessus.</h6>
+				<h6>Attention de verifier que le point de livraison est à la même adresse ou non (Ex: Livriaison à l'arrière du bâtiment).</h6>
+		    </div>
+            <div class="modal-body" id="GPS_Display">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer la Fenêtre</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-info" tabindex="-1" role="dialog" aria-labelledby="siretSirenTVA" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="siretSirenTVA">Informations Entreprise</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+			<div class="modal-body" id="textEtablissement">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer la Fenêtre</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

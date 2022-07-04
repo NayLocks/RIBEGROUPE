@@ -165,6 +165,9 @@
     "psr/log": {
         "version": "1.1.4"
     },
+    "rguedes/pdfmerger": {
+        "version": "1.0.4"
+    },
     "sabberworm/php-css-parser": {
         "version": "8.4.0"
     },
@@ -227,6 +230,12 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "setasign/fpdf": {
+        "version": "1.8.4"
+    },
+    "setasign/fpdi": {
+        "version": "v2.3.6"
     },
     "symfony/asset": {
         "version": "v4.4.37"
@@ -578,6 +587,9 @@
     },
     "theseer/tokenizer": {
         "version": "1.2.1"
+    },
+    "tomsgu/pdf-merger": {
+        "version": "v0.4"
     },
     "twig/extensions": {
         "version": "1.5",

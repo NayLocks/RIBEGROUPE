@@ -78,11 +78,6 @@ class User implements UserInterface
     private $accessADM;
 
     /**
-     * @ORM\OneToMany(targetEntity=FicheArticle::class, mappedBy="username")
-     */
-    private $ficheArticles;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $titleFC;
@@ -98,14 +93,25 @@ class User implements UserInterface
     private $titleFF;
 
     /**
-     * @ORM\OneToMany(targetEntity=FicheClient::class, mappedBy="username")
+     * @ORM\OneToMany(targetEntity=ItemsSheets::class, mappedBy="username")
      */
-    private $ficheClients;
+    private $itemsSheets;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ItemsSheets::class, mappedBy="usernameValidation")
+     */
+    private $itemsSheetsValidation;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CustomersSheets::class, mappedBy="username")
+     */
+    private $customersSheets;
 
     public function __construct()
     {
-        $this->ficheArticles = new ArrayCollection();
-        $this->ficheClients = new ArrayCollection();
+        $this->itemsSheets = new ArrayCollection();
+        $this->itemsSheetsValidation = new ArrayCollection();
+        $this->customersSheets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -280,36 +286,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, FicheArticle>
-     */
-    public function getFicheArticles(): Collection
-    {
-        return $this->ficheArticles;
-    }
-
-    public function addFicheArticle(FicheArticle $ficheArticle): self
-    {
-        if (!$this->ficheArticles->contains($ficheArticle)) {
-            $this->ficheArticles[] = $ficheArticle;
-            $ficheArticle->setUsername($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFicheArticle(FicheArticle $ficheArticle): self
-    {
-        if ($this->ficheArticles->removeElement($ficheArticle)) {
-            // set the owning side to null (unless already changed)
-            if ($ficheArticle->getUsername() === $this) {
-                $ficheArticle->setUsername(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getTitleFC(): ?string
     {
         return $this->titleFC;
@@ -347,29 +323,89 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection<int, FicheClient>
+     * @return Collection<int, ItemsSheets>
      */
-    public function getFicheClients(): Collection
+    public function getItemsSheets(): Collection
     {
-        return $this->ficheClients;
+        return $this->itemsSheets;
     }
 
-    public function addFicheClient(FicheClient $ficheClient): self
+    public function addItemsSheet(ItemsSheets $itemsSheet): self
     {
-        if (!$this->ficheClients->contains($ficheClient)) {
-            $this->ficheClients[] = $ficheClient;
-            $ficheClient->setUsername($this);
+        if (!$this->itemsSheets->contains($itemsSheet)) {
+            $this->itemsSheets[] = $itemsSheet;
+            $itemsSheet->setUsername($this);
         }
 
         return $this;
     }
 
-    public function removeFicheClient(FicheClient $ficheClient): self
+    public function removeItemsSheet(ItemsSheets $itemsSheet): self
     {
-        if ($this->ficheClients->removeElement($ficheClient)) {
+        if ($this->itemsSheets->removeElement($itemsSheet)) {
             // set the owning side to null (unless already changed)
-            if ($ficheClient->getUsername() === $this) {
-                $ficheClient->setUsername(null);
+            if ($itemsSheet->getUsername() === $this) {
+                $itemsSheet->setUsername(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ItemsSheets>
+     */
+    public function getItemsSheetsValidation(): Collection
+    {
+        return $this->itemsSheetsValidation;
+    }
+
+    public function addItemsSheetsValidation(ItemsSheets $itemsSheetsValidation): self
+    {
+        if (!$this->itemsSheetsValidation->contains($itemsSheetsValidation)) {
+            $this->itemsSheetsValidation[] = $itemsSheetsValidation;
+            $itemsSheetsValidation->setUsernameValidation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItemsSheetsValidation(ItemsSheets $itemsSheetsValidation): self
+    {
+        if ($this->itemsSheetsValidation->removeElement($itemsSheetsValidation)) {
+            // set the owning side to null (unless already changed)
+            if ($itemsSheetsValidation->getUsernameValidation() === $this) {
+                $itemsSheetsValidation->setUsernameValidation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CustomersSheets>
+     */
+    public function getCustomersSheets(): Collection
+    {
+        return $this->customersSheets;
+    }
+
+    public function addCustomersSheet(CustomersSheets $customersSheet): self
+    {
+        if (!$this->customersSheets->contains($customersSheet)) {
+            $this->customersSheets[] = $customersSheet;
+            $customersSheet->setUsername($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomersSheet(CustomersSheets $customersSheet): self
+    {
+        if ($this->customersSheets->removeElement($customersSheet)) {
+            // set the owning side to null (unless already changed)
+            if ($customersSheet->getUsername() === $this) {
+                $customersSheet->setUsername(null);
             }
         }
 

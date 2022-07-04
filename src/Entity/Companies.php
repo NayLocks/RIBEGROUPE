@@ -40,24 +40,24 @@ class Companies
     private $colorText;
 
     /**
-     * @ORM\OneToMany(targetEntity=FicheArticle::class, mappedBy="company")
-     */
-    private $ficheArticles;
-
-    /**
-     * @ORM\OneToMany(targetEntity=FicheClient::class, mappedBy="company")
-     */
-    private $ficheClients;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $codeClient;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ItemsSheets::class, mappedBy="company")
+     */
+    private $itemsSheets;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CustomersSheets::class, mappedBy="company")
+     */
+    private $customersSheets;
+
     public function __construct()
     {
-        $this->ficheArticles = new ArrayCollection();
-        $this->ficheClients = new ArrayCollection();
+        $this->itemsSheets = new ArrayCollection();
+        $this->customersSheets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,66 +113,6 @@ class Companies
         return $this;
     }
 
-    /**
-     * @return Collection<int, FicheArticle>
-     */
-    public function getFicheArticles(): Collection
-    {
-        return $this->ficheArticles;
-    }
-
-    public function addFicheArticle(FicheArticle $ficheArticle): self
-    {
-        if (!$this->ficheArticles->contains($ficheArticle)) {
-            $this->ficheArticles[] = $ficheArticle;
-            $ficheArticle->setCompany($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFicheArticle(FicheArticle $ficheArticle): self
-    {
-        if ($this->ficheArticles->removeElement($ficheArticle)) {
-            // set the owning side to null (unless already changed)
-            if ($ficheArticle->getCompany() === $this) {
-                $ficheArticle->setCompany(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, FicheClient>
-     */
-    public function getFicheClients(): Collection
-    {
-        return $this->ficheClients;
-    }
-
-    public function addFicheClient(FicheClient $ficheClient): self
-    {
-        if (!$this->ficheClients->contains($ficheClient)) {
-            $this->ficheClients[] = $ficheClient;
-            $ficheClient->setCompany($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFicheClient(FicheClient $ficheClient): self
-    {
-        if ($this->ficheClients->removeElement($ficheClient)) {
-            // set the owning side to null (unless already changed)
-            if ($ficheClient->getCompany() === $this) {
-                $ficheClient->setCompany(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCodeClient(): ?string
     {
         return $this->codeClient;
@@ -181,6 +121,66 @@ class Companies
     public function setCodeClient(?string $codeClient): self
     {
         $this->codeClient = $codeClient;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ItemsSheets>
+     */
+    public function getItemsSheets(): Collection
+    {
+        return $this->itemsSheets;
+    }
+
+    public function addItemsSheet(ItemsSheets $itemsSheet): self
+    {
+        if (!$this->itemsSheets->contains($itemsSheet)) {
+            $this->itemsSheets[] = $itemsSheet;
+            $itemsSheet->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItemsSheet(ItemsSheets $itemsSheet): self
+    {
+        if ($this->itemsSheets->removeElement($itemsSheet)) {
+            // set the owning side to null (unless already changed)
+            if ($itemsSheet->getCompany() === $this) {
+                $itemsSheet->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CustomersSheets>
+     */
+    public function getCustomersSheets(): Collection
+    {
+        return $this->customersSheets;
+    }
+
+    public function addCustomersSheet(CustomersSheets $customersSheet): self
+    {
+        if (!$this->customersSheets->contains($customersSheet)) {
+            $this->customersSheets[] = $customersSheet;
+            $customersSheet->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomersSheet(CustomersSheets $customersSheet): self
+    {
+        if ($this->customersSheets->removeElement($customersSheet)) {
+            // set the owning side to null (unless already changed)
+            if ($customersSheet->getCompany() === $this) {
+                $customersSheet->setCompany(null);
+            }
+        }
 
         return $this;
     }

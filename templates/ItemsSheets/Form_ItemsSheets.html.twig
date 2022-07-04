@@ -1,0 +1,424 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création Fiche Article
+{% endblock %}
+
+{% block page %}
+	Création Fiche Article
+{% endblock %}
+
+{% block actionsPage %}
+	{% if app.user.titleFA == "ACHETEUR" %} {# AFFICHER LES BOUTONS DE L'ACHETE #}
+	<div class="d-inline-block dropdown">
+		<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("newItemSheet") }}">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-eraser fa-w-20"></i>
+			</span>
+			Remettre à zéro la fiche
+		</a>
+	</div>
+
+	<div class="d-inline-block dropdown">
+		<button type="submit" class="btn mr-2 mb-2 btn-warning" name="BROUILLON">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-edit fa-w-20"></i>
+			</span>
+			Enregistrer en brouillon
+		</button>
+	</div>
+
+	<div class="d-inline-block dropdown">
+		<button type="submit" class="btn mr-2 mb-2 btn-success" name="ACHETEUR">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-check-square fa-w-20"></i>
+			</span>
+			Envoyer la fiche en validation
+		</button>
+	</div>
+
+	{% elseif app.user.titleFA == "COMPTA" %} {# AFFICHER LES BOUTONS DE LA COMPTA #}
+	<div class="d-inline-block dropdown">
+		<button type="button" class="btn mr-2 mb-2 btn-danger" data-toggle="modal" data-target="#modalRefus">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-eraser fa-w-20"></i>
+			</span>
+			Refuser la Fiche (Envoi d'un mail à l'acheteur)
+		</button>
+	</div>
+
+	<div class="d-inline-block dropdown">
+		<button type="button" class="btn mr-2 mb-2 btn-success" data-toggle="modal" data-target="#modalComptabilite">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-check-square fa-w-20"></i>
+			</span>
+			Valider la Fiche (Envoi d'un mail à l'acheteur)
+		</button>
+	</div>
+	{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+<script>
+	function checkDLC(){
+		if(document.getElementById('ddm').checked == true){
+			document.getElementById('ddm').checked = false;
+		}
+	}
+
+	function checkDDM(){
+		if(document.getElementById('dlc').checked == true){
+			document.getElementById('dlc').checked = false;
+		};
+	}
+</script>
+{% endblock %}
+
+{% block body %}
+	<div class="tab-content">
+		<div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+			<div class="main-card mb-3 card">
+				<div class="card-body">
+					<h5 class="card-title">Information Article</h5>
+
+					<div class="form-row">
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="generic" class="">Générique</label><input name="generic" type="text" class="form-control" maxlength="100" value="{{ item.generic }}" required></div>
+						</div>
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="variety" class="">Espèce / Variété</label><input name="variety" type="text" class="form-control" maxlength="200" value="{{ item.variety }}"></div>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="brand" class="">Marque</label><input name="brand" type="text" class="form-control" maxlength="100" value="{{ item.brand }}"></div>
+						</div>
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="origin" class="">Origine</label><input name="origin" type="text" class="form-control" maxlength="100" value="{{ item.origin }}" required></div>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="diameter" class="">Calibre</label><input name="diameter" type="text" class="form-control" maxlength="100" value="{{ item.diameter }}"></div>
+						</div>
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="packaging" class="">Conditionnement</label><input name="packaging" type="text" class="form-control" maxlength="100" value="{{ item.packaging }}" required></div>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="category" class="">Catégorie</label><input name="category" type="text" class="form-control" maxlength="100" value="{{ item.category }}"></div>
+						</div>
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="groupItem" class="">Groupe Article</label>
+								<select name="groupItem" type="text" class="form-control" required>
+									<option value="{{ itemFields[0].1}}">{{ itemFields[0].0 }}</option>
+									<option value=""></option>
+									{% for grpItem in groupItem %}
+										<option value="{{ grpItem.1 }}">{{ grpItem.0 }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+
+					{% if app.user.company.name == "PROMER OCEAN" %}
+						<h5 class="card-title">Spécificité Marée</h5>
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group">
+									<label for="fishingNameLatin" class="">Nom Latin</label><input name="fishingNameLatin" type="text" class="form-control" maxlength="100" value="{{ item.fishingNameLatin }}"></div>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-12">
+								<div class="position-relative form-group">
+									<label for="fishingArea" class="">Zone de Pêche</label><input name="fishingArea" type="text" class="form-control" maxlength="100" value="{{ item.fishingArea }}"></div>
+							</div>
+						</div>
+					{% else %}
+						<input name="fishingNameLatin" type="hidden" class="form-control" maxlength="100" value="{{ item.fishingNameLatin }}">
+						<input name="fishingArea" type="hidden" class="form-control" maxlength="100" value="{{ item.fishingArea }}">
+					{% endif %}
+
+					<div class="form-row">
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="weightPackaging" class="">Poids du Colis</label><input name="weightPackaging" type="text" class="form-control" maxlength="100" value="{{ item.weightPackaging }}"></div>
+						</div>
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="stat1" class="">STAT 1</label>
+								<select name="stat1" type="text" class="form-control" required>
+									<option value="{{ itemFields[1].1}}">{{ itemFields[1].0 }}</option>
+									<option value=""></option>
+									{% for stat in stat1 %}
+										<option value="{{ stat.1 }}">{{ stat.0 }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="col-md-4">
+							<div class="position-relative form-group">
+								<label for="weightVariable" class="">Variable</label>
+							</div>
+						</div>
+						<div class="col-md-1">
+							<div class="position-relative form-group">
+								<label for="oui">Oui</label>
+								<input class="form-control" type="radio" id="oui" name="weightVariable" value="1" {% if item.weightVariable == 1 %}checked{% endif %}>
+							</div>
+						</div>
+						<div class="col-md-1">
+							<div class="position-relative form-group">
+								<label for="non">Non</label>
+								<input class="form-control" type="radio" id="non" name="weightVariable" value="0" {% if item.weightVariable == 0 %}checked{% elseif app.request.get('_route') == 'newItemSheet' %}checked{% endif %}>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="stat2" class="">STAT 2</label>
+								<select name="stat2" type="text" class="form-control" required>
+									<option value="{{ itemFields[2].1}}">{{ itemFields[2].0 }}</option>
+									<option value=""></option>
+									{% for stat in stat2 %}
+										<option value="{{ stat.1 }}">{{ stat.0 }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="unitPackaging" class="">Pièce du Colis</label><input name="unitPackaging" type="text" class="form-control" maxlength="100" value="{{ item.unitPackaging }}"></div>
+						</div>
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="stat3" class="">STAT 3</label>
+								<select name="stat3" type="text" class="form-control" required>
+									<option value="{{ itemFields[3].1}}">{{ itemFields[3].0 }}</option>
+									<option value=""></option>
+									{% for stat in stat3 %}
+										<option value="{{ stat.1 }}">{{ stat.0 }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="col-md-4">
+							<div class="position-relative form-group">
+								<label for="unitVariable" class="">Variable</label>
+							</div>
+						</div>
+						<div class="col-md-1">
+							<div class="position-relative form-group">
+								<label for="oui">Oui</label>
+								<input class="form-control" type="radio" id="oui" name="unitVariable" value="1" {% if item.unitVariable == 1 %}checked{% endif %}>
+							</div>
+						</div>
+						<div class="col-md-1">
+							<div class="position-relative form-group">
+								<label for="non">Non</label>
+								<input class="form-control" type="radio" id="non" name="unitVariable" value="0" {% if item.unitVariable == 0 %}checked{% elseif app.request.get('_route') == 'newItemSheet' %}checked{% endif %}>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="stat4" class="">STAT 4</label>
+								<select name="stat4" type="text" class="form-control" required>
+									<option value="{{ itemFields[4].1}}">{{ itemFields[4].0 }}</option>
+									<option value=""></option>
+									{% for stat in stat4 %}
+										<option value="{{ stat.1 }}">{{ stat.0 }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="col-md-4">
+							<div class="position-relative form-group">
+								<label for="dlcDdm" class="">DLC / DDM</label>
+							</div>
+						</div>
+						<div class="col-md-1">
+							<div class="position-relative form-group">
+								<label for="dlc">DLC</label>
+								<input class="form-control" type="checkbox" id="dlc" name="dlc" onclick="checkDLC()" {% if item.dlc == 1 %}checked{% endif %}>
+							</div>
+						</div>
+						<div class="col-md-1">
+							<div class="position-relative form-group">
+								<label for="ddm">DDM</label>
+								<input class="form-control" type="checkbox" id="ddm" name="ddm" onclick="checkDDM()" {% if item.ddm == 1 %}checked{% endif %}>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="noticeAccentuate" class="">Mention Valorisante</label>
+								<select name="noticeAccentuate" type="text" class="form-control">
+									<option value="{{ itemFields[5].1}}">{{ itemFields[5].0 }}</option>
+									<option value=""></option>
+									{% for notice in noticeAccentuate %}
+										<option value="{{ notice.1 }}">{{ notice.0 }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="dlcDate" class="">Si cochée, Départ Usine</label><input name="dlcDate" type="text" class="form-control" maxlength="100" value="{{ item.dlcDate }}"></div>
+						</div>
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="localization" class="">Localisation</label>
+								<select name="localization" type="text" class="form-control" required>
+									<option value="{{ itemFields[6].1}}">{{ itemFields[6].0 }}</option>
+									<option value=""></option>
+									{% for loc in localization %}
+										<option value="{{ loc.1 }}">{{ loc.0 }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="col-md-3">
+							<div class="position-relative form-group">
+								<label for="unitPurchase" class="">Unité d'Achat Courante</label>
+								<select name="unitPurchase" type="text" class="form-control">
+									<option value="{{ item.unitPurchase }}">{{ item.unitPurchase }}</option>
+									<option value=""></option>
+									<option>COLIS</option>
+									<option>KG</option>
+									<option>PIECE</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="position-relative form-group">
+								<label for="unitSale" class="">Unité de Vente Courante</label>
+								<select name="unitSale" type="text" class="form-control">
+									<option value="{{ item.unitSale }}">{{ item.unitSale }}</option>
+									<option value=""></option>
+									<option>COLIS</option>
+									<option>KG</option>
+									<option>PIECE</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="rup" class="">RUP</label>
+								<select name="rup" type="text" class="form-control">
+									<option value="{{ itemFields[7].1}}">{{ itemFields[7].0 }}</option>
+									<option value=""></option>
+									{% for rup in rup %}
+										<option value="{{ rup.1 }}">{{ rup.0 }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="unitStock" class="">Unité de Stock</label>
+								<select name="unitStock" type="text" class="form-control">
+									<option value="{{ item.unitStock }}">{{ item.unitStock }}</option>
+									<option value=""></option>
+									<option>COLIS</option>
+									<option>KG</option>
+									<option>PIECE</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="position-relative form-group">
+								<label for="siqo" class="">SIQO</label>
+								<select name="siqo" type="text" class="form-control">
+									<option value="{{ itemFields[8].1}}">{{ itemFields[8].0 }}</option>
+									<option value=""></option>
+									{% for siqo in siqo %}
+										<option value="{{ siqo.1 }}">{{ siqo.0 }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block autres %}
+<div class="modal fade" id="modalRefus" tabindex="-1" role="dialog" aria-labelledby="modalRefus" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRefus">Raison du Refus</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" rows="5" name="textRefus" placeholder="Le Groupe Article est manquant / il manque l'unité de stock, achat, vente."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler le Refus</button>
+                <button type="submit" class="btn btn-success" name="REFUS">Envoyer le Refus</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalComptabilite" tabindex="-1" role="dialog" aria-labelledby="modalComptabilite" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalComptabilite">Compléter la Fiche</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+				<label for="codeArticle">Code Article</label>
+                <input class="form-control" name="codeArticle" placeholder="AIL5" />
+				<label for="codeSodexo">Code Sodexo</label>
+                <input class="form-control" name="codeSodexo" placeholder="0000000" />
+				<label for="codeSXO">Code SXO</label>
+                <input class="form-control" name="codeSXO" placeholder="0000000" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler la Validation</button>
+                <button type="submit" class="btn btn-success" name="COMPTABILITE">Valider la Fiche</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

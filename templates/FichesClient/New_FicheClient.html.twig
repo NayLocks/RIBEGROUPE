@@ -1322,10 +1322,40 @@ function insertCoordGPS(id){
 				</div>
 			</div>
 		</div>
+
+		<div class="d-inline-block dropdown">
+		<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("newFicheClient") }}">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-eraser fa-w-20"></i>
+			</span>
+			Remettre à zéro la fiche
+		</a>
+	</div>
+
+    <div class="d-inline-block dropdown">
+		<button type="submit" class="btn mr-2 mb-2 btn-warning" name="BROUILLON">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-edit fa-w-20"></i>
+			</span>
+			Enregistrer en brouillon
+		</button>
+	</div>
+
+	<div class="d-inline-block dropdown">
+		<button type="submit" class="btn mr-2 mb-2 btn-success" name="VALID">
+			<span class="btn-icon-wrapper pr-2 opacity-7">
+				<i class="fa fa-check-square fa-w-20"></i>
+			</span>
+			Envoyer la fiche en validation
+		</button>
+	</div>
 	</div>
 {% endblock %}
 
 {% block autres %}
+
+
+
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="validGPS" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -1339,6 +1369,7 @@ function insertCoordGPS(id){
             </div>
             <div class="modal-body">
 				<h6>Attention ne pas ce fier à l'adresse affiché sur la carte mais l'adresse dans le tableau ci-dessus.</h6>
+				<h6>Attention de verifier que le point de livraison est à la même adresse ou non (Ex: Livriaison à l'arrière du bâtiment).</h6>
 		    </div>
             <div class="modal-body" id="GPS_Display">
             </div>
@@ -1354,7 +1385,7 @@ function insertCoordGPS(id){
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="siretSirenTVA">Informaions Entreprise Trouvées</h5>
+                <h5 class="modal-title" id="siretSirenTVA">Informations Entreprise</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -1,0 +1,31 @@
+.w100{
+    width: 100%;
+}
+
+.card-body{
+    overflow-x: auto; 
+    width: 100%;
+}
+
+.backDIV{
+    background-color: lightgrey;
+}
+
+label{
+    font-weight: bold;
+}
+
+.champsOb{
+    background-color : #ADEAFF;
+}
+
+.btn-admin-OUI {
+    color: #000;
+    background-color: #00D610;
+    border-color: #204265;
+}
+.btn-admin-NON {
+    color: #fff;
+    background-color: #D60000;
+    border-color: #204265;
+}
