@@ -272,6 +272,156 @@ class CustomersSheets
      */
     private $siren;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $mailInvoice;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $customerRate;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $autoSendRate;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $deliveryDate;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $pvc;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $coefPVC;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $payAdvanced;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $payBankCheck;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $payPayment;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $paySampling;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $extKBIS;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $extCGV;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $extAUTHPREV;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $extRIB;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $extOTHERDOCU;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ctDirName;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $ctDirPhone;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ctDirMail;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ctComptaName;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $ctComptaPhone;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ctComptaMail;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ctComName;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $ctComPhone;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ctComMail;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ctQuaName;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $ctQuaPhone;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ctQuaMail;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ctSecName;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $ctSecPhone;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ctSecMail;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -885,6 +1035,366 @@ class CustomersSheets
     public function setSiren(?string $siren): self
     {
         $this->siren = $siren;
+
+        return $this;
+    }
+
+    public function getMailInvoice(): ?string
+    {
+        return $this->mailInvoice;
+    }
+
+    public function setMailInvoice(?string $mailInvoice): self
+    {
+        $this->mailInvoice = $mailInvoice;
+
+        return $this;
+    }
+
+    public function getCustomerRate(): ?string
+    {
+        return $this->customerRate;
+    }
+
+    public function setCustomerRate(?string $customerRate): self
+    {
+        $this->customerRate = $customerRate;
+
+        return $this;
+    }
+
+    public function getAutoSendRate(): ?int
+    {
+        return $this->autoSendRate;
+    }
+
+    public function setAutoSendRate(?int $autoSendRate): self
+    {
+        $this->autoSendRate = $autoSendRate;
+
+        return $this;
+    }
+
+    public function getDeliveryDate(): ?\DateTimeInterface
+    {
+        return $this->deliveryDate;
+    }
+
+    public function setDeliveryDate(?\DateTimeInterface $deliveryDate): self
+    {
+        $this->deliveryDate = $deliveryDate;
+
+        return $this;
+    }
+
+    public function getPvc(): ?int
+    {
+        return $this->pvc;
+    }
+
+    public function setPvc(?int $pvc): self
+    {
+        $this->pvc = $pvc;
+
+        return $this;
+    }
+
+    public function getCoefPVC(): ?string
+    {
+        return $this->coefPVC;
+    }
+
+    public function setCoefPVC(?string $coefPVC): self
+    {
+        $this->coefPVC = $coefPVC;
+
+        return $this;
+    }
+
+    public function getPayAdvanced(): ?int
+    {
+        return $this->payAdvanced;
+    }
+
+    public function setPayAdvanced(?int $payAdvanced): self
+    {
+        $this->payAdvanced = $payAdvanced;
+
+        return $this;
+    }
+
+    public function getPayBankCheck(): ?int
+    {
+        return $this->payBankCheck;
+    }
+
+    public function setPayBankCheck(?int $payBankCheck): self
+    {
+        $this->payBankCheck = $payBankCheck;
+
+        return $this;
+    }
+
+    public function getPayPayment(): ?int
+    {
+        return $this->payPayment;
+    }
+
+    public function setPayPayment(?int $payPayment): self
+    {
+        $this->payPayment = $payPayment;
+
+        return $this;
+    }
+
+    public function getPaySampling(): ?int
+    {
+        return $this->paySampling;
+    }
+
+    public function setPaySampling(?int $paySampling): self
+    {
+        $this->paySampling = $paySampling;
+
+        return $this;
+    }
+
+    public function getExtKBIS(): ?string
+    {
+        return $this->extKBIS;
+    }
+
+    public function setExtKBIS(?string $extKBIS): self
+    {
+        $this->extKBIS = $extKBIS;
+
+        return $this;
+    }
+
+    public function getExtCGV(): ?string
+    {
+        return $this->extCGV;
+    }
+
+    public function setExtCGV(?string $extCGV): self
+    {
+        $this->extCGV = $extCGV;
+
+        return $this;
+    }
+
+    public function getExtAUTHPREV(): ?string
+    {
+        return $this->extAUTHPREV;
+    }
+
+    public function setExtAUTHPREV(?string $extAUTHPREV): self
+    {
+        $this->extAUTHPREV = $extAUTHPREV;
+
+        return $this;
+    }
+
+    public function getExtRIB(): ?string
+    {
+        return $this->extRIB;
+    }
+
+    public function setExtRIB(?string $extRIB): self
+    {
+        $this->extRIB = $extRIB;
+
+        return $this;
+    }
+
+    public function getExtOTHERDOCU(): ?string
+    {
+        return $this->extOTHERDOCU;
+    }
+
+    public function setExtOTHERDOCU(?string $extOTHERDOCU): self
+    {
+        $this->extOTHERDOCU = $extOTHERDOCU;
+
+        return $this;
+    }
+
+    public function getCtDirName(): ?string
+    {
+        return $this->ctDirName;
+    }
+
+    public function setCtDirName(?string $ctDirName): self
+    {
+        $this->ctDirName = $ctDirName;
+
+        return $this;
+    }
+
+    public function getCtDirPhone(): ?string
+    {
+        return $this->ctDirPhone;
+    }
+
+    public function setCtDirPhone(?string $ctDirPhone): self
+    {
+        $this->ctDirPhone = $ctDirPhone;
+
+        return $this;
+    }
+
+    public function getCtDirMail(): ?string
+    {
+        return $this->ctDirMail;
+    }
+
+    public function setCtDirMail(?string $ctDirMail): self
+    {
+        $this->ctDirMail = $ctDirMail;
+
+        return $this;
+    }
+
+    public function getCtComptaName(): ?string
+    {
+        return $this->ctComptaName;
+    }
+
+    public function setCtComptaName(?string $ctComptaName): self
+    {
+        $this->ctComptaName = $ctComptaName;
+
+        return $this;
+    }
+
+    public function getCtComptaPhone(): ?string
+    {
+        return $this->ctComptaPhone;
+    }
+
+    public function setCtComptaPhone(?string $ctComptaPhone): self
+    {
+        $this->ctComptaPhone = $ctComptaPhone;
+
+        return $this;
+    }
+
+    public function getCtComptaMail(): ?string
+    {
+        return $this->ctComptaMail;
+    }
+
+    public function setCtComptaMail(?string $ctComptaMail): self
+    {
+        $this->ctComptaMail = $ctComptaMail;
+
+        return $this;
+    }
+
+    public function getCtComName(): ?string
+    {
+        return $this->ctComName;
+    }
+
+    public function setCtComName(?string $ctComName): self
+    {
+        $this->ctComName = $ctComName;
+
+        return $this;
+    }
+
+    public function getCtComPhone(): ?string
+    {
+        return $this->ctComPhone;
+    }
+
+    public function setCtComPhone(?string $ctComPhone): self
+    {
+        $this->ctComPhone = $ctComPhone;
+
+        return $this;
+    }
+
+    public function getCtComMail(): ?string
+    {
+        return $this->ctComMail;
+    }
+
+    public function setCtComMail(?string $ctComMail): self
+    {
+        $this->ctComMail = $ctComMail;
+
+        return $this;
+    }
+
+    public function getCtQuaName(): ?string
+    {
+        return $this->ctQuaName;
+    }
+
+    public function setCtQuaName(?string $ctQuaName): self
+    {
+        $this->ctQuaName = $ctQuaName;
+
+        return $this;
+    }
+
+    public function getCtQuaPhone(): ?string
+    {
+        return $this->ctQuaPhone;
+    }
+
+    public function setCtQuaPhone(?string $ctQuaPhone): self
+    {
+        $this->ctQuaPhone = $ctQuaPhone;
+
+        return $this;
+    }
+
+    public function getCtQuaMail(): ?string
+    {
+        return $this->ctQuaMail;
+    }
+
+    public function setCtQuaMail(?string $ctQuaMail): self
+    {
+        $this->ctQuaMail = $ctQuaMail;
+
+        return $this;
+    }
+
+    public function getCtSecName(): ?string
+    {
+        return $this->ctSecName;
+    }
+
+    public function setCtSecName(?string $ctSecName): self
+    {
+        $this->ctSecName = $ctSecName;
+
+        return $this;
+    }
+
+    public function getCtSecPhone(): ?string
+    {
+        return $this->ctSecPhone;
+    }
+
+    public function setCtSecPhone(?string $ctSecPhone): self
+    {
+        $this->ctSecPhone = $ctSecPhone;
+
+        return $this;
+    }
+
+    public function getCtSecMail(): ?string
+    {
+        return $this->ctSecMail;
+    }
+
+    public function setCtSecMail(?string $ctSecMail): self
+    {
+        $this->ctSecMail = $ctSecMail;
 
         return $this;
     }

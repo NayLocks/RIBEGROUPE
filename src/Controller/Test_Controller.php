@@ -74,7 +74,7 @@ class Test_Controller extends AbstractController
     public function index(UserInterface $user, MailerInterface $mailer)
     {
         $email = (new Email())
-            ->from(new Address('fax_mail@ribegroupe.com', 'RIBEGROUPE'))
+            ->from(new Address('jonathan.delannoy@ribegroupe.com', 'RIBEPRIM'))
             ->to('jonathan.delannoy@ribegroupe.com')
             ->subject('TEST MAIL')
    		    ->embed(fopen('images/background.jpg', 'r'), 'imgP')
