@@ -8,14 +8,14 @@
 
 {% block actionsPage %}
 	{% if app.user.titleFA == "COMPTA" %} {# AFFICHER LES BOUTONS DE LA COMPTA #}
-	<div class="d-inline-block dropdown">
+	{# <div class="d-inline-block dropdown">
 		<button type="submit" class="btn mr-2 mb-2 btn-warning" name="TEST">
 			<span class="btn-icon-wrapper pr-2 opacity-7">
 				<i class="fa fa-eraser fa-w-20"></i>
 			</span>
 			Imprimer les fiches selectionnées.
 		</button>
-	</div>
+	</div> #}
 	{% endif %}
 {% endblock %}
 
@@ -53,7 +53,7 @@
 						<thead>
 							<tr>
 							{% if app.user.titleFA == 'COMPTA' %}
-								<th>Choix Impression</th>
+								<th>Imprimer la Fiche</th>
 							{% endif %}
 								<th>ID</th>
 							{% if app.request.get('_route') == 'itemsSheets' %}
@@ -93,7 +93,7 @@
 								{% endif %}
 								{% if app.user.titleFA == 'COMPTA' %}
 									{% if item.step == "COMPTABILITE" %}
-										<td>{# <input class="form-control" type="checkbox" id="{{ item.id }}" name="{{ item.id }}"> #}</td>
+										<td><a href="{{ path('pdfItemSheet', {'id' : item.id}) }}" class="btn mr-2 mb-2 btn-success">Valider la Fiche</a></td>
 									{% else %}
 									<td></td>
 									{% endif %}

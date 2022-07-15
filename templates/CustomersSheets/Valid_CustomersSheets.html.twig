@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fiches Clients{% endblock %}
+
+{% block page %}
+	Liste des Fiches Clients
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="main-card mb-3 card">
+				<div class="card-body">
+					<h5 class="card-title">Liste des Fiches Clients à Valider</h5>
+					<table class="mb-0 table table-striped">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Etape Fiche</th>
+								<th>Crée le</th>
+								<th>Nom d'Appel</th>
+								<th>Raison Social</th>
+								<th>Adresse de Livraison</th>
+								<th>Code Postal / Ville (Livraison)</th>
+								<th>Dernière Modification</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for customer in customersSheets %}
+								<tr style="background-color: {{ customer.step.colorCode }}; color: {{ customer.company.colorText }};">
+									<td>{{ customer.id }}</td>
+									<td>{{ customer.step.name }}</td>
+									<td>{{ customer.date|date('d/m/Y') }}</td>
+									<td>{{ customer.callName }}</td>
+									<td>{{ customer.socialReason }}</td>
+									<td>{{ customer.deliveryAddress }}</td>
+									<td>{{ customer.deliveryAddressZipCode }} {{ customer.deliveryAddressCity }}</td>
+									<td>Dte Modif</td>
+									<td><a type="button" class="btn btn-danger w100" href="{{ path("editCustomersSheets", {'id' : customer.id }) }}"><span class="btn-icon-wrapper pr-2 opacity-7"><i class="fa fa-edit fa-w-20"></i></span>Modifier la Fiche</a></td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

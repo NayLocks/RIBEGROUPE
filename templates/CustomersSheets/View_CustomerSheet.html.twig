@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fiches Clients{% endblock %}
+
+{% block page %}
+	Liste des Fiches Clients
+{% endblock %}
+
+{% block body %}
+	<embed src="{{ asset('Documents/Fiches_Clients/' ~ customerSheet.id ~ '/Fiche_client_' ~ customerSheet.id ~ '.pdf') }}" width="100%" height="100%" type='application/pdf'/>
+{% endblock %}

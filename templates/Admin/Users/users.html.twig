@@ -39,7 +39,6 @@
 								<th>Adresse Mail</th>
 								<th>Fiche Client</th>
 								<th>Fiche Article</th>
-								<th>Fiche Fournisseur</th>
 								<th>Administrateur</th>
 								<th>Action</th>
 							</tr>
@@ -52,16 +51,12 @@
 									<td>{{ user.lastName }}</td>
 									<td>{{ user.username }}</td>
 									<td>{{ user.email }}</td>
-									<td>{% if user.accessFC == 0 %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FC", "on" : "1"}) }}" class="btn mr-2 mb-2 btn-admin-NON">Ajouter l'Accès</a>{% else %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FC", "on" : "0"}) }}" class="btn mr-2 mb-2 btn-admin-OUI">Enlever l'Accès</a>{% endif %}
-									<br>{{ user.titleFC }}</td>
-									<td>{% if user.accessFA == 0 %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FA", "on" : "1"}) }}" class="btn mr-2 mb-2 btn-admin-NON">Ajouter l'Accès</a>{% else %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FA", "on" : "0"}) }}" class="btn mr-2 mb-2 btn-admin-OUI">Enlever l'Accès</a>{% endif %}
-									<br>{{ user.titleFA }}</td>
-									<td>{% if user.accessFF == 0 %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FF", "on" : "1"}) }}" class="btn mr-2 mb-2 btn-admin-NON">Ajouter l'Accès</a>{% else %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "FF", "on" : "0"}) }}" class="btn mr-2 mb-2 btn-admin-OUI">Enlever l'Accès</a>{% endif %}
-									<br>{{ user.titleFC }}</td>
-									<td>{% if user.accessADM == 0 %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "ADM", "on" : "1"}) }}" class="btn mr-2 mb-2 btn-admin-NON">Ajouter l'Accès</a>{% else %}<a href="{{ path("editAccessUser", {"id" : user.id, "access" : "ADM", "on" : "0"}) }}" class="btn mr-2 mb-2 btn-admin-OUI">Enlever l'Accès</a>{% endif %}</td>
+									<td>{% if user.accessFC == 1 %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %} / {{ user.titleFC }}</td>
+									<td>{% if user.accessFA == 1 %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %} / {{ user.titleFA }}</td>
+									<td>{% if user.accessADM == 1 %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}</td>
 									<td>
-{# 										<button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal" data-target=".modal_{{ company.id }}">MODIFER</button>
- #}									</td>
+ 										<button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal" data-target=".modal_{{ user.id }}" style="background-color: grey">MODIFER</button>
+ 									</td>
 								</tr>
 							{% endfor %}
 						</tbody>
@@ -72,33 +67,6 @@
 	</div>
 {% endblock %}
 
-{# 
 {% block autres %}
-
-	{{ render(controller('App\\Controller\\CompaniesController::companyEdit', { 'companies': companies })) }}
-
-	<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLongTitle">Ajout d'une Société</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div> {{ form_start(form) }}
-				<div class="modal-body">
-					<label for="nom">Nom de la Société</label> {{ form_widget(form.name) }}
-					<label for="dossierCommun">Dossier Commun</label> 
-					<label for="codeCouleur">Code Couleur</label> {{ form_widget(form.colorCode) }}
-					<label for="baseDeDonnees">Nom de la Base de Données</label> {{ form_widget(form.databaseName) }}
-
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button> {{ form_widget(form.add) }}
-				</div> {{ form_end(form) }}
-			</div>
-		</div>
-	</div>
+	{{ render(controller('App\\Controller\\UsersController::userEdit', { 'users': users, 'companies': companies })) }}
 {% endblock %}
-
- #}

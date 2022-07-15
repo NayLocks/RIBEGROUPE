@@ -28,7 +28,7 @@
 	</div>
 
 	<div class="d-inline-block dropdown">
-		<button type="submit" class="btn mr-2 mb-2 btn-success" name="VALID">
+		<button type="submit" class="btn mr-2 mb-2 btn-success" name="VALIDATION">
 			<span class="btn-icon-wrapper pr-2 opacity-7">
 				<i class="fa fa-check-square fa-w-20"></i>
 			</span>
@@ -68,7 +68,7 @@ function geoApiCpVilleLivraison() {
 }
 
 function geoApiCpVilleFacture() {
-    let requestURL = 'https://geo.api.gouv.fr/communes?codePostal=' + document.getElementById("adrFacCodePostal").value +'&fields=nom,code,codesPostaux,codeDepartement,codeRegion,population&format=json&geometry=centre';
+    let requestURL = 'https://geo.api.gouv.fr/communes?codePostal=' + document.getElementById("invoiceAddressZipCode").value +'&fields=nom,code,codesPostaux,codeDepartement,codeRegion,population&format=json&geometry=centre';
     let request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'json';
@@ -76,7 +76,7 @@ function geoApiCpVilleFacture() {
     request.onload = function() {
     const ville = request.response;
 
-    var select = document.getElementById("adrFacVille");
+    var select = document.getElementById("invoiceAddressCity");
     var opts = select.getElementsByTagName('option');
     for (var i = 0; i < opts.length; i++) {
         select.removeChild(opts[i]);
@@ -86,13 +86,13 @@ function geoApiCpVilleFacture() {
     for (let i = 0; i < ville.length; i++) {
         console.log(ville[i].nom);
         options += '<option value="'+ville[i].nom+'" />';
-        document.getElementById('adrFacVille').innerHTML = options;
+        document.getElementById('invoiceAddressCity').innerHTML = options;
     }
     }
 }
 	function validCoorGPS(){
 
-    let requestURL = 'https://api-adresse.data.gouv.fr/reverse/?lon=' + document.getElementById("long").value + '&lat=' + document.getElementById("lat").value + '&type=housenumber';
+    let requestURL = 'https://api-adresse.data.gouv.fr/reverse/?lon=' + document.getElementById("longitude").value + '&lat=' + document.getElementById("latitude").value + '&type=housenumber';
     //let requestURL = 'https://api-adresse.data.gouv.fr/reverse/?lon=2.875667&lat=49.474364&type=housenumber';
 	let request = new XMLHttpRequest();
     request.open('GET', requestURL);
@@ -108,14 +108,14 @@ function geoApiCpVilleFacture() {
 
 		var select = document.getElementById("GPS_Display");
  		var options = '';
-        options += '<iframe width="100%" height="500" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=' + document.getElementById("lat").value + ',' + document.getElementById("long").value + '&amp;key=AIzaSyAVnZiratT6_nsfEO_RYBNnsrgd-onQfMY"></iframe>';
+        options += '<iframe width="100%" height="500" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=' + document.getElementById("latitude").value + ',' + document.getElementById("longitude").value + '&amp;key=AIzaSyAVnZiratT6_nsfEO_RYBNnsrgd-onQfMY"></iframe>';
         document.getElementById('GPS_Display').innerHTML = options;
 
 	}
 
 	function searchCoorGPS(){
 
-    let requestURL = 'https://api-adresse.data.gouv.fr/search/?q=' + document.getElementById("adrLivraison").value  + '+' + document.getElementById("adrLivCodePostal").value + '+' + document.getElementById("adrLivVille2").value + '&type=housenumber';
+    let requestURL = 'https://api-adresse.data.gouv.fr/search/?q=' + document.getElementById("deliveryAddress").value  + '+' + document.getElementById("deliveryAddressZipCode").value + '+' + document.getElementById("deliveryAddressCity").value + '&type=housenumber';
 	let request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'json';
@@ -234,13 +234,13 @@ function functionInsertSiretSirenTVA(id){
 	document.getElementById("siret").value = document.getElementById("TEMP" + id +"_siret").value;
 	document.getElementById("siren").value = document.getElementById("TEMP" + id +"_siren").value;
 	document.getElementById("tva").value = document.getElementById("TEMP" + id +"_tva").value;
-	document.getElementById("lat").value = document.getElementById("TEMP" + id +"_latitude").value;
-	document.getElementById("long").value = document.getElementById("TEMP" + id +"_longitude").value;
+	document.getElementById("latitude").value = document.getElementById("TEMP" + id +"_latitude").value;
+	document.getElementById("longitude").value = document.getElementById("TEMP" + id +"_longitude").value;
 }
 
 function insertCoordGPS(id){
-	document.getElementById("lat").value = document.getElementById("TEMP" + id +"_latitude").value;
-	document.getElementById("long").value = document.getElementById("TEMP" + id +"_longitude").value;
+	document.getElementById("latitude").value = document.getElementById("TEMP" + id +"_latitude").value;
+	document.getElementById("longitude").value = document.getElementById("TEMP" + id +"_longitude").value;
 }
 </script>
 
@@ -255,6 +255,12 @@ function insertCoordGPS(id){
 								</div>
 							</div>
 						</div>
+						
+						{% if app.request.get('_route') == 'newCustomerSheet' %}
+							<input type="hidden" name="step" value="BROUILLON">
+						{% else %}
+							<input type="hidden" name="step" value="{{ customerSheet.step.name }}">
+						{% endif %}
 
 						<div class="form-row">
 							<div class="col-md-5">
@@ -460,13 +466,13 @@ function insertCoordGPS(id){
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="oui">Oui</label>
-									<input class="form-control" type="radio" id="oui" name="callCustomer" value="1" {% if app.request.get('_route') == 'newCustomerSheet' or customerSheet.callCustomer == 1 %}checked{% endif %}>
+									<input class="form-control" type="radio" id="oui" name="callCustomer" value="1" {% if app.request.get('_route') != 'newCustomerSheet' and customerSheet.callCustomer == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-1">
 								<div class="position-relative form-group">
   									<label for="non">Non</label>
-									<input class="form-control" type="radio" id="non" name="callCustomer" value="0" {% if app.request.get('_route') != 'newCustomerSheet' or customerSheet.callCustomer == 0 %}checked{% endif %}>
+									<input class="form-control" type="radio" id="non" name="callCustomer" value="0" {% if app.request.get('_route') == 'newCustomerSheet' or customerSheet.callCustomer == 0 %}checked{% endif %}>
 								</div>
 							</div>
 						</div>
@@ -589,7 +595,7 @@ function insertCoordGPS(id){
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="engagement">N° Engagement</label><input name="engagement" type="text" class="form-control" value="{{ customerSheet.commitmentNumber }}"></div>
+									<label for="commitmentNumber">N° Engagement</label><input name="commitmentNumber" type="text" class="form-control" value="{{ customerSheet.commitmentNumber }}"></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -609,7 +615,7 @@ function insertCoordGPS(id){
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="codeService">Code Service</label><input name="codeService" type="text" class="form-control" value="{{ customerSheet.serviceCode }}"></div>
+									<label for="serviceCode">Code Service</label><input name="serviceCode" type="text" class="form-control" value="{{ customerSheet.serviceCode }}"></div>
 							</div>
 							<div class="col-md-2">
 								
@@ -636,7 +642,7 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="emailFacture">Email Envoi Facture</label><input name="emailFacture" type="mail" class="form-control" value="{{ customerSheet.mailInvoice }}"></div>
+									<label for="mailInvoice">Email Envoi Facture</label><input name="mailInvoice" type="mail" class="form-control" value="{{ customerSheet.mailInvoice }}"></div>
 							</div>
 						</div>
 
@@ -656,7 +662,7 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="tarifClient">Tarif Client</label><input name="tarifClient" type="text" class="form-control" value="{{ customerSheet.customerRate }}"></div>
+									<label for="customerRate">Tarif Client</label><input name="customerRate" type="text" class="form-control" value="{{ customerSheet.customerRate }}"></div>
 							</div>
 						</div>
 						
@@ -713,7 +719,7 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="date1Livraison">Date 1ère Livraison</label><input name="date1Livraison" type="date" class="form-control" value="{{ customerSheet.deliveryDate|date('Y-m-d') }}"></div>
+									<label for="deliveryDate">Date 1ère Livraison</label><input name="deliveryDate" type="date" class="form-control" value="{{ customerSheet.deliveryDate|date('Y-m-d') }}"></div>
 							</div>
 						</div>
 						
@@ -797,20 +803,20 @@ function insertCoordGPS(id){
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="regAvance">Avance</label><input name="regAvance" type="checkbox" class="form-control" {% if customerSheet.payAdvanced == 1 %}checked{% endif %}>
+									<label for="payAdvanced">Avance</label><input name="payAdvanced" type="checkbox" class="form-control" {% if customerSheet.payAdvanced == 1 %}checked{% endif %}>
 									</div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="regChequeBancaire">Chèque Bancaire</label><input name="regChequeBancaire" type="checkbox" class="form-control" {% if customerSheet.payBankCheck == 1 %}checked{% endif %}></div>
+									<label for="payBankCheck">Chèque Bancaire</label><input name="payBankCheck" type="checkbox" class="form-control" {% if customerSheet.payBankCheck == 1 %}checked{% endif %}></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="regVirement">Virement</label><input name="regVirement" type="checkbox" class="form-control" {% if customerSheet.payPayment == 1 %}checked{% endif %}></div>
+									<label for="payPayment">Virement</label><input name="payPayment" type="checkbox" class="form-control" {% if customerSheet.payPayment == 1 %}checked{% endif %}></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="regPrelevement">* Prélèvement</label><input name="regPrelevement" type="checkbox" class="form-control" {% if customerSheet.paySampling == 1 %}checked{% endif %}></div>
+									<label for="paySampling">* Prélèvement</label><input name="paySampling" type="checkbox" class="form-control" {% if customerSheet.paySampling == 1 %}checked{% endif %}></div>
 								</div>
 						</div>
 
@@ -825,7 +831,7 @@ function insertCoordGPS(id){
 							<div class="col-md-2">
 								<div class="position-relative form-group">
 									<label>KBIS</label>
-									<input class="form-control-file" type="file" name="extKBIS"/>
+									<input class="form-control-file" type="file" name="extKBIS" id="extKBIS"/>
 								</div>
 							</div>
 							<div class="col-md-2">
@@ -863,61 +869,36 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									{% if customerSheet.extKBIS is not null %}
-									<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ asset('Documents/Fiches_clients/' ~ customerSheet.id ~ '/KBIS' ~ customerSheet.extKBIS) }}" target="_blank">
-										<span class="btn-icon-wrapper pr-2 opacity-7">
-											<i class="fa fa-eye fa-w-20"></i>
-										</span>
-										Voir le KBIS
-									</a>
+									{% if customerSheet.extKBIS != "" %}
+										<a class="btn mr-2 mb-2 btn-success" type="button" href="{{ asset('/Documents/Fiches_clients/' ~ customerSheet.id ~ '/KBIS.' ~ client.extKBIS) }}" target="_blank">Voir le Documents</a>
 									{% endif %}
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									{% if customerSheet.extCGV is not null %}
-									<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ asset('Documents/Fiches_clients/' ~ customerSheet.id ~ '/CGV' ~ customerSheet.extCGV) }}" target="_blank">
-										<span class="btn-icon-wrapper pr-2 opacity-7">
-											<i class="fa fa-eye fa-w-20"></i>
-										</span>
-										Voir les CGV
-									</a>
+									{% if customerSheet.extCGV != "" %}
+										<a class="btn mr-2 mb-2 btn-success" type="button" href="{{ asset('/Documents/Fiches_clients/' ~ customerSheet.id ~ '/CGV.' ~ client.extCGV) }}" target="_blank">Voir le Documents</a>
 									{% endif %}
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									{% if customerSheet.extAUTHPREV is not null %}
-									<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ asset('Documents/Fiches_clients/' ~ customerSheet.id ~ '/Autorisation_Prelevement' ~ customerSheet.extAUTHPREV) }}" target="_blank">
-										<span class="btn-icon-wrapper pr-2 opacity-7">
-											<i class="fa fa-eye fa-w-20"></i>
-										</span>
-										Voir l'Autorisation de Prélèvement
-									</a>
+									{% if customerSheet.extAUTHPREV != "" %}
+										<a class="btn mr-2 mb-2 btn-success" type="button" href="{{ asset('/Documents/Fiches_clients/' ~ customerSheet.id ~ '/Autorisation_Prelevement.' ~ client.extAUTHPREV) }}" target="_blank">Voir le Documents</a>
 									{% endif %}
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									{% if customerSheet.extRIB is not null %}
-									<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ asset('Documents/Fiches_clients/' ~ customerSheet.id ~ '/RIB' ~ customerSheet.extRIB) }}" target="_blank">
-										<span class="btn-icon-wrapper pr-2 opacity-7">
-											<i class="fa fa-eye fa-w-20"></i>
-										</span>
-										Voir le RIB
-									</a>
+									{% if customerSheet.extRIB != "" %}
+										<a class="btn mr-2 mb-2 btn-success" type="button" href="{{ asset('/Documents/Fiches_clients/' ~ customerSheet.id ~ '/RIB.' ~ client.extRIB) }}" target="_blank">Voir le Documents</a>
 									{% endif %}
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									{% if customerSheet.extOTHERDOCU is not null %}
-									<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ asset('Documents/Fiches_clients/' ~ customerSheet.id ~ '/Autres_Documents' ~ customerSheet.extOTHERDOCU) }}" target="_blank">
-										<span class="btn-icon-wrapper pr-2 opacity-7">
-											<i class="fa fa-eye fa-w-20"></i>
-										</span>
-										Voir l'Autre Document
-									</a>
+									{% if customerSheet.extOTHERDOCU != "" %}
+										<a class="btn mr-2 mb-2 btn-success" type="button" href="{{ asset('/Documents/Fiches_clients/' ~ customerSheet.id ~ '/Autres_Documents.' ~ client.extOTHERDOCU) }}" target="_blank">Voir le Documents</a>
 									{% endif %}
 								</div>
 							</div>
@@ -1060,8 +1041,9 @@ function insertCoordGPS(id){
 						<div class="form-row" style="text-align: center">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="trLundi">Tournée LUNDI</label>
-									<select class="form-control" name="trLundi">
+									<label for="trMonday">Tournée LUNDI</label>
+									<select class="form-control" name="trMonday">
+										<option value="{{ customerSheet.trMonday }}">{{ customerSheet.trMonday }}</option>
 										<option value=""></option>
 										{% for tr in tournees %}
 											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
@@ -1071,8 +1053,9 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="trMardi">Tournée MARDI</label>
-									<select class="form-control" name="trMardi">
+									<label for="trTuesday">Tournée MARDI</label>
+									<select class="form-control" name="trTuesday">
+										<option value="{{ customerSheet.trTuesday }}">{{ customerSheet.trTuesday }}</option>
 										<option value=""></option>
 										{% for tr in tournees %}
 											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
@@ -1082,8 +1065,9 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="trMercredi">Tournée MERCREDI</label>
-									<select class="form-control" name="trMercredi">
+									<label for="trWednesday">Tournée MERCREDI</label>
+									<select class="form-control" name="trWednesday">
+										<option value="{{ customerSheet.trWednesday }}">{{ customerSheet.trWednesday }}</option>
 										<option value=""></option>
 										{% for tr in tournees %}
 											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
@@ -1093,8 +1077,9 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="trJeudi">Tournée JEUDI</label>
-									<select class="form-control" name="trJeudi">
+									<label for="trThursday">Tournée JEUDI</label>
+									<select class="form-control" name="trThursday">
+										<option value="{{ customerSheet.trThursday }}">{{ customerSheet.trThursday }}</option>
 										<option value=""></option>
 										{% for tr in tournees %}
 											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
@@ -1104,8 +1089,9 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="trVendredi">Tournée VENDREDI</label>
-									<select class="form-control" name="trVendredi">
+									<label for="trFriday">Tournée VENDREDI</label>
+									<select class="form-control" name="trFriday">
+										<option value="{{ customerSheet.trFriday }}">{{ customerSheet.trFriday }}</option>
 										<option value=""></option>
 										{% for tr in tournees %}
 											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
@@ -1115,8 +1101,9 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="trSamedi">Tournée SAMEDI</label>
-									<select class="form-control" name="trSamedi">
+									<label for="trSaturday">Tournée SAMEDI</label>
+									<select class="form-control" name="trSaturday">
+										<option value="{{ customerSheet.trSaturday }}">{{ customerSheet.trSaturday }}</option>
 										<option value=""></option>
 										{% for tr in tournees %}
 											<option value="{{ tr.Code_TOURNEE }}">{{ tr.Libelle_TOURNEE }}</option>
@@ -1129,40 +1116,40 @@ function insertCoordGPS(id){
 						<div class="form-row" style="text-align: center">
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="rgLundi">Rang LUNDI</label>
-									<input name="rgLundi" type="text" class="form-control" ></div>
+									<label for="rgMonday">Rang LUNDI</label>
+									<input name="rgMonday" type="text" class="form-control" value="{{ customerSheet.rgMonday }}"></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="rgMardi">Rang MARDI</label>
-									<input name="rgMardi" type="text" class="form-control" ></div>
+									<label for="rgTuesday">Rang MARDI</label>
+									<input name="rgTuesday" type="text" class="form-control" value="{{ customerSheet.rgTuesday }}"></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="rgMercredi">Rang MERCREDI</label>
-									<input name="rgMercredi" type="text" class="form-control" ></div>
+									<label for="rgWednesday">Rang MERCREDI</label>
+									<input name="rgWednesday" type="text" class="form-control" value="{{ customerSheet.rgWednesday }}"></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="rgJeudi">Rang JEUDI</label>
-									<input name="rgJeudi" type="text" class="form-control" ></div>
+									<label for="rgThursday">Rang JEUDI</label>
+									<input name="rgThursday" type="text" class="form-control" value="{{ customerSheet.rgThursday }}"></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="rgVendredi">Rang VENDREDI</label>
-									<input name="rgVendredi" type="text" class="form-control" ></div>
+									<label for="rgFriday">Rang VENDREDI</label>
+									<input name="rgFriday" type="text" class="form-control" value="{{ customerSheet.rgFriday }}"></div>
 								</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="rgSamedi">Rang SAMEDI</label>
-									<input name="rgSamedi" type="text" class="form-control" ></div>
+									<label for="rgSaturday">Rang SAMEDI</label>
+									<input name="rgSaturday" type="text" class="form-control" value="{{ customerSheet.rgSaturday }}"></div>
 								</div>
 						</div>
 
 						<div class="form-row">
 							<div class="col-md-12">
 								<div class="position-relative form-group">
-									<label for="plageHoraire">Plage Horaire qu'Accepte le Client</label><input name="plageHoraire" type="text" class="form-control" >
+									<label for="timeSlot">Plage Horaire qu'Accepte le Client</label><input name="timeSlot" type="text" class="form-control" value="{{ customerSheet.timeSlot }}">
 								</div>
 							</div>
 						</div>
@@ -1175,12 +1162,12 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="latitude">Latitude</label><input id="lat" name="latitude" type="text" class="form-control"  minlength="8">
+									<label for="latitude">Latitude</label><input id="latitude" name="latitude" type="text" class="form-control" minlength="8" value="{{ customerSheet.latitude }}">
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group" style="text-align: center">
-									<label for="longitude">Longitude</label><input id="long" name="longitude" type="text" class="form-control"  minlength="7">
+									<label for="longitude">Longitude</label><input id="longitude" name="longitude" type="text" class="form-control" minlength="7" value="{{ customerSheet.longitude }}">
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -1200,7 +1187,7 @@ function insertCoordGPS(id){
 						<div class="form-row">
 							<div class="col-md-12">
 								<div class="position-relative form-group">
-									<label for="bp">Texte sur Bon de Préparation</label><input name="bp" type="text" class="form-control" >
+									<label for="textBP">Texte sur Bon de Préparation</label><input name="textBP" type="text" class="form-control" value="{{ customerSheet.textBP }}">
 								</div>
 							</div>
 						</div>
@@ -1208,7 +1195,7 @@ function insertCoordGPS(id){
 						<div class="form-row">
 							<div class="col-md-12">
 								<div class="position-relative form-group">
-									<label for="bl">Texte sur Bon de Livraison</label><input name="bl" type="text" class="form-control" >
+									<label for="textBL">Texte sur Bon de Livraison</label><input name="textBL" type="text" class="form-control" value="{{ customerSheet.textBL }}">
 								</div>
 							</div>
 						</div>
@@ -1226,7 +1213,7 @@ function insertCoordGPS(id){
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="dirCom">Attribution DIRECTION COMMERCIAL</label><input name="dirCom" type="text" class="form-control" >
+									<label for="commercialDirector">Attribution DIRECTION COMMERCIAL</label><input name="commercialDirector" type="text" class="form-control" value="{{ customerSheet.commercialDirector }}">
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -1243,8 +1230,9 @@ function insertCoordGPS(id){
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="comMaitre">Attribution COMMERCIAL MAITRE</label>
-									<select class="form-control champsOb" required name="comMaitre">
+									<label for="commercialMaster">Attribution COMMERCIAL MAITRE</label>
+									<select class="form-control champsOb" required name="commercialMaster">
+										<option value="{{ customerSheet.commercialMaster }}">{{ customerSheet.commercialMaster }}</option>
 										<option value=""></option>
 										{% for dirCom in commercials %}
 											<option value="{{ dirCom.saljare }}">{{ dirCom.COMMERCIAL }}</option>
@@ -1258,12 +1246,12 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="taux1">Taux 1</label><input name="taux1" type="text" class="form-control" >
+									<label for="taux1">Taux 1</label><input name="taux1" type="text" class="form-control" value="{{ customerSheet.taux1 }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="nature1">Nature 1</label><input name="nature1" type="text" class="form-control" >
+									<label for="nature1">Nature 1</label><input name="nature1" type="text" class="form-control" value="{{ customerSheet.nature1 }}">
 								</div>
 							</div>
 						</div>
@@ -1271,8 +1259,9 @@ function insertCoordGPS(id){
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="com">Attribution COMMERCIAL</label>
-									<select class="form-control champsOb" required name="com">
+									<label for="commercial">Attribution COMMERCIAL</label>
+									<select class="form-control champsOb" required name="commercial">
+										<option value="{{ customerSheet.commercial }}">{{ customerSheet.commercial }}</option>
 										<option value=""></option>
 										{% for dirCom in commercials %}
 											<option value="{{ dirCom.saljare }}">{{ dirCom.COMMERCIAL }}</option>
@@ -1286,12 +1275,12 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="taux2">Taux 2</label><input name="taux2" type="text" class="form-control" >
+									<label for="taux2">Taux 2</label><input name="taux2" type="text" class="form-control" value="{{ customerSheet.taux2 }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="nature2">Nature 2</label><input name="nature2" type="text" class="form-control" >
+									<label for="nature2">Nature 2</label><input name="nature2" type="text" class="form-control" value="{{ customerSheet.nature2 }}">
 								</div>
 							</div>
 						</div>
@@ -1299,8 +1288,9 @@ function insertCoordGPS(id){
 						<div class="form-row">
 							<div class="col-md-5">
 								<div class="position-relative form-group">
-									<label for="tel">Attribution TELEVENTE</label>
-									<select class="form-control champsOb" required name="tel">
+									<label for="telemarketer">Attribution TELEVENTE</label>
+									<select class="form-control champsOb" required name="telemarketer">
+										<option value="{{ customerSheet.telemarketer }}">{{ customerSheet.telemarketer }}</option>
 										<option value=""></option>
 										{% for tel in televendeurs %}
 											<option value="{{ tel.perssign1 }}">{{ tel.TELEVENDEUR }}</option>
@@ -1314,12 +1304,12 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="taux3">Taux 3</label><input name="taux3" type="text" class="form-control" >
+									<label for="taux3">Taux 3</label><input name="taux3" type="text" class="form-control" value="{{ customerSheet.taux3 }}">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="position-relative form-group">
-									<label for="nature3">Nature 3</label><input name="nature3" type="text" class="form-control" >
+									<label for="nature3">Nature 3</label><input name="nature3" type="text" class="form-control" value="{{ customerSheet.nature3 }}">
 								</div>
 							</div>
 						</div>
@@ -1342,12 +1332,12 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="limiteFrais">Limite Frais</label><input name="limiteFrais" type="text" class="form-control" >
+									<label for="feeLimit">Limite Frais</label><input name="feeLimit" type="text" class="form-control" value="{{ customerSheet.feeLimit }}">
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="montantFrais">Montant Frais</label><input name="montantFrais" type="text" class="form-control" >
+									<label for="feeAmount">Montant Frais</label><input name="feeAmount" type="text" class="form-control" value="{{ customerSheet.feeAmount }}">
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -1356,7 +1346,7 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-6">
 								<div class="position-relative form-group">
-									<label for="delaisReg">Délais de Règlement</label><input name="delaisReg" type="text" class="form-control" >
+									<label for="paymentDeadlines">Délais de Règlement</label><input name="paymentDeadlines" type="text" class="form-control" value="{{ customerSheet.paymentDeadlines }}">
 								</div>
 							</div>
 						</div>
@@ -1364,19 +1354,19 @@ function insertCoordGPS(id){
 						<div class="form-row">
 							<div class="col-md-1">
 								<div class="position-relative form-group">
-									<label for="fraisDev">Frais de Développement Durable</label>
+									<label for="developmentCosts">Frais de Développement Durable</label>
 								</div>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-2">	
 								<div class="position-relative form-group">
   									<label for="090">0,90 €</label>
-									<input class="form-control" type="radio" id="090" name="fraisDev" value="1">
+									<input class="form-control" type="radio" id="090" name="developmentCosts" value="1" {% if app.request.get('_route') != 'newCustomerSheet' and customerSheet.developmentCosts == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
   									<label for="150">1,50 €</label>
-									<input class="form-control" type="radio" id="150" name="fraisDev" value="0" checked>
+									<input class="form-control" type="radio" id="150" name="developmentCosts" value="0" {% if app.request.get('_route') == 'newCustomerSheet' or customerSheet.developmentCosts == 0 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-1">
@@ -1385,19 +1375,19 @@ function insertCoordGPS(id){
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
-									<label for="blocCompte">Blocage Compte</label>
+									<label for="accountBloc">Blocage Compte</label>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
   									<label for="oui">Oui</label>
-									<input class="form-control" type="radio" id="oui" name="blocCompte" value="1">
+									<input class="form-control" type="radio" id="oui" name="accountBloc" value="1" {% if app.request.get('_route') != 'newCustomerSheet' and customerSheet.accountBloc == 1 %}checked{% endif %}>
 								</div>
 							</div>
 							<div class="col-md-2">
 								<div class="position-relative form-group">
   									<label for="non">Non</label>
-									<input class="form-control" type="radio" id="non" name="blocCompte" value="0" checked>
+									<input class="form-control" type="radio" id="non" name="accountBloc" value="0" {% if app.request.get('_route') == 'newCustomerSheet' or customerSheet.accountBloc == 0 %}checked{% endif %}>
 								</div>
 							</div>
 						</div>
@@ -1405,40 +1395,10 @@ function insertCoordGPS(id){
 				</div>
 			</div>
 		</div>
-
-		<div class="d-inline-block dropdown">
-		<a type="button" class="btn mr-2 mb-2 btn-danger" href="{{ path("newFicheClient") }}">
-			<span class="btn-icon-wrapper pr-2 opacity-7">
-				<i class="fa fa-eraser fa-w-20"></i>
-			</span>
-			Remettre à zéro la fiche
-		</a>
-	</div>
-
-    <div class="d-inline-block dropdown">
-		<button type="submit" class="btn mr-2 mb-2 btn-warning" name="BROUILLON">
-			<span class="btn-icon-wrapper pr-2 opacity-7">
-				<i class="fa fa-edit fa-w-20"></i>
-			</span>
-			Enregistrer en brouillon
-		</button>
-	</div>
-
-	<div class="d-inline-block dropdown">
-		<button type="submit" class="btn mr-2 mb-2 btn-success" name="VALID">
-			<span class="btn-icon-wrapper pr-2 opacity-7">
-				<i class="fa fa-check-square fa-w-20"></i>
-			</span>
-			Envoyer la fiche en validation
-		</button>
-	</div>
 	</div>
 {% endblock %}
 
 {% block autres %}
-
-
-
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="validGPS" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

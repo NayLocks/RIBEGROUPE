@@ -422,6 +422,166 @@ class CustomersSheets
      */
     private $ctSecMail;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $trMonday;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $trTuesday;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $trWednesday;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $trThursday;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $trFriday;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $trSaturday;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $rgMonday;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $rgTuesday;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $rgWednesday;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $rgThursday;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $rgFriday;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $rgSaturday;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $timeSlot;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $latitude;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $longitude;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $textBP;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $textBL;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $commercialDirector;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $commercialMaster;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $commercial;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $telemarketer;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $taux1;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $taux2;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $taux3;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nature1;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nature2;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nature3;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $feeLimit;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $feeAmount;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paymentDeadlines;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $developmentCosts;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $accountBloc;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -1395,6 +1555,390 @@ class CustomersSheets
     public function setCtSecMail(?string $ctSecMail): self
     {
         $this->ctSecMail = $ctSecMail;
+
+        return $this;
+    }
+
+    public function getTrMonday(): ?string
+    {
+        return $this->trMonday;
+    }
+
+    public function setTrMonday(?string $trMonday): self
+    {
+        $this->trMonday = $trMonday;
+
+        return $this;
+    }
+
+    public function getTrTuesday(): ?string
+    {
+        return $this->trTuesday;
+    }
+
+    public function setTrTuesday(?string $trTuesday): self
+    {
+        $this->trTuesday = $trTuesday;
+
+        return $this;
+    }
+
+    public function getTrWednesday(): ?string
+    {
+        return $this->trWednesday;
+    }
+
+    public function setTrWednesday(?string $trWednesday): self
+    {
+        $this->trWednesday = $trWednesday;
+
+        return $this;
+    }
+
+    public function getTrThursday(): ?string
+    {
+        return $this->trThursday;
+    }
+
+    public function setTrThursday(?string $trThursday): self
+    {
+        $this->trThursday = $trThursday;
+
+        return $this;
+    }
+
+    public function getTrFriday(): ?string
+    {
+        return $this->trFriday;
+    }
+
+    public function setTrFriday(?string $trFriday): self
+    {
+        $this->trFriday = $trFriday;
+
+        return $this;
+    }
+
+    public function getTrSaturday(): ?string
+    {
+        return $this->trSaturday;
+    }
+
+    public function setTrSaturday(?string $trSaturday): self
+    {
+        $this->trSaturday = $trSaturday;
+
+        return $this;
+    }
+
+    public function getRgMonday(): ?string
+    {
+        return $this->rgMonday;
+    }
+
+    public function setRgMonday(?string $rgMonday): self
+    {
+        $this->rgMonday = $rgMonday;
+
+        return $this;
+    }
+
+    public function getRgTuesday(): ?string
+    {
+        return $this->rgTuesday;
+    }
+
+    public function setRgTuesday(?string $rgTuesday): self
+    {
+        $this->rgTuesday = $rgTuesday;
+
+        return $this;
+    }
+
+    public function getRgWednesday(): ?string
+    {
+        return $this->rgWednesday;
+    }
+
+    public function setRgWednesday(?string $rgWednesday): self
+    {
+        $this->rgWednesday = $rgWednesday;
+
+        return $this;
+    }
+
+    public function getRgThursday(): ?string
+    {
+        return $this->rgThursday;
+    }
+
+    public function setRgThursday(?string $rgThursday): self
+    {
+        $this->rgThursday = $rgThursday;
+
+        return $this;
+    }
+
+    public function getRgFriday(): ?string
+    {
+        return $this->rgFriday;
+    }
+
+    public function setRgFriday(?string $rgFriday): self
+    {
+        $this->rgFriday = $rgFriday;
+
+        return $this;
+    }
+
+    public function getRgSaturday(): ?string
+    {
+        return $this->rgSaturday;
+    }
+
+    public function setRgSaturday(?string $rgSaturday): self
+    {
+        $this->rgSaturday = $rgSaturday;
+
+        return $this;
+    }
+
+    public function getTimeSlot(): ?string
+    {
+        return $this->timeSlot;
+    }
+
+    public function setTimeSlot(?string $timeSlot): self
+    {
+        $this->timeSlot = $timeSlot;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?string $latitude): self
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?string $longitude): self
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getTextBP(): ?string
+    {
+        return $this->textBP;
+    }
+
+    public function setTextBP(?string $textBP): self
+    {
+        $this->textBP = $textBP;
+
+        return $this;
+    }
+
+    public function getTextBL(): ?string
+    {
+        return $this->textBL;
+    }
+
+    public function setTextBL(?string $textBL): self
+    {
+        $this->textBL = $textBL;
+
+        return $this;
+    }
+
+    public function getCommercialDirector(): ?string
+    {
+        return $this->commercialDirector;
+    }
+
+    public function setCommercialDirector(?string $commercialDirector): self
+    {
+        $this->commercialDirector = $commercialDirector;
+
+        return $this;
+    }
+
+    public function getCommercialMaster(): ?string
+    {
+        return $this->commercialMaster;
+    }
+
+    public function setCommercialMaster(?string $commercialMaster): self
+    {
+        $this->commercialMaster = $commercialMaster;
+
+        return $this;
+    }
+
+    public function getCommercial(): ?string
+    {
+        return $this->commercial;
+    }
+
+    public function setCommercial(string $commercial): self
+    {
+        $this->commercial = $commercial;
+
+        return $this;
+    }
+
+    public function getTelemarketer(): ?string
+    {
+        return $this->telemarketer;
+    }
+
+    public function setTelemarketer(?string $telemarketer): self
+    {
+        $this->telemarketer = $telemarketer;
+
+        return $this;
+    }
+
+    public function getTaux1(): ?string
+    {
+        return $this->taux1;
+    }
+
+    public function setTaux1(?string $taux1): self
+    {
+        $this->taux1 = $taux1;
+
+        return $this;
+    }
+
+    public function getTaux2(): ?string
+    {
+        return $this->taux2;
+    }
+
+    public function setTaux2(?string $taux2): self
+    {
+        $this->taux2 = $taux2;
+
+        return $this;
+    }
+
+    public function getTaux3(): ?string
+    {
+        return $this->taux3;
+    }
+
+    public function setTaux3(?string $taux3): self
+    {
+        $this->taux3 = $taux3;
+
+        return $this;
+    }
+
+    public function getNature1(): ?string
+    {
+        return $this->nature1;
+    }
+
+    public function setNature1(?string $nature1): self
+    {
+        $this->nature1 = $nature1;
+
+        return $this;
+    }
+
+    public function getNature2(): ?string
+    {
+        return $this->nature2;
+    }
+
+    public function setNature2(?string $nature2): self
+    {
+        $this->nature2 = $nature2;
+
+        return $this;
+    }
+
+    public function getNature3(): ?string
+    {
+        return $this->nature3;
+    }
+
+    public function setNature3(?string $nature3): self
+    {
+        $this->nature3 = $nature3;
+
+        return $this;
+    }
+
+    public function getFeeLimit(): ?string
+    {
+        return $this->feeLimit;
+    }
+
+    public function setFeeLimit(?string $feeLimit): self
+    {
+        $this->feeLimit = $feeLimit;
+
+        return $this;
+    }
+
+    public function getFeeAmount(): ?string
+    {
+        return $this->feeAmount;
+    }
+
+    public function setFeeAmount(?string $feeAmount): self
+    {
+        $this->feeAmount = $feeAmount;
+
+        return $this;
+    }
+
+    public function getPaymentDeadlines(): ?string
+    {
+        return $this->paymentDeadlines;
+    }
+
+    public function setPaymentDeadlines(?string $paymentDeadlines): self
+    {
+        $this->paymentDeadlines = $paymentDeadlines;
+
+        return $this;
+    }
+
+    public function getDevelopmentCosts(): ?int
+    {
+        return $this->developmentCosts;
+    }
+
+    public function setDevelopmentCosts(?int $developmentCosts): self
+    {
+        $this->developmentCosts = $developmentCosts;
+
+        return $this;
+    }
+
+    public function getAccountBloc(): ?int
+    {
+        return $this->accountBloc;
+    }
+
+    public function setAccountBloc(?int $accountBloc): self
+    {
+        $this->accountBloc = $accountBloc;
 
         return $this;
     }
